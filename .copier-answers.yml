@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: v0.5.0
+_src_path: https://github.com/linkml/linkml-project-copier.git
+add_example: false
+copyright_year: '2026'
+email: nicolas.matentzoglu@gmail.com
+existing_license_file: ''
+full_name: Nico Matentzoglu
+gh_action_docs_preview: true
+gh_action_pypi: false
+github_org: NIEHS
+license: MIT
+project_description: LinkML data model prototype for AmadeusDB (next-generation amadeus)
+project_name: amadeus-schema
+project_slug: amadeus_schema
+
