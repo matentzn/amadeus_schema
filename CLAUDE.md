@@ -108,6 +108,22 @@ linkml-lint warnings, 157 of them missing slot/enum descriptions.
 `just lint` plus `pre-commit run --all-files`. `just check` is the richer
 project gate. Run `just check` locally before declaring work done.
 
+## DEVELOPMENT_STATUS.md — keep it current, every time
+
+`DEVELOPMENT_STATUS.md` is the one-glance answer to "what were we doing and
+what's next". **Update it in the same turn as any change to this repo**: an
+edit, a fix, a resolved or new issue draft, a re-measured number, a decision
+made or revised. Do not wait to be asked.
+
+- Bump `_Last updated_`, add one line to the **Log** table (newest first).
+- Move threads between **Open threads**, **Decisions waiting on others** and
+  **Next** as their state changes; remove what is done.
+- Only put numbers in **Verified state** that were measured in this session;
+  otherwise mark them with when they were last measured.
+- Keep it short. Detail belongs in `REPORT.md`, the design spec, or an issue
+  draft; the status file points to them in words, never by local path or
+  draft filename.
+
 ## Architecture
 
 ### Source of truth and what is generated
