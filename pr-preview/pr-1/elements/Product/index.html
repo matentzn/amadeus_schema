@@ -1,0 +1,1556 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://NIEHS.github.io/amadeus-schema/elements/Product/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>Class: Product (Product) - amadeus-schema</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<script src="../../assets/pymdownx-extras/material-extra-theme-2ek1P7jT.js" type="text/javascript"></script>
+<script src="../../assets/pymdownx-extras/material-extra-3rdparty-BUCF4rjN.js" type="text/javascript"></script>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/ansi-colours.css" rel="stylesheet"/>
+<link href="../../css/jupyter-cells.css" rel="stylesheet"/>
+<link href="../../css/pandas-dataframe.css" rel="stylesheet"/>
+<link href="../../assets/pymdownx-extras/extra-c6ab11540a.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#class-product-product">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="header.title" class="md-header__inner md-grid">
+<a aria-label="amadeus-schema" class="md-header__button md-logo" href="https://NIEHS.github.io/amadeus-schema/" title="amadeus-schema">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            amadeus-schema
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Class: Product (Product)
+            
+          </span>
+</div>
+</div>
+</div>
+<div class="md-header__options">
+<div class="md-header-nav__scheme md-header-nav__button md-source__icon md-icon">
+<a class="light-mode" href="javascript:toggleScheme();" title="Light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</a>
+<a class="dark-mode" href="javascript:toggleScheme();" title="Dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</a>
+<a class="system-mode" href="javascript:toggleScheme();" title="System preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07zm-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13zm-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87zM19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35zm4.33-2.7 1.15-2.77 2.2 2.54zm1.15-4.96-1.14-2.78 3.34.24zM9.63 18.93l2.77 1.15-2.53 2.19z"></path></svg>
+</a>
+<a class="unknown-mode" href="javascript:toggleScheme();" title="Unknown scheme">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m15.07 11.25-.9.92C13.45 12.89 13 13.5 13 15h-2v-.5c0-1.11.45-2.11 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41a2 2 0 0 0-2-2 2 2 0 0 0-2 2H8a4 4 0 0 1 4-4 4 4 0 0 1 4 4 3.2 3.2 0 0 1-.93 2.25M13 19h-2v-2h2M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10c0-5.53-4.5-10-10-10"></path></svg>
+</a>
+</div>
+</div>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/NIEHS/amadeus-schema" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="amadeus-schema" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="amadeus-schema">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"></path></svg>
+</a>
+    amadeus-schema
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/NIEHS/amadeus-schema" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    Schema
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../about/">
+<span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#slots">
+<span class="md-ellipsis">
+      
+        Slots
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#usages">
+<span class="md-ellipsis">
+      
+        Usages
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rules">
+<span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+</a>
+<nav aria-label="Rules" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identifier-and-mapping-information">
+<span class="md-ellipsis">
+      
+        Identifier and Mapping Information
+      
+    </span>
+</a>
+<nav aria-label="Identifier and Mapping Information" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#schema-source">
+<span class="md-ellipsis">
+      
+        Schema Source
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mappings">
+<span class="md-ellipsis">
+      
+        Mappings
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linkml-source">
+<span class="md-ellipsis">
+      
+        LinkML Source
+      
+    </span>
+</a>
+<nav aria-label="LinkML Source" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#direct">
+<span class="md-ellipsis">
+      
+        Direct
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#induced">
+<span class="md-ellipsis">
+      
+        Induced
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="class-product-product">Class: Product (Product)</h1>
+<p><em>A specific, versioned data product from a source — the unit a user actually requests, and the unit that carries the <em>profile</em>: spatial support, temporal support, format, calendar, day boundary.</em></p>
+<p><em>This is where the answer to "do we need different schemas for different types of source data?" lives. We do not. The variation across the amadeus catalog decomposes into five orthogonal axes recorded here (<code>spatial_support_type</code>, <code>temporal_resolution</code>, <code>value</code> kind via the variables, <code>native_format</code>, and extensivity via the variables). One schema, one product table; a MODIS swath and an AQS monitor differ in their <em>values on these axes</em>, not in their structure.</em></p>
+<div>
+<p>URI: <a href="https://w3id.org/niehs/amadeus/Product">amadeus:Product</a></p>
+<pre class="mermaid"><code> classDiagram
+    class Product
+    click Product href "../Product/"
+      Product : access_url
+
+      Product : amadeus_calculate_covariate
+
+      Product : amadeus_dataset_name
+
+      Product : amadeus_process_covariate
+
+      Product : calendar
+
+
+
+
+
+        Product --&gt; "0..1" CalendarEnum : calendar
+        click CalendarEnum href "../CalendarEnum/"
+
+
+
+      Product : citation_apa
+
+      Product : crs
+
+      Product : data_genre
+
+
+
+
+
+        Product --&gt; "*" DataGenreEnum : data_genre
+        click DataGenreEnum href "../DataGenreEnum/"
+
+
+
+      Product : data_source
+
+
+
+
+
+        Product --&gt; "1" DataSource : data_source
+        click DataSource href "../DataSource/"
+
+
+
+      Product : day_boundary_convention
+
+
+
+
+
+        Product --&gt; "0..1" DayBoundaryConventionEnum : day_boundary_convention
+        click DayBoundaryConventionEnum href "../DayBoundaryConventionEnum/"
+
+
+
+      Product : default_data_status
+
+
+
+
+
+        Product --&gt; "0..1" DataStatusEnum : default_data_status
+        click DataStatusEnum href "../DataStatusEnum/"
+
+
+
+      Product : description
+
+      Product : doi
+
+      Product : grid_definition
+
+
+
+
+
+        Product --&gt; "0..1" GridDefinition : grid_definition
+        click GridDefinition href "../GridDefinition/"
+
+
+
+      Product : homogenisation_status
+
+
+
+
+
+        Product --&gt; "0..1" HomogenisationStatusEnum : homogenisation_status
+        click HomogenisationStatusEnum href "../HomogenisationStatusEnum/"
+
+
+
+      Product : id
+
+      Product : label
+
+      Product : license_spdx
+
+      Product : name
+
+      Product : native_format
+
+
+
+
+
+        Product --&gt; "0..1" NativeFormatEnum : native_format
+        click NativeFormatEnum href "../NativeFormatEnum/"
+
+
+
+      Product : native_spatial_resolution_descriptor
+
+      Product : native_spatial_resolution_m
+
+      Product : product_version
+
+      Product : spatial_extent_bbox_wkt
+
+      Product : spatial_extent_descriptor
+
+      Product : spatial_support_type
+
+
+
+
+
+        Product --&gt; "1" SpatialSupportTypeEnum : spatial_support_type
+        click SpatialSupportTypeEnum href "../SpatialSupportTypeEnum/"
+
+
+
+      Product : srid
+
+      Product : stac_collection_id
+
+      Product : supports_server_side_subset
+
+      Product : temporal_alignment
+
+
+
+
+
+        Product --&gt; "0..1" TemporalAlignmentEnum : temporal_alignment
+        click TemporalAlignmentEnum href "../TemporalAlignmentEnum/"
+
+
+
+      Product : temporal_coverage_end
+
+      Product : temporal_coverage_start
+
+      Product : temporal_resolution
+
+
+
+
+
+        Product --&gt; "1" TemporalResolutionEnum : temporal_resolution
+        click TemporalResolutionEnum href "../TemporalResolutionEnum/"
+
+
+
+      Product : temporal_resolution_iso
+
+      Product : typical_latency_iso
+
+      Product : update_cadence_iso
+
+</code></pre>
+<!-- no inheritance hierarchy -->
+<h2 id="slots">Slots</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cardinality and Range</th>
+<th>Description</th>
+<th>Inheritance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../id/">id</a></td>
+<td>1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
+<td>Stable identifier for this entity within an AmadeusDB instance</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../name/">name</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
+<td>A short machine-friendly name</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../label/">label</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>A human-readable display label</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../description/">description</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../data_source/">data_source</a></td>
+<td>1 <br/> <a href="../DataSource/">DataSource</a></td>
+<td>The publishing programme</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../product_version/">product_version</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../data_genre/">data_genre</a></td>
+<td>* <br/> <a href="../DataGenreEnum/">DataGenreEnum</a></td>
+<td>Thematic classification, from the README source table</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../native_format/">native_format</a></td>
+<td>0..1 <br/> <a href="../NativeFormatEnum/">NativeFormatEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../spatial_support_type/">spatial_support_type</a></td>
+<td>1 <br/> <a href="../SpatialSupportTypeEnum/">SpatialSupportTypeEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../grid_definition/">grid_definition</a></td>
+<td>0..1 <br/> <a href="../GridDefinition/">GridDefinition</a></td>
+<td>Required when <code>spatial_support_type</code> is a grid cell type, forbidden otherwise</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../crs/">crs</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Coordinate reference system as an authority code</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../srid/">srid</a></td>
+<td>0..1 <br/> <a href="../Integer/">Integer</a></td>
+<td>Numeric spatial reference identifier, derived from <code>crs</code></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../spatial_extent_bbox_wkt/">spatial_extent_bbox_wkt</a></td>
+<td>0..1 <br/> <a href="../WktLiteral/">WktLiteral</a></td>
+<td>Coverage footprint as WKT, so extent is a spatial predicate</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../spatial_extent_descriptor/">spatial_extent_descriptor</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../native_spatial_resolution_m/">native_spatial_resolution_m</a></td>
+<td>0..1 <br/> <a href="../Float/">Float</a></td>
+<td>Nominal resolution in metres</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../native_spatial_resolution_descriptor/">native_spatial_resolution_descriptor</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../temporal_resolution/">temporal_resolution</a></td>
+<td>1 <br/> <a href="../TemporalResolutionEnum/">TemporalResolutionEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../temporal_resolution_iso/">temporal_resolution_iso</a></td>
+<td>0..1 <br/> <a href="../Iso8601Duration/">Iso8601Duration</a></td>
+<td>The same fact as <code>temporal_resolution</code>, as an ISO 8601 duration</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../temporal_alignment/">temporal_alignment</a></td>
+<td>0..1 <br/> <a href="../TemporalAlignmentEnum/">TemporalAlignmentEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../day_boundary_convention/">day_boundary_convention</a></td>
+<td>0..1 <br/> <a href="../DayBoundaryConventionEnum/">DayBoundaryConventionEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../calendar/">calendar</a></td>
+<td>0..1 <br/> <a href="../CalendarEnum/">CalendarEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../temporal_coverage_start/">temporal_coverage_start</a></td>
+<td>0..1 <br/> <a href="../Date/">Date</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../temporal_coverage_end/">temporal_coverage_end</a></td>
+<td>0..1 <br/> <a href="../Date/">Date</a></td>
+<td>Absent means "ongoing"</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../update_cadence_iso/">update_cadence_iso</a></td>
+<td>0..1 <br/> <a href="../Iso8601Duration/">Iso8601Duration</a></td>
+<td>How often the source publishes new data</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../typical_latency_iso/">typical_latency_iso</a></td>
+<td>0..1 <br/> <a href="../Iso8601Duration/">Iso8601Duration</a></td>
+<td>Typical delay between observation and availability</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../default_data_status/">default_data_status</a></td>
+<td>0..1 <br/> <a href="../DataStatusEnum/">DataStatusEnum</a></td>
+<td>The status values from this product carry unless a row says otherwise</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../homogenisation_status/">homogenisation_status</a></td>
+<td>0..1 <br/> <a href="../HomogenisationStatusEnum/">HomogenisationStatusEnum</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../doi/">doi</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../license_spdx/">license_spdx</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../citation_apa/">citation_apa</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../access_url/">access_url</a></td>
+<td>0..1 <br/> <a href="../Uri/">Uri</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../amadeus_dataset_name/">amadeus_dataset_name</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>The exact string accepted by <code>download_data(dataset_name=)</code></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../amadeus_process_covariate/">amadeus_process_covariate</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>The string accepted by <code>process_covariates(covariate=)</code></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../amadeus_calculate_covariate/">amadeus_calculate_covariate</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>The string accepted by <code>calculate_covariates(covariate=)</code></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../supports_server_side_subset/">supports_server_side_subset</a></td>
+<td>0..1 <br/> <a href="../Boolean/">Boolean</a></td>
+<td>Whether the provider will return a geometry/time/variable subset</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../stac_collection_id/">stac_collection_id</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>STAC collection identifier, where the product is STAC-published</td>
+<td>direct</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usages">Usages</h2>
+<table>
+<thead>
+<tr>
+<th>used by</th>
+<th>used in</th>
+<th>type</th>
+<th>used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../AmadeusDatabase/">AmadeusDatabase</a></td>
+<td><a href="../products/">products</a></td>
+<td>range</td>
+<td><a href="./">Product</a></td>
+</tr>
+<tr>
+<td><a href="../ProductVariable/">ProductVariable</a></td>
+<td><a href="../product/">product</a></td>
+<td>range</td>
+<td><a href="./">Product</a></td>
+</tr>
+<tr>
+<td><a href="../Asset/">Asset</a></td>
+<td><a href="../product/">product</a></td>
+<td>range</td>
+<td><a href="./">Product</a></td>
+</tr>
+<tr>
+<td><a href="../VectorFeature/">VectorFeature</a></td>
+<td><a href="../product/">product</a></td>
+<td>range</td>
+<td><a href="./">Product</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="rules">Rules</h2>
+<h3 id="_1"></h3>
+<table>
+<thead>
+<tr>
+<th>Rule Applied</th>
+<th>Preconditions</th>
+<th>Postconditions</th>
+<th>Elseconditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot_conditions</td>
+<td><code>{'spatial_support_type': {'any_of': [{'equals_string': 'raster_grid_cell'}, {'equals_string': 'model_grid_cell'}]}}</code></td>
+<td><code>{'grid_definition': {'required': True}}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2"></h3>
+<table>
+<thead>
+<tr>
+<th>Rule Applied</th>
+<th>Preconditions</th>
+<th>Postconditions</th>
+<th>Elseconditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot_conditions</td>
+<td><code>{'temporal_resolution': {'equals_string': 'daily'}}</code></td>
+<td><code>{'day_boundary_convention': {'required': True}}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3"></h3>
+<table>
+<thead>
+<tr>
+<th>Rule Applied</th>
+<th>Preconditions</th>
+<th>Postconditions</th>
+<th>Elseconditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot_conditions</td>
+<td><code>{'temporal_resolution': {'equals_string': 'timeless'}}</code></td>
+<td><code>{'temporal_coverage_start': {'value_presence': 'ABSENT'}}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4"></h3>
+<table>
+<thead>
+<tr>
+<th>Rule Applied</th>
+<th>Preconditions</th>
+<th>Postconditions</th>
+<th>Elseconditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot_conditions</td>
+<td><code>{'temporal_resolution': {'equals_string': 'timeless'}}</code></td>
+<td><code>{'temporal_coverage_end': {'value_presence': 'ABSENT'}}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h3 id="schema-source">Schema Source</h3>
+<ul>
+<li>from schema: <a href="https://w3id.org/niehs/amadeus">https://w3id.org/niehs/amadeus</a></li>
+</ul>
+<h2 id="mappings">Mappings</h2>
+<table>
+<thead>
+<tr>
+<th>Mapping Type</th>
+<th>Mapped Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>self</td>
+<td>amadeus:Product</td>
+</tr>
+<tr>
+<td>native</td>
+<td>amadeus:Product</td>
+</tr>
+<tr>
+<td>exact</td>
+<td>hew:DatasetResource, envar:SourceDataset</td>
+</tr>
+</tbody>
+</table>
+<h2 id="linkml-source">LinkML Source</h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<h3 id="direct">Direct</h3>
+<details>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'A</span><span class="nv"> </span><span class="s">specific,</span><span class="nv"> </span><span class="s">versioned</span><span class="nv"> </span><span class="s">data</span><span class="nv"> </span><span class="s">product</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">source</span><span class="nv"> </span><span class="s">—</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">unit</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">actually</span>
+<span class="w">  </span><span class="s">requests,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">unit</span><span class="nv"> </span><span class="s">that</span><span class="nv"> </span><span class="s">carries</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">*profile*:</span><span class="nv"> </span><span class="s">spatial</span><span class="nv"> </span><span class="s">support,</span><span class="nv"> </span><span class="s">temporal</span><span class="nv"> </span><span class="s">support,</span>
+<span class="w">  </span><span class="s">format,</span><span class="nv"> </span><span class="s">calendar,</span><span class="nv"> </span><span class="s">day</span><span class="nv"> </span><span class="s">boundary.</span>
+
+<span class="w">  </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">where</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">answer</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">"do</span><span class="nv"> </span><span class="s">we</span><span class="nv"> </span><span class="s">need</span><span class="nv"> </span><span class="s">different</span><span class="nv"> </span><span class="s">schemas</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">different</span><span class="nv"> </span><span class="s">types</span><span class="nv"> </span><span class="s">of</span>
+<span class="w">  </span><span class="s">source</span><span class="nv"> </span><span class="s">data?"</span><span class="nv"> </span><span class="s">lives.</span><span class="nv"> </span><span class="s">We</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">not.</span><span class="nv"> </span><span class="s">The</span><span class="nv"> </span><span class="s">variation</span><span class="nv"> </span><span class="s">across</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">amadeus</span><span class="nv"> </span><span class="s">catalog</span><span class="nv"> </span><span class="s">decomposes</span>
+<span class="w">  </span><span class="s">into</span><span class="nv"> </span><span class="s">five</span><span class="nv"> </span><span class="s">orthogonal</span><span class="nv"> </span><span class="s">axes</span><span class="nv"> </span><span class="s">recorded</span><span class="nv"> </span><span class="s">here</span><span class="nv"> </span><span class="s">(`spatial_support_type`,</span><span class="nv"> </span><span class="s">`temporal_resolution`,</span>
+<span class="w">  </span><span class="s">`value`</span><span class="nv"> </span><span class="s">kind</span><span class="nv"> </span><span class="s">via</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">variables,</span><span class="nv"> </span><span class="s">`native_format`,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">extensivity</span><span class="nv"> </span><span class="s">via</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">variables).</span>
+<span class="w">  </span><span class="s">One</span><span class="nv"> </span><span class="s">schema,</span><span class="nv"> </span><span class="s">one</span><span class="nv"> </span><span class="s">product</span><span class="nv"> </span><span class="s">table;</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">MODIS</span><span class="nv"> </span><span class="s">swath</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">AQS</span><span class="nv"> </span><span class="s">monitor</span><span class="nv"> </span><span class="s">differ</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">their</span>
+<span class="w">  </span><span class="s">*values</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">these</span><span class="nv"> </span><span class="s">axes*,</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">their</span><span class="nv"> </span><span class="s">structure.'</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:DatasetResource</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:SourceDataset</span>
+<span class="nt">slots</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">label</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">description</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_source</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">product_version</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_genre</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_format</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crs</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">srid</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_extent_bbox_wkt</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_extent_descriptor</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_spatial_resolution_m</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_spatial_resolution_descriptor</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution_iso</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_alignment</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day_boundary_convention</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">calendar</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_start</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_end</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update_cadence_iso</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">typical_latency_iso</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default_data_status</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">homogenisation_status</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doi</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">license_spdx</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">citation_apa</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">access_url</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_dataset_name</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_process_covariate</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_calculate_covariate</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">supports_server_side_subset</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stac_collection_id</span>
+<span class="nt">slot_usage</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">data_source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_source</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">spatial_support_type</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">grid_definition</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required when `spatial_support_type` is a grid cell type, forbidden</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">otherwise. Enforced by the rules below rather than by two separate classes —</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">the project lead's "grid size is a dataset-level property" becomes a foreign</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">key, not a copied field.</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">spatial_support_type</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="w">        </span><span class="nt">any_of</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">raster_grid_cell</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">model_grid_cell</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">grid_definition</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A gridded product must declare its grid. Without this, "1 km" lives</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">in a description string and no query can reason about resolution.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">daily</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">day_boundary_convention</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day_boundary_convention</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A daily product must declare where its day starts. This rule alone</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">would have caught the Daymet/GridMET 1.26 °C discrepancy at registration time.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">timeless</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_coverage_start</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_start</span>
+<span class="w">        </span><span class="nt">value_presence</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ABSENT</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A timeless product (GMTED elevation, Köppen-Geiger) asserts no temporal</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">coverage start. Modelled as absence rather than a sentinel date.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">timeless</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_coverage_end</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_end</span>
+<span class="w">        </span><span class="nt">value_presence</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ABSENT</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A timeless product asserts no temporal coverage end.</span>
+</code></pre></div>
+</details>
+<h3 id="induced">Induced</h3>
+<details>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'A</span><span class="nv"> </span><span class="s">specific,</span><span class="nv"> </span><span class="s">versioned</span><span class="nv"> </span><span class="s">data</span><span class="nv"> </span><span class="s">product</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">source</span><span class="nv"> </span><span class="s">—</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">unit</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">actually</span>
+<span class="w">  </span><span class="s">requests,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">unit</span><span class="nv"> </span><span class="s">that</span><span class="nv"> </span><span class="s">carries</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">*profile*:</span><span class="nv"> </span><span class="s">spatial</span><span class="nv"> </span><span class="s">support,</span><span class="nv"> </span><span class="s">temporal</span><span class="nv"> </span><span class="s">support,</span>
+<span class="w">  </span><span class="s">format,</span><span class="nv"> </span><span class="s">calendar,</span><span class="nv"> </span><span class="s">day</span><span class="nv"> </span><span class="s">boundary.</span>
+
+<span class="w">  </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">where</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">answer</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">"do</span><span class="nv"> </span><span class="s">we</span><span class="nv"> </span><span class="s">need</span><span class="nv"> </span><span class="s">different</span><span class="nv"> </span><span class="s">schemas</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">different</span><span class="nv"> </span><span class="s">types</span><span class="nv"> </span><span class="s">of</span>
+<span class="w">  </span><span class="s">source</span><span class="nv"> </span><span class="s">data?"</span><span class="nv"> </span><span class="s">lives.</span><span class="nv"> </span><span class="s">We</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">not.</span><span class="nv"> </span><span class="s">The</span><span class="nv"> </span><span class="s">variation</span><span class="nv"> </span><span class="s">across</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">amadeus</span><span class="nv"> </span><span class="s">catalog</span><span class="nv"> </span><span class="s">decomposes</span>
+<span class="w">  </span><span class="s">into</span><span class="nv"> </span><span class="s">five</span><span class="nv"> </span><span class="s">orthogonal</span><span class="nv"> </span><span class="s">axes</span><span class="nv"> </span><span class="s">recorded</span><span class="nv"> </span><span class="s">here</span><span class="nv"> </span><span class="s">(`spatial_support_type`,</span><span class="nv"> </span><span class="s">`temporal_resolution`,</span>
+<span class="w">  </span><span class="s">`value`</span><span class="nv"> </span><span class="s">kind</span><span class="nv"> </span><span class="s">via</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">variables,</span><span class="nv"> </span><span class="s">`native_format`,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">extensivity</span><span class="nv"> </span><span class="s">via</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">variables).</span>
+<span class="w">  </span><span class="s">One</span><span class="nv"> </span><span class="s">schema,</span><span class="nv"> </span><span class="s">one</span><span class="nv"> </span><span class="s">product</span><span class="nv"> </span><span class="s">table;</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">MODIS</span><span class="nv"> </span><span class="s">swath</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">AQS</span><span class="nv"> </span><span class="s">monitor</span><span class="nv"> </span><span class="s">differ</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">their</span>
+<span class="w">  </span><span class="s">*values</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">these</span><span class="nv"> </span><span class="s">axes*,</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">their</span><span class="nv"> </span><span class="s">structure.'</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:DatasetResource</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:SourceDataset</span>
+<span class="nt">slot_usage</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">data_source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_source</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">spatial_support_type</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">grid_definition</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required when `spatial_support_type` is a grid cell type, forbidden</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">otherwise. Enforced by the rules below rather than by two separate classes —</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">the project lead's "grid size is a dataset-level property" becomes a foreign</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">key, not a copied field.</span>
+<span class="nt">attributes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Stable identifier for this entity within an AmadeusDB instance.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">identifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CanonicalVariable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProductVariable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asset</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AmbientValue</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VectorFeature</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocationSet</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Location</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExtractionRequest</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ToolRun</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProvenanceChain</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uriorcurie</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A short machine-friendly name.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CanonicalVariable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocationSet</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExtractionRequest</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">label</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">label</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A human-readable display label.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CanonicalVariable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProductVariable</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">description</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dcterms:description</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CanonicalVariable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocationSet</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">data_source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_source</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The publishing programme.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">product_version</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">product_version</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">'061'</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.5</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">'2021'</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_dataset_version</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">data_genre</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data_genre</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Thematic classification, from the README source table.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataGenreEnum</span>
+<span class="w">    </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">native_format</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_format</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_native_format</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asset</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NativeFormatEnum</span>
+<span class="w">  </span><span class="nt">spatial_support_type</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:support_type</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SpatialSupportTypeEnum</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">grid_definition</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Required when `spatial_support_type` is a grid cell type, forbidden</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">otherwise. Enforced by the rules below rather than by two separate classes —</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">the project lead's "grid size is a dataset-level property" becomes a foreign</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">key, not a copied field.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridCellValue</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">  </span><span class="nt">crs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crs</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Coordinate reference system as an authority code. Stored as the string</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">form (`EPSG:4326`) because that is what both `terra` and the SQL engines accept;</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">the numeric SRID is derived for `ST_SetSRID`.</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPSG:4326</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPSG:5070</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:crs</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:coordinate_reference_system_uri</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocationSet</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">    </span><span class="nt">pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^[A-Za-z]+:[0-9]+$</span>
+<span class="w">  </span><span class="nt">srid</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">srid</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Numeric spatial reference identifier, derived from `crs`. Materialised</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">because `ST_SetSRID` takes an integer and the geometry views need it without</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">a lookup.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridDefinition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asset</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StationObservation</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GridCellValue</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AreaValue</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HexCellValue</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VectorFeature</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocationSet</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Location</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">  </span><span class="nt">spatial_extent_bbox_wkt</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_extent_bbox_wkt</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Coverage footprint as WKT, so extent is a spatial predicate.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WktLiteral</span>
+<span class="w">  </span><span class="nt">spatial_extent_descriptor</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_extent_descriptor</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Contiguous United States</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:spatial_extent_descriptor</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">native_spatial_resolution_m</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_spatial_resolution_m</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Nominal resolution in metres. Computable, and therefore the one a</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">query planner uses — but meaningless for non-grid supports, hence the descriptor</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">alongside it.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:native_spatial_resolution_m</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+<span class="w">  </span><span class="nt">native_spatial_resolution_descriptor</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">native_spatial_resolution_descriptor</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4 km</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">census tract</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:native_spatial_resolution_descriptor</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:spatial_resolution</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:temporal_resolution</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TemporalResolutionEnum</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">temporal_resolution_iso</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution_iso</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The same fact as `temporal_resolution`, as an ISO 8601 duration.</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">Both are kept because the enum is validatable and the duration is expressive</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(`P3D` has no enum member). HEW uses the duration, EnVar the enum; this is the</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">reconciliation, and it is generated, not hand-maintained.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:temporal_resolution</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Iso8601Duration</span>
+<span class="w">  </span><span class="nt">temporal_alignment</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_alignment</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hew:temporal_alignment</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProductVariable</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TemporalAlignmentEnum</span>
+<span class="w">  </span><span class="nt">day_boundary_convention</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day_boundary_convention</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:day_boundary_convention</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DayBoundaryConventionEnum</span>
+<span class="w">  </span><span class="nt">calendar</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">calendar</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:calendar</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalendarEnum</span>
+<span class="w">  </span><span class="nt">temporal_coverage_start</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_start</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:temporal_coverage_start</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">date</span>
+<span class="w">  </span><span class="nt">temporal_coverage_end</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_end</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Absent means "ongoing".</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:temporal_coverage_end</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">date</span>
+<span class="w">  </span><span class="nt">update_cadence_iso</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update_cadence_iso</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">How often the source publishes new data.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Iso8601Duration</span>
+<span class="w">  </span><span class="nt">typical_latency_iso</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">typical_latency_iso</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'Typical</span><span class="nv"> </span><span class="s">delay</span><span class="nv"> </span><span class="s">between</span><span class="nv"> </span><span class="s">observation</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">availability.</span><span class="nv"> </span><span class="s">The</span><span class="nv"> </span><span class="s">field</span><span class="nv"> </span><span class="s">that</span>
+<span class="w">      </span><span class="s">makes</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">AQS-versus-AirNow</span><span class="nv"> </span><span class="s">trade-off</span><span class="nv"> </span><span class="s">explicit:</span><span class="nv"> </span><span class="s">AQS</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">quality-controlled</span><span class="nv"> </span><span class="s">and</span>
+<span class="w">      </span><span class="s">months</span><span class="nv"> </span><span class="s">late,</span><span class="nv"> </span><span class="s">AirNow</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">preliminary</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">hourly.'</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Iso8601Duration</span>
+<span class="w">  </span><span class="nt">default_data_status</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default_data_status</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The status values from this product carry unless a row says otherwise.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataStatusEnum</span>
+<span class="w">  </span><span class="nt">homogenisation_status</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">homogenisation_status</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_homogenisation_status</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HomogenisationStatusEnum</span>
+<span class="w">  </span><span class="nt">doi</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">doi</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">    </span><span class="nt">pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^10\.[0-9]{4,9}/.+$</span>
+<span class="w">  </span><span class="nt">license_spdx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">license_spdx</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CC0-1.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NOASSERTION</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_license_spdx</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">citation_apa</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">citation_apa</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_citation_apa</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataSource</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">access_url</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">access_url</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">exact_mappings</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">envar:source_access_url</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uri</span>
+<span class="w">  </span><span class="nt">amadeus_dataset_name</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_dataset_name</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The exact string accepted by `download_data(dataset_name=)`. The</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">bridge between the catalog and the existing R API.</span>
+<span class="w">    </span><span class="nt">examples</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">narr</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gridmet</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">amadeus_process_covariate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_process_covariate</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The string accepted by `process_covariates(covariate=)`.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">amadeus_calculate_covariate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amadeus_calculate_covariate</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The string accepted by `calculate_covariates(covariate=)`. Distinct</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">from the process name — `modis_swath`/`modis_merge` both calculate as `modis`,</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">and `aqs` processes but does not calculate.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">supports_server_side_subset</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">supports_server_side_subset</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Whether the provider will return a geometry/time/variable subset.</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">Drives the achievable `MaterializationModeEnum`.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">  </span><span class="nt">stac_collection_id</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stac_collection_id</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STAC collection identifier, where the product is STAC-published.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/niehs/amadeus</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Product</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asset</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">spatial_support_type</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spatial_support_type</span>
+<span class="w">        </span><span class="nt">any_of</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">raster_grid_cell</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">model_grid_cell</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">grid_definition</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid_definition</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A gridded product must declare its grid. Without this, "1 km" lives</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">in a description string and no query can reason about resolution.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">daily</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">day_boundary_convention</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day_boundary_convention</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A daily product must declare where its day starts. This rule alone</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">would have caught the Daymet/GridMET 1.26 °C discrepancy at registration time.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">timeless</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_coverage_start</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_start</span>
+<span class="w">        </span><span class="nt">value_presence</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ABSENT</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A timeless product (GMTED elevation, Köppen-Geiger) asserts no temporal</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">coverage start. Modelled as absence rather than a sentinel date.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">preconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_resolution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_resolution</span>
+<span class="w">        </span><span class="nt">equals_string</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">timeless</span>
+<span class="w">  </span><span class="nt">postconditions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">slot_conditions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">temporal_coverage_end</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temporal_coverage_end</span>
+<span class="w">        </span><span class="nt">value_presence</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ABSENT</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A timeless product asserts no temporal coverage end.</span>
+</code></pre></div>
+</details>
+</div>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+        with emoji by
+        <a href="https://github.com/twitter/twemoji" rel="noopener" target="_blank">
+          Twemoji
+        </a>
+</div>
+<div class="md-social">
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<div class="md-progress" data-md-component="progress" role="progressbar"></div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.tabs.link", "header.autohide", "navigation.expand", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+<script src="../../assets/pymdownx-extras/extra-loader-B5CKpNQx.js"></script>
+</body>
+</html>
