@@ -108,7 +108,9 @@ DIALECTS = {
 # Parsing the generic DDL
 # ──────────────────────────────────────────────────────────────────────────────
 
-CREATE_RE = re.compile(r'CREATE TABLE "(?P<name>[^"]+)" \((?P<body>.*?)\n\);', re.DOTALL)
+CREATE_RE = re.compile(
+    r'CREATE TABLE "(?P<name>[^"]+)" \((?P<body>.*?)\n\);', re.DOTALL
+)
 FK_RE = re.compile(r'FOREIGN KEY\("?(?P<col>[^")]+)"?\) REFERENCES "(?P<target>[^"]+)"')
 
 
@@ -119,7 +121,9 @@ class Table:
 
     @property
     def lines(self) -> list[str]:
-        return [ln.strip().rstrip(",") for ln in self.body.strip().split("\n") if ln.strip()]
+        return [
+            ln.strip().rstrip(",") for ln in self.body.strip().split("\n") if ln.strip()
+        ]
 
     @property
     def references(self) -> set[str]:
@@ -129,9 +133,17 @@ class Table:
 def generate_generic_ddl() -> str:
     """Run LinkML's own generator. No arguments that change semantics."""
     out = subprocess.run(
-        [sys.executable, "-m", "linkml.generators.sqltablegen",
-         "--autogenerate_index", "false", str(SCHEMA)],
-        capture_output=True, text=True, check=True,
+        [
+            sys.executable,
+            "-m",
+            "linkml.generators.sqltablegen",
+            "--autogenerate_index",
+            "false",
+            str(SCHEMA),
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
     )
     return out.stdout
 
@@ -200,7 +212,9 @@ def schema_facts(sv: SchemaView):
                 srid = True
             enum_def = sv.get_enum(rng) if rng else None
             if enum_def is not None:
-                enums[slot.alias or slot.name] = list(enum_def.permissible_values.keys())
+                enums[slot.alias or slot.name] = list(
+                    enum_def.permissible_values.keys()
+                )
         if geoms:
             geom_cols[cls_name] = geoms
             has_srid[cls_name] = srid
@@ -251,14 +265,18 @@ def render_geometry_view(cls: str, cols: list[str], d: Dialect, srid_col: bool) 
     table pure text means it loads from CSV/Parquet without a spatial extension
     present, which matters for the "register, don't ingest" path.
     """
-    srid = f"CAST(COALESCE(srid, {DEFAULT_SRID}) AS INTEGER)" if srid_col else str(DEFAULT_SRID)
+    srid = (
+        f"CAST(COALESCE(srid, {DEFAULT_SRID}) AS INTEGER)"
+        if srid_col
+        else str(DEFAULT_SRID)
+    )
     exprs = []
     for c in cols:
         geom_name = c[:-4] if c.endswith("_wkt") else f"{c}_geom"
         exprs.append(f"\t{d.geom_expr.format(col=c, srid=srid)} AS {geom_name}")
     body = ",\n".join(exprs)
     return (
-        f'-- geometry promotion for {cls}: WKT text -> native geometry\n'
+        f"-- geometry promotion for {cls}: WKT text -> native geometry\n"
         f'CREATE OR REPLACE VIEW "{cls}_geo" AS\nSELECT\n\t*,\n{body}\nFROM "{cls}";'
     )
 
@@ -273,7 +291,9 @@ def main() -> int:
     sv = SchemaView(str(SCHEMA))
     geom_cols, enum_cols, has_srid = schema_facts(sv)
 
-    tables = [t for t in parse_tables(generate_generic_ddl()) if t.name != CONTAINER_CLASS]
+    tables = [
+        t for t in parse_tables(generate_generic_ddl()) if t.name != CONTAINER_CLASS
+    ]
     tables = topo_sort(tables)
 
     out: list[str] = [
@@ -288,13 +308,19 @@ def main() -> int:
     if not args.no_views:
         out.append("")
         out.append("-- " + "=" * 74)
-        out.append("-- Geometry views. LinkML has no spatial type, and SedonaDB refuses a")
-        out.append("-- GEOMETRY column in CREATE TABLE, so `WktLiteral` slots are stored as text")
+        out.append(
+            "-- Geometry views. LinkML has no spatial type, and SedonaDB refuses a"
+        )
+        out.append(
+            "-- GEOMETRY column in CREATE TABLE, so `WktLiteral` slots are stored as text"
+        )
         out.append("-- and promoted here. Query the views, load the tables.")
         out.append("-- " + "=" * 74)
         out.append("")
         for cls, cols in sorted(geom_cols.items()):
-            out.append(render_geometry_view(cls, cols, d, has_srid.get(cls, False)) + "\n")
+            out.append(
+                render_geometry_view(cls, cols, d, has_srid.get(cls, False)) + "\n"
+            )
 
     print("\n".join(out))
     return 0

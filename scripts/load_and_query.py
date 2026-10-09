@@ -25,7 +25,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 from pathlib import Path
 
 import yaml
@@ -33,7 +32,9 @@ from linkml_runtime import SchemaView
 
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "src" / "amadeus_schema" / "schema" / "amadeus_schema.yaml"
-INSTANCE = ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml"
+INSTANCE = (
+    ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml"
+)
 CONTAINER = "AmadeusDatabase"
 
 
@@ -114,15 +115,16 @@ def order_tables(tables: dict, generic_ddl: Path) -> list[tuple[str, list[dict]]
     refs: dict[str, set[str]] = {}
     for m in re.finditer(r'CREATE TABLE "([^"]+)" \((.*?)\n\);', ddl, re.DOTALL):
         name, body = m.group(1), m.group(2)
-        refs[name] = {
-            t for t in re.findall(r'REFERENCES "([^"]+)"', body) if t != name
-        }
+        refs[name] = {t for t in re.findall(r'REFERENCES "([^"]+)"', body) if t != name}
     ordered, done = [], set()
     pending = dict(tables)
     while pending:
         progress = False
         for name in list(pending):
-            if refs.get(name, set()) - done - {n for n in refs if n not in tables} <= done:
+            if (
+                refs.get(name, set()) - done - {n for n in refs if n not in tables}
+                <= done
+            ):
                 ordered.append((name, pending.pop(name)))
                 done.add(name)
                 progress = True
@@ -135,7 +137,9 @@ def order_tables(tables: dict, generic_ddl: Path) -> list[tuple[str, list[dict]]
 def split_statements(ddl: str) -> list[str]:
     out = []
     for chunk in ddl.split(";"):
-        body = "\n".join(l for l in chunk.split("\n") if not l.strip().startswith("--"))
+        body = "\n".join(
+            ln for ln in chunk.split("\n") if not ln.strip().startswith("--")
+        )
         body = body.strip()
         if body and re.match(r"(?is)^(CREATE|INSTALL|LOAD)", body):
             out.append(body)
@@ -193,6 +197,7 @@ class Engine:
 class DuckEngine(Engine):
     def connect(self):
         import duckdb
+
         self.conn = duckdb.connect(":memory:")
         try:
             self.conn.execute("INSTALL spatial;")
@@ -200,8 +205,10 @@ class DuckEngine(Engine):
             self.spatial = True
         except Exception as e:
             self.spatial = False
-            print(f"  ! DuckDB spatial extension unavailable ({str(e)[:70]}); "
-                  "spatial queries will be skipped")
+            print(
+                f"  ! DuckDB spatial extension unavailable ({str(e)[:70]}); "
+                "spatial queries will be skipped"
+            )
 
     def exec(self, sql):
         return self.conn.execute(sql)
@@ -214,6 +221,7 @@ class DuckEngine(Engine):
 class SedonaEngine(Engine):
     def connect(self):
         import sedonadb
+
         self.conn = sedonadb.connect()
         self.spatial = True
 
@@ -396,7 +404,8 @@ def show(cols, rows, limit=12):
         print("    (no rows)")
         return
     widths = [
-        max(len(str(c)), *(len(str(r[i])) for r in rows[:limit])) for i, c in enumerate(cols)
+        max(len(str(c)), *(len(str(r[i])) for r in rows[:limit]))
+        for i, c in enumerate(cols)
     ]
     print("    " + " | ".join(str(c).ljust(w) for c, w in zip(cols, widths)))
     print("    " + "-+-".join("-" * w for w in widths))
@@ -409,21 +418,29 @@ def show(cols, rows, limit=12):
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--engine", choices=["duckdb", "sedonadb", "both"], default="both")
-    ap.add_argument("--json-summary", type=Path, help="write a machine-readable summary")
+    ap.add_argument(
+        "--json-summary", type=Path, help="write a machine-readable summary"
+    )
     args = ap.parse_args()
 
     print("Loading schema ...", flush=True)
     sv = SchemaView(str(SCHEMA))
     doc = yaml.safe_load(INSTANCE.read_text())
     tables, junctions = build_rows(sv, doc)
-    total_rows = sum(len(v) for v in tables.values()) + sum(len(v) for v in junctions.values())
-    print(f"  {len(tables)} tables + {len(junctions)} junction tables, {total_rows} rows\n")
+    total_rows = sum(len(v) for v in tables.values()) + sum(
+        len(v) for v in junctions.values()
+    )
+    print(
+        f"  {len(tables)} tables + {len(junctions)} junction tables, {total_rows} rows\n"
+    )
 
     engines = []
     if args.engine in ("duckdb", "both"):
         engines.append(DuckEngine("DuckDB", ROOT / "build" / "amadeus_duckdb.sql"))
     if args.engine in ("sedonadb", "both"):
-        engines.append(SedonaEngine("SedonaDB", ROOT / "build" / "amadeus_sedonadb.sql"))
+        engines.append(
+            SedonaEngine("SedonaDB", ROOT / "build" / "amadeus_sedonadb.sql")
+        )
 
     summary: dict = {"engines": {}}
     failed = False
@@ -485,9 +502,11 @@ def main() -> int:
     print("SUMMARY")
     print("=" * 78)
     for name, s in summary["engines"].items():
-        print(f"  {name:10s} DDL {s['ddl_statements']:>3} ok/{s['ddl_errors']} err | "
-              f"rows {s['rows_inserted']}/{s['rows_expected']} | "
-              f"queries {s['queries_ok']} ok/{s['queries_failed']} failed")
+        print(
+            f"  {name:10s} DDL {s['ddl_statements']:>3} ok/{s['ddl_errors']} err | "
+            f"rows {s['rows_inserted']}/{s['rows_expected']} | "
+            f"queries {s['queries_ok']} ok/{s['queries_failed']} failed"
+        )
 
     if args.json_summary:
         args.json_summary.write_text(json.dumps(summary, indent=2))

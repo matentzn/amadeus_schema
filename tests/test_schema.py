@@ -27,11 +27,14 @@ def sv() -> SchemaView:
 def run(script: str, *args: str) -> subprocess.CompletedProcess:
     return subprocess.run(
         [PY, str(ROOT / "scripts" / script), *args],
-        capture_output=True, text=True, cwd=ROOT,
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
     )
 
 
 # ── the scripts must pass ────────────────────────────────────────────────────
+
 
 def test_examples_behave_as_expected():
     """Valid examples validate; invalid ones are rejected for the right reason."""
@@ -57,7 +60,9 @@ def test_envar_record_is_valid():
 def test_external_import_walkthrough():
     p = run("import_external.py")
     assert p.returncode == 0, p.stdout + p.stderr
-    assert "REUSED — correct" in p.stdout, "Daymet must reuse the existing canonical variable"
+    assert "REUSED — correct" in p.stdout, (
+        "Daymet must reuse the existing canonical variable"
+    )
 
 
 def test_integrity_checks_pass_on_the_sample_data():
@@ -69,6 +74,7 @@ def test_integrity_checks_pass_on_the_sample_data():
 
 
 # ── design invariants ────────────────────────────────────────────────────────
+
 
 def test_no_boolean_participates_in_a_rule(sv: SchemaView):
     """A boolean cannot be a rule precondition — LinkML compiles `equals_string:
@@ -98,7 +104,8 @@ def test_at_most_one_absent_postcondition_per_rule(sv: SchemaView):
         for i, rule in enumerate(cls.rules or []):
             conds = getattr(rule.postconditions, "slot_conditions", {}) or {}
             absents = [
-                n for n, c in conds.items()
+                n
+                for n, c in conds.items()
                 if str(getattr(c, "value_presence", "")) == "ABSENT"
             ]
             if len(absents) > 1:
@@ -112,8 +119,13 @@ def test_at_most_one_absent_postcondition_per_rule(sv: SchemaView):
 def test_every_value_class_carries_provenance(sv: SchemaView):
     """Objective O-02: every derived output must resolve to source assets and
     processing runs."""
-    for cls in ("StationObservation", "GridCellValue", "AreaValue",
-                "HexCellValue", "AmbientValueAtLocation"):
+    for cls in (
+        "StationObservation",
+        "GridCellValue",
+        "AreaValue",
+        "HexCellValue",
+        "AmbientValueAtLocation",
+    ):
         names = {s.alias or s.name for s in sv.class_induced_slots(cls)}
         assert "asset" in names, f"{cls} cannot resolve to its source bytes"
         assert "processing_run" in names, f"{cls} cannot resolve to its run"
@@ -126,14 +138,17 @@ def test_no_class_or_slot_is_named_exposure(sv: SchemaView):
     once downstream consumers depend on it."""
     bad = [n for n in sv.all_classes() if "exposure" in n.lower()]
     bad += [n for n in sv.all_slots() if "exposure" in n.lower()]
-    assert not bad, f"'exposure' names a person-level concept amadeus does not model: {bad}"
+    assert not bad, (
+        f"'exposure' names a person-level concept amadeus does not model: {bad}"
+    )
 
 
 def test_geometry_slots_use_the_wkt_type(sv: SchemaView):
     """The DDL post-processor finds geometry columns by the `WktLiteral` type,
     not by name. A geometry slot typed `string` gets no geometry view."""
     suspicious = [
-        n for n, s in sv.all_slots().items()
+        n
+        for n, s in sv.all_slots().items()
         if n.endswith("_wkt") and s.range != "WktLiteral"
     ]
     assert not suspicious, f"*_wkt slots not typed WktLiteral: {suspicious}"

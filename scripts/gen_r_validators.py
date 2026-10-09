@@ -71,8 +71,14 @@ def unsupported(where: str, what: str) -> None:
 
 # What this generator actually implements. Anything outside these sets is a
 # build error, not a shrug.
-PRE_OPS = {"equals_string", "equals_number", "value_presence",
-           "minimum_value", "maximum_value", "any_of"}
+PRE_OPS = {
+    "equals_string",
+    "equals_number",
+    "value_presence",
+    "minimum_value",
+    "maximum_value",
+    "any_of",
+}
 POST_OPS = {"required", "value_presence", "equals_string", "pattern"}
 
 
@@ -94,11 +100,11 @@ def slot_checks(sv: SchemaView, slot, cls_name: str) -> list[str]:
     name = slot.alias or slot.name
     v = f'x[["{name}"]]'
     lines: list[str] = []
-    present = f'!is.null({v})'
+    present = f"!is.null({v})"
 
     if slot.required and not slot.multivalued:
         lines.append(
-            f'  if (is.null({v})) return({r_str(f"{cls_name}: required slot `{name}` is missing")})'
+            f"  if (is.null({v})) return({r_str(f'{cls_name}: required slot `{name}` is missing')})"
         )
 
     rng = slot.range
@@ -107,18 +113,18 @@ def slot_checks(sv: SchemaView, slot, cls_name: str) -> list[str]:
     if enum_def is not None:
         vals = list(enum_def.permissible_values.keys())
         lines.append(
-            f'  if ({present}) {{\n'
-            f'    .e <- checkmate::check_choice({v}, {r_vec(vals)})\n'
-            f'    if (!isTRUE(.e)) return(paste0({r_str(f"{cls_name}${name}: ")}, .e))\n'
-            f'  }}'
+            f"  if ({present}) {{\n"
+            f"    .e <- checkmate::check_choice({v}, {r_vec(vals)})\n"
+            f"    if (!isTRUE(.e)) return(paste0({r_str(f'{cls_name}${name}: ')}, .e))\n"
+            f"  }}"
         )
     elif rng in sv.all_classes():
         # an object reference: identifier string in the flattened relational form
         lines.append(
-            f'  if ({present}) {{\n'
-            f'    .e <- checkmate::check_string({v}, min.chars = 1)\n'
-            f'    if (!isTRUE(.e)) return(paste0({r_str(f"{cls_name}${name}: ")}, .e))\n'
-            f'  }}'
+            f"  if ({present}) {{\n"
+            f"    .e <- checkmate::check_string({v}, min.chars = 1)\n"
+            f"    if (!isTRUE(.e)) return(paste0({r_str(f'{cls_name}${name}: ')}, .e))\n"
+            f"  }}"
         )
     else:
         # resolve custom types down to their base
@@ -140,38 +146,40 @@ def slot_checks(sv: SchemaView, slot, cls_name: str) -> list[str]:
             pattern = slot.pattern
         frag = CHECKMATE_TYPE.get(base)
         if frag is None and not pattern:
-            unsupported(f"{cls_name}.{name}",
-                        f"no checkmate mapping for base type '{base}' and no pattern to fall back on")
+            unsupported(
+                f"{cls_name}.{name}",
+                f"no checkmate mapping for base type '{base}' and no pattern to fall back on",
+            )
         if frag:
             lines.append(
-                f'  if ({present}) {{\n'
-                f'    .e <- {frag.format(v=v)}\n'
-                f'    if (!isTRUE(.e)) return(paste0({r_str(f"{cls_name}${name}: ")}, .e))\n'
-                f'  }}'
+                f"  if ({present}) {{\n"
+                f"    .e <- {frag.format(v=v)}\n"
+                f"    if (!isTRUE(.e)) return(paste0({r_str(f'{cls_name}${name}: ')}, .e))\n"
+                f"  }}"
             )
         if pattern:
             lines.append(
                 f'  if ({present} && !grepl("{escape_r_regex(pattern)}", {v}))\n'
-                f'    return({r_str(f"{cls_name}${name}: does not match required pattern")})'
+                f"    return({r_str(f'{cls_name}${name}: does not match required pattern')})"
             )
 
     # a slot pattern on an object-ref or enum-ranged slot would be unusual, but
     # emit it anyway rather than silently dropping a declared constraint
-    if getattr(slot, "pattern", None) and not any("grepl(" in l for l in lines):
+    if getattr(slot, "pattern", None) and not any("grepl(" in ln for ln in lines):
         lines.append(
             f'  if ({present} && !grepl("{escape_r_regex(slot.pattern)}", {v}))\n'
-            f'    return({r_str(f"{cls_name}${name}: does not match required pattern")})'
+            f"    return({r_str(f'{cls_name}${name}: does not match required pattern')})"
         )
 
     if slot.minimum_value is not None:
         lines.append(
-            f'  if ({present} && {v} < {slot.minimum_value})\n'
-            f'    return({r_str(f"{cls_name}${name}: below minimum {slot.minimum_value}")})'
+            f"  if ({present} && {v} < {slot.minimum_value})\n"
+            f"    return({r_str(f'{cls_name}${name}: below minimum {slot.minimum_value}')})"
         )
     if slot.maximum_value is not None:
         lines.append(
-            f'  if ({present} && {v} > {slot.maximum_value})\n'
-            f'    return({r_str(f"{cls_name}${name}: above maximum {slot.maximum_value}")})'
+            f"  if ({present} && {v} > {slot.maximum_value})\n"
+            f"    return({r_str(f'{cls_name}${name}: above maximum {slot.maximum_value}')})"
         )
     return lines
 
@@ -179,10 +187,21 @@ def slot_checks(sv: SchemaView, slot, cls_name: str) -> list[str]:
 # LinkML's full slot-condition vocabulary, so we can tell "not set" from
 # "set but unimplemented".
 _ALL_OPS = {
-    "equals_string", "equals_number", "equals_expression", "value_presence",
-    "minimum_value", "maximum_value", "pattern", "structured_pattern",
-    "any_of", "all_of", "none_of", "exactly_one_of", "has_member",
-    "all_members", "required",
+    "equals_string",
+    "equals_number",
+    "equals_expression",
+    "value_presence",
+    "minimum_value",
+    "maximum_value",
+    "pattern",
+    "structured_pattern",
+    "any_of",
+    "all_of",
+    "none_of",
+    "exactly_one_of",
+    "has_member",
+    "all_members",
+    "required",
 }
 
 
@@ -199,7 +218,9 @@ def cond_value(cond) -> tuple[str, object] | None:
     if getattr(cond, "maximum_value", None) is not None:
         return ("max", cond.maximum_value)
     if getattr(cond, "any_of", None):
-        vals = [c.equals_string for c in cond.any_of if getattr(c, "equals_string", None)]
+        vals = [
+            c.equals_string for c in cond.any_of if getattr(c, "equals_string", None)
+        ]
         if vals:
             return ("in", vals)
     return None
@@ -220,25 +241,31 @@ def rule_checks(sv: SchemaView, cls_name: str, cls) -> list[str]:
                 # only flag operators that are actually SET — every attribute
                 # exists on the object, most of them holding None
                 if getattr(c, op, None) not in (None, [], {}, False):
-                    unsupported(f"{cls_name} rule {i + 1} precondition on `{sname}`",
-                                f"operator '{op}' is not implemented")
+                    unsupported(
+                        f"{cls_name} rule {i + 1} precondition on `{sname}`",
+                        f"operator '{op}' is not implemented",
+                    )
             got = cond_value(c)
             if got is None:
-                unsupported(f"{cls_name} rule {i + 1} precondition on `{sname}`",
-                            "no condition this generator understands")
+                unsupported(
+                    f"{cls_name} rule {i + 1} precondition on `{sname}`",
+                    "no condition this generator understands",
+                )
                 continue
             kind, val = got
             v = f'x[["{sname}"]]'
             if kind == "eq":
-                conds.append(f'(!is.null({v}) && identical(as.character({v}), {r_str(val)}))')
+                conds.append(
+                    f"(!is.null({v}) && identical(as.character({v}), {r_str(val)}))"
+                )
             elif kind == "in":
-                conds.append(f'(!is.null({v}) && as.character({v}) %in% {r_vec(val)})')
+                conds.append(f"(!is.null({v}) && as.character({v}) %in% {r_vec(val)})")
             elif kind == "min":
-                conds.append(f'(!is.null({v}) && {v} >= {val})')
+                conds.append(f"(!is.null({v}) && {v} >= {val})")
             elif kind == "max":
-                conds.append(f'(!is.null({v}) && {v} <= {val})')
+                conds.append(f"(!is.null({v}) && {v} <= {val})")
             elif kind == "presence" and val == "PRESENT":
-                conds.append(f'(!is.null({v}))')
+                conds.append(f"(!is.null({v}))")
         if not conds:
             continue
 
@@ -248,35 +275,40 @@ def rule_checks(sv: SchemaView, cls_name: str, cls) -> list[str]:
             v = f'x[["{sname}"]]'
             if getattr(c, "required", None):
                 thens.append(
-                    f'    if (is.null({v})) return({r_str(f"{cls_name}: rule {i + 1} — `{sname}` is required here")})'
+                    f"    if (is.null({v})) return({r_str(f'{cls_name}: rule {i + 1} — `{sname}` is required here')})"
                 )
             elif got and got[0] == "presence" and got[1] == "ABSENT":
                 thens.append(
-                    f'    if (!is.null({v})) return({r_str(f"{cls_name}: rule {i + 1} — `{sname}` must be absent here")})'
+                    f"    if (!is.null({v})) return({r_str(f'{cls_name}: rule {i + 1} — `{sname}` must be absent here')})"
                 )
             elif got and got[0] == "eq":
                 thens.append(
-                    f'    if (is.null({v}) || !identical(as.character({v}), {r_str(got[1])}))\n'
-                    f'      return({r_str(f"{cls_name}: rule {i + 1} — `{sname}` must be {got[1]!r} here")})'
+                    f"    if (is.null({v}) || !identical(as.character({v}), {r_str(got[1])}))\n"
+                    f"      return({r_str(f'{cls_name}: rule {i + 1} — `{sname}` must be {got[1]!r} here')})"
                 )
             elif getattr(c, "pattern", None):
                 thens.append(
                     f'    if (is.null({v}) || !grepl("{escape_r_regex(c.pattern)}", {v}))\n'
-                    f'      return({r_str(f"{cls_name}: rule {i + 1} — `{sname}` must match the required pattern here")})'
+                    f"      return({r_str(f'{cls_name}: rule {i + 1} — `{sname}` must match the required pattern here')})"
                 )
             else:
-                set_ops = [o for o in _ALL_OPS
-                           if getattr(c, o, None) not in (None, [], {}, False)]
-                unsupported(f"{cls_name} rule {i + 1} postcondition on `{sname}`",
-                            f"operator(s) {set_ops or ['<none recognised>']} not implemented")
+                set_ops = [
+                    o
+                    for o in _ALL_OPS
+                    if getattr(c, o, None) not in (None, [], {}, False)
+                ]
+                unsupported(
+                    f"{cls_name} rule {i + 1} postcondition on `{sname}`",
+                    f"operator(s) {set_ops or ['<none recognised>']} not implemented",
+                )
         if not thens:
             continue
 
         desc = " ".join((rule.description or "").split())[:110]
-        out.append(f'  # rule {i + 1}: {desc}')
-        out.append(f'  if ({" && ".join(conds)}) {{')
+        out.append(f"  # rule {i + 1}: {desc}")
+        out.append(f"  if ({' && '.join(conds)}) {{")
         out.extend(thens)
-        out.append('  }')
+        out.append("  }")
     return out
 
 
@@ -284,29 +316,40 @@ def main() -> int:
     sv = SchemaView(str(SCHEMA))
     L: list[str] = []
 
-    L.append("# ---------------------------------------------------------------------------")
+    L.append(
+        "# ---------------------------------------------------------------------------"
+    )
     L.append("# amadeus_validators.R — GENERATED, DO NOT EDIT")
     L.append("#")
     L.append("# Generated from src/amadeus_schema/schema/amadeus_schema.yaml by")
     L.append("# scripts/gen_r_validators.py. Regenerate with `just gen-r`.")
     L.append("#")
-    L.append("# Pure R + checkmate. No Python at runtime — LinkML is a build-time tool,")
-    L.append("# and this file is one of its outputs (assumption A-01: R and SQL first).")
+    L.append(
+        "# Pure R + checkmate. No Python at runtime — LinkML is a build-time tool,"
+    )
+    L.append(
+        "# and this file is one of its outputs (assumption A-01: R and SQL first)."
+    )
     L.append("#")
     L.append("# Each class gets:")
-    L.append("#   check_<Class>(x)   TRUE, or a character message (checkmate convention)")
+    L.append(
+        "#   check_<Class>(x)   TRUE, or a character message (checkmate convention)"
+    )
     L.append("#   assert_<Class>(x)  invisible(x), or stop() with the message")
     L.append("#")
     L.append("# `x` is a named list — one record. For a data.frame, apply row-wise.")
     L.append("#")
-    L.append("# NOT checked here: cross-object referential integrity. Those constraints")
+    L.append(
+        "# NOT checked here: cross-object referential integrity. Those constraints"
+    )
     L.append("# span a join and belong to the database or the query planner.")
-    L.append("# ---------------------------------------------------------------------------")
+    L.append(
+        "# ---------------------------------------------------------------------------"
+    )
     L.append("")
 
     classes = [
-        (n, c) for n, c in sv.all_classes().items()
-        if not c.abstract and n != CONTAINER
+        (n, c) for n, c in sv.all_classes().items() if not c.abstract and n != CONTAINER
     ]
 
     for name, cls in classes:
@@ -326,7 +369,7 @@ def main() -> int:
         L.append("")
         L.append(f"assert_{name} <- function(x) {{")
         L.append(f"  res <- check_{name}(x)")
-        L.append('  if (!isTRUE(res)) stop(res, call. = FALSE)')
+        L.append("  if (!isTRUE(res)) stop(res, call. = FALSE)")
         L.append("  invisible(x)")
         L.append("}")
         L.append("")
@@ -345,23 +388,33 @@ def main() -> int:
     L.append("  problems <- character(0)")
     L.append("  for (i in seq_len(nrow(df))) {")
     L.append("    rec <- as.list(df[i, , drop = FALSE])")
-    L.append("    rec <- rec[!vapply(rec, function(v) length(v) == 0 || is.na(v[1]), logical(1))]")
+    L.append(
+        "    rec <- rec[!vapply(rec, function(v) length(v) == 0 || is.na(v[1]), logical(1))]"
+    )
     L.append("    res <- f(rec)")
-    L.append('    if (!isTRUE(res)) problems <- c(problems, paste0("row ", i, ": ", res))')
+    L.append(
+        '    if (!isTRUE(res)) problems <- c(problems, paste0("row ", i, ": ", res))'
+    )
     L.append("  }")
     L.append("  problems")
     L.append("}")
     L.append("")
 
     if UNSUPPORTED:
-        print("\nERROR: this schema uses constructs the R generator cannot express.",
-              file=sys.stderr)
-        print("The R validators would silently not enforce them, so nothing was written.\n",
-              file=sys.stderr)
+        print(
+            "\nERROR: this schema uses constructs the R generator cannot express.",
+            file=sys.stderr,
+        )
+        print(
+            "The R validators would silently not enforce them, so nothing was written.\n",
+            file=sys.stderr,
+        )
         for u in sorted(set(UNSUPPORTED)):
             print(f"  - {u}", file=sys.stderr)
-        print("\nEither implement them in scripts/gen_r_validators.py or change the schema.",
-              file=sys.stderr)
+        print(
+            "\nEither implement them in scripts/gen_r_validators.py or change the schema.",
+            file=sys.stderr,
+        )
         return 1
 
     print("\n".join(L))

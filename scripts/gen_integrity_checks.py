@@ -50,7 +50,9 @@ SCHEMA = ROOT / "src" / "amadeus_schema" / "schema" / "amadeus_schema.yaml"
 GENERIC_DDL = ROOT / "build" / "amadeus_generic.sql"
 CONTAINER = "AmadeusDatabase"
 
-CREATE_RE = re.compile(r'CREATE TABLE "(?P<name>[^"]+)" \((?P<body>.*?)\n\);', re.DOTALL)
+CREATE_RE = re.compile(
+    r'CREATE TABLE "(?P<name>[^"]+)" \((?P<body>.*?)\n\);', re.DOTALL
+)
 FK_RE = re.compile(
     r'FOREIGN KEY\("?(?P<col>[^")]+)"?\) REFERENCES "(?P<target>[^"]+)" \("?(?P<tcol>[^")]+)"?\)'
 )
@@ -78,11 +80,16 @@ def build_checks(sv: SchemaView) -> list[Check]:
             col, target, tcol = fk.group("col"), fk.group("target"), fk.group("tcol")
             if target == CONTAINER:
                 continue
-            checks.append(Check(
-                "FK", table, f"{table}.{col} -> {target}.{tcol}",
-                f'SELECT COUNT(*) AS n FROM "{table}" c\n'
-                f'  LEFT JOIN "{target}" p ON c."{col}" = p."{tcol}"\n'
-                f'  WHERE c."{col}" IS NOT NULL AND p."{tcol}" IS NULL'))
+            checks.append(
+                Check(
+                    "FK",
+                    table,
+                    f"{table}.{col} -> {target}.{tcol}",
+                    f'SELECT COUNT(*) AS n FROM "{table}" c\n'
+                    f'  LEFT JOIN "{target}" p ON c."{col}" = p."{tcol}"\n'
+                    f'  WHERE c."{col}" IS NOT NULL AND p."{tcol}" IS NULL',
+                )
+            )
 
         # ── uniqueness ───────────────────────────────────────────────────
         for uq in UNIQUE_RE.finditer(body):
@@ -94,13 +101,19 @@ def build_checks(sv: SchemaView) -> list[Check]:
             # with `vertical_level` NULL on both rows of a genuine duplicate.
             # Casting to VARCHAR keeps one expression valid for every type.
             sel = ", ".join(
-                f"""COALESCE(CAST("{c}" AS VARCHAR), '\u2400NULL')""" for c in cols)
-            checks.append(Check(
-                "UNIQUE", table, f"{table} ({', '.join(cols)})",
-                f'SELECT COUNT(*) AS n FROM (\n'
-                f'  SELECT {sel} FROM "{table}"\n'
-                f'  GROUP BY {sel} HAVING COUNT(*) > 1\n'
-                f') d'))
+                f"""COALESCE(CAST("{c}" AS VARCHAR), '\u2400NULL')""" for c in cols
+            )
+            checks.append(
+                Check(
+                    "UNIQUE",
+                    table,
+                    f"{table} ({', '.join(cols)})",
+                    f"SELECT COUNT(*) AS n FROM (\n"
+                    f'  SELECT {sel} FROM "{table}"\n'
+                    f"  GROUP BY {sel} HAVING COUNT(*) > 1\n"
+                    f") d",
+                )
+            )
 
     # ── enum domains (the CHECK constraints SedonaDB will not take) ──────
     for cls_name, cls in sv.all_classes().items():
@@ -113,19 +126,28 @@ def build_checks(sv: SchemaView) -> list[Check]:
             if e is None:
                 continue
             col = slot.alias or slot.name
-            vals = ", ".join("'" + v.replace("'", "''") + "'"
-                             for v in e.permissible_values)
-            checks.append(Check(
-                "ENUM", cls_name, f"{cls_name}.{col} in {slot.range}",
-                f'SELECT COUNT(*) AS n FROM "{cls_name}"\n'
-                f'  WHERE "{col}" IS NOT NULL AND "{col}" NOT IN ({vals})'))
+            vals = ", ".join(
+                "'" + v.replace("'", "''") + "'" for v in e.permissible_values
+            )
+            checks.append(
+                Check(
+                    "ENUM",
+                    cls_name,
+                    f"{cls_name}.{col} in {slot.range}",
+                    f'SELECT COUNT(*) AS n FROM "{cls_name}"\n'
+                    f'  WHERE "{col}" IS NOT NULL AND "{col}" NOT IN ({vals})',
+                )
+            )
     return checks
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--run", choices=["duckdb", "sedonadb"],
-                    help="execute the checks against a loaded instance")
+    ap.add_argument(
+        "--run",
+        choices=["duckdb", "sedonadb"],
+        help="execute the checks against a loaded instance",
+    )
     args = ap.parse_args()
 
     sv = SchemaView(str(SCHEMA))
@@ -144,15 +166,25 @@ def main() -> int:
     # execute against a freshly loaded instance
     sys.path.insert(0, str(ROOT / "scripts"))
     import yaml
-    from load_and_query import (DuckEngine, SedonaEngine, build_rows, order_tables)
+    from load_and_query import DuckEngine, SedonaEngine, build_rows, order_tables
 
     doc = yaml.safe_load(
-        (ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml").read_text())
+        (
+            ROOT
+            / "tests"
+            / "data"
+            / "valid"
+            / "AmadeusDatabase-durham_heat_aq_slice.yaml"
+        ).read_text()
+    )
     tables, junctions = build_rows(sv, doc)
 
     ddl = ROOT / "build" / f"amadeus_{args.run}.sql"
-    eng = (DuckEngine("DuckDB", ddl) if args.run == "duckdb"
-           else SedonaEngine("SedonaDB", ddl))
+    eng = (
+        DuckEngine("DuckDB", ddl)
+        if args.run == "duckdb"
+        else SedonaEngine("SedonaDB", ddl)
+    )
     eng.connect()
     eng.create_schema()
     for tbl, rows in order_tables(tables, GENERIC_DDL):

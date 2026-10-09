@@ -34,9 +34,8 @@ DATA = ROOT / "tests" / "data"
 # Files under tests/data/problem/invalid/ are expected to validate despite being
 # semantically wrong, each for a stated reason.
 EXPECTED_TO_PASS = {
-    "AmadeusDatabase-20_unknown_extensivity_strict_request.yaml":
-        "cross-object constraint; LinkML rules cannot see across the "
-        "request -> canonical_variable join",
+    "AmadeusDatabase-20_unknown_extensivity_strict_request.yaml": "cross-object constraint; LinkML rules cannot see across the "
+    "request -> canonical_variable join",
 }
 
 
@@ -49,7 +48,8 @@ VALIDATE = Path(sys.executable).parent / "linkml-validate"
 def validate(path: Path) -> tuple[bool, str]:
     proc = subprocess.run(
         [str(VALIDATE), "-s", str(SCHEMA), "-C", TARGET, str(path)],
-        capture_output=True, text=True,
+        capture_output=True,
+        text=True,
     )
     out = (proc.stdout + proc.stderr).strip()
     if "No module named" in out or "Traceback" in out:

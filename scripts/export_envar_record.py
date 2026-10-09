@@ -36,7 +36,9 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-INSTANCE = ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml"
+INSTANCE = (
+    ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml"
+)
 OUT = ROOT / "build" / "envar_record_durham_tmmx.yaml"
 
 # Canonical EnVar schema. Checked out locally in Nico's workspace; the record
@@ -81,13 +83,16 @@ LINKAGE_STRATEGY = {
 }
 
 TEMPORAL_AGG = {
-    "maximum": "maximum", "minimum": "minimum", "mean": "mean", "sum": "sum",
-    "median": "mean",            # EnVar has no median; lossy, and worth saying
+    "maximum": "maximum",
+    "minimum": "minimum",
+    "mean": "mean",
+    "sum": "sum",
+    "median": "mean",  # EnVar has no median; lossy, and worth saying
     "percentile": "percentile",
     "instantaneous": "point_in_time",
     "area_weighted_mean": "mean",
     "population_weighted_mean": "mean",
-    "mode": "point_in_time",     # no categorical member in EnVar's enum
+    "mode": "point_in_time",  # no categorical member in EnVar's enum
     "class_proportion": "point_in_time",
     "count": "sum",
     "cumulative": "sum",
@@ -100,18 +105,25 @@ NATIVE_FORMAT = {
     # EnVar's SourceNativeFormatEnum has 8 members; AmadeusDB's has 19. The
     # ones with no home fall back to the closest family, and the loss is
     # recorded as a crosswalk note rather than hidden.
-    "netcdf4_cf": "netcdf4_cf", "netcdf3": "netcdf4_cf",
-    "hdf4": "hdf5", "hdf5": "hdf5",
-    "geotiff": "geotiff", "cloud_optimized_geotiff": "geotiff",
-    "ascii_grid": "geotiff", "bil": "geotiff",
-    "grib1": "grib1", "grib2": "grib2",
-    "shapefile": "csv_station_observations",   # no vector member at all
+    "netcdf4_cf": "netcdf4_cf",
+    "netcdf3": "netcdf4_cf",
+    "hdf4": "hdf5",
+    "hdf5": "hdf5",
+    "geotiff": "geotiff",
+    "cloud_optimized_geotiff": "geotiff",
+    "ascii_grid": "geotiff",
+    "bil": "geotiff",
+    "grib1": "grib1",
+    "grib2": "grib2",
+    "shapefile": "csv_station_observations",  # no vector member at all
     "geodatabase": "csv_station_observations",
     "kml": "csv_station_observations",
     "csv_station_observations": "csv_station_observations",
     "pipe_delimited_text": "csv_station_observations",
     "fixed_width_text": "csv_station_observations",
-    "zarr": "zarr", "parquet": "parquet", "geoparquet": "parquet",
+    "zarr": "zarr",
+    "parquet": "parquet",
+    "geoparquet": "parquet",
 }
 
 EXPOSURE_MODEL_TYPE = {
@@ -128,14 +140,21 @@ EXPOSURE_MODEL_TYPE = {
     "modis_mod11a1": "satellite_retrieval",
 }
 
-PHI_STATUS = {"no_phi": "no_phi", "aggregated_no_phi": "aggregated_no_phi",
-              "phi_present": "phi_present"}
+PHI_STATUS = {
+    "no_phi": "no_phi",
+    "aggregated_no_phi": "aggregated_no_phi",
+    "phi_present": "phi_present",
+}
 
 TEMPORAL_RESOLUTION = {
     # EnVar has no `timeless`, `subhourly` or `multi_year_epoch`.
-    "instantaneous": "instantaneous", "hourly": "hourly",
-    "three_hourly": "three_hourly", "daily": "daily", "monthly": "monthly",
-    "seasonal": "seasonal", "annual": "annual",
+    "instantaneous": "instantaneous",
+    "hourly": "hourly",
+    "three_hourly": "three_hourly",
+    "daily": "daily",
+    "monthly": "monthly",
+    "seasonal": "seasonal",
+    "annual": "annual",
     "subhourly": ("instantaneous", "EnVar has no subhourly member"),
     "multi_year_epoch": ("annual", "EnVar has no multi-year-epoch member"),
     "timeless": ("annual", "EnVar cannot express a timeless product"),
@@ -195,15 +214,17 @@ def build(doc: dict, L: Ledger) -> dict:
             "tool_version": r["tool_version"],
             "run_timestamp_utc": r["run_timestamp_utc"],
         }
-        for a, e in [("run_arguments", "run_arguments"),
-                     ("run_duration_seconds", "run_duration_seconds"),
-                     ("container_image_repository", "container_image_repository"),
-                     ("container_image_digest", "container_image_digest"),
-                     ("input_file_sha256", "input_file_sha256"),
-                     ("input_row_count", "input_row_count"),
-                     ("output_file_sha256", "output_file_sha256"),
-                     ("output_row_count", "output_row_count"),
-                     ("log_excerpt", "run_log_excerpt")]:
+        for a, e in [
+            ("run_arguments", "run_arguments"),
+            ("run_duration_seconds", "run_duration_seconds"),
+            ("container_image_repository", "container_image_repository"),
+            ("container_image_digest", "container_image_digest"),
+            ("input_file_sha256", "input_file_sha256"),
+            ("input_row_count", "input_row_count"),
+            ("output_file_sha256", "output_file_sha256"),
+            ("output_row_count", "output_row_count"),
+            ("log_excerpt", "run_log_excerpt"),
+        ]:
             if r.get(a) is not None:
                 out[e] = r[a]
         if r.get("function_name"):
@@ -214,14 +235,13 @@ def build(doc: dict, L: Ledger) -> dict:
         "schema_version": L.d("schema_version", "0.1"),
         "provenance_id": L.d("provenance_id", avl["id"]),
         "phi_status": L.d("phi_status", PHI_STATUS[locset["phi_status"]]),
-
         "subject": L.g(
-            "subject", "cohort:amadeus_readme_example",
+            "subject",
+            "cohort:amadeus_readme_example",
             "amadeus has no concept of a subject — it ends at the geojoin. "
             "Synthesised from the location-set name. EnVar's own docs flag this "
             "slot as an open question for exactly this reason.",
         ),
-
         "variable_identity": {
             "variable_name": L.d("variable_name", cvar["name"]),
             "variable_label": L.d("variable_label", cvar.get("label")),
@@ -229,13 +249,22 @@ def build(doc: dict, L: Ledger) -> dict:
             "cf_cell_methods": L.d("cf_cell_methods", pvar.get("cf_cell_methods")),
             "units_ucum": L.d("units_ucum", cvar["units_ucum"]),
             "units_display": L.d("units_display", cvar.get("units_display")),
-            "native_units_ucum": L.d("native_units_ucum", pvar.get("native_units_ucum")),
-            "native_value_offset": L.d("native_value_offset", pvar.get("native_value_offset")),
+            "native_units_ucum": L.d(
+                "native_units_ucum", pvar.get("native_units_ucum")
+            ),
+            "native_value_offset": L.d(
+                "native_value_offset", pvar.get("native_value_offset")
+            ),
             "unit_conversion_formula": L.d(
-                "unit_conversion_formula", pvar.get("unit_conversion_formula")),
+                "unit_conversion_formula", pvar.get("unit_conversion_formula")
+            ),
             "value_data_type": L.d("value_data_type", cvar["value_data_type"]),
-            "value_range_plausible_min": L.d("plausible_min", cvar.get("plausible_min")),
-            "value_range_plausible_max": L.d("plausible_max", cvar.get("plausible_max")),
+            "value_range_plausible_min": L.d(
+                "plausible_min", cvar.get("plausible_min")
+            ),
+            "value_range_plausible_max": L.d(
+                "plausible_max", cvar.get("plausible_max")
+            ),
             "concept_mappings": L.d("concept_mappings", cvar.get("concept_mappings")),
             "target_concept_vocabulary": L.x(
                 "target_concept_vocabulary",
@@ -245,47 +274,57 @@ def build(doc: dict, L: Ledger) -> dict:
             ),
             "target_concept_id": L.x(
                 "target_concept_id",
-                str((cvar.get("omop_concept_binding") or {}).get("omop_concept_id") or ""),
+                str(
+                    (cvar.get("omop_concept_binding") or {}).get("omop_concept_id")
+                    or ""
+                ),
                 "integer in AmadeusDB and HEW, string in EnVar",
             ),
             "concept_status": L.x(
-                "concept_status", "proposed",
+                "concept_status",
+                "proposed",
                 "AmadeusDB uses HEW's 5-value ConceptStatusEnum "
                 "(candidate_mapping); EnVar has only existing/proposed/gap, so "
                 "the standard-vs-nonstandard distinction is lost on the way out.",
             ),
         },
-
         "spatial_reference": {
             "native_spatial_resolution_m": L.d(
-                "native_spatial_resolution_m", prod.get("native_spatial_resolution_m")),
+                "native_spatial_resolution_m", prod.get("native_spatial_resolution_m")
+            ),
             "native_spatial_resolution_descriptor": L.d(
                 "native_spatial_resolution_descriptor",
-                prod.get("native_spatial_resolution_descriptor")),
+                prod.get("native_spatial_resolution_descriptor"),
+            ),
             "crs": L.d("crs", prod["crs"]),
             "spatial_extent_descriptor": L.d(
-                "spatial_extent_descriptor", prod.get("spatial_extent_descriptor")),
+                "spatial_extent_descriptor", prod.get("spatial_extent_descriptor")
+            ),
             "extraction_method": L.x(
                 "extraction_method",
                 EXTRACTION_METHOD[avl["extraction_method"]],
                 f"AmadeusDB `{avl['extraction_method']}` names the implementation "
                 "(exactextractr); EnVar names the mathematics.",
             ),
-            "extraction_buffer_m": L.d("extraction_buffer_m", avl.get("buffer_radius_m")),
+            "extraction_buffer_m": L.d(
+                "extraction_buffer_m", avl.get("buffer_radius_m")
+            ),
             "target_geography_type": L.x(
-                "target_geography_type", "point_residence",
+                "target_geography_type",
+                "point_residence",
                 "AmadeusDB says `buffered_point` — a geometry. EnVar's enum is "
                 "receptor-centric (`point_residence`) and has no buffered "
                 "member. amadeus does not know these are residences.",
             ),
             "spatial_aggregation_preserves": L.d(
                 "spatial_aggregation_preserves",
-                "mean_intensity" if cvar["extensivity"] == "intensive"
-                else "total_mass_conservation" if cvar["extensivity"] == "extensive"
+                "mean_intensity"
+                if cvar["extensivity"] == "intensive"
+                else "total_mass_conservation"
+                if cvar["extensivity"] == "extensive"
                 else "occurrence_intensity",
             ),
         },
-
         "temporal_reference": {
             "temporal_resolution": tres,
             "temporal_aggregation_method": L.x(
@@ -295,52 +334,58 @@ def build(doc: dict, L: Ledger) -> dict:
                 f"`{pvar['aggregation_method']}` maps down.",
             ),
             "temporal_aggregation_window_seconds": L.x(
-                "temporal_aggregation_window_seconds", 86400,
+                "temporal_aggregation_window_seconds",
+                86400,
                 "AmadeusDB and HEW carry an ISO 8601 duration "
                 f"(`{pvar.get('aggregation_window_iso')}`); EnVar carries integer "
                 "seconds. Mechanically convertible, two encodings of one fact.",
             ),
             "day_boundary_convention": L.d(
-                "day_boundary_convention", prod["day_boundary_convention"]),
+                "day_boundary_convention", prod["day_boundary_convention"]
+            ),
             "calendar": L.d("calendar", prod.get("calendar")),
             "temporal_coverage_start": L.d(
-                "temporal_coverage_start", prod.get("temporal_coverage_start")),
+                "temporal_coverage_start", prod.get("temporal_coverage_start")
+            ),
             "extraction_window_start": L.d(
-                "extraction_window_start", req["time_window_start"][:10]),
+                "extraction_window_start", req["time_window_start"][:10]
+            ),
             "extraction_window_end": L.d(
-                "extraction_window_end", req["time_window_end"][:10]),
+                "extraction_window_end", req["time_window_end"][:10]
+            ),
         },
-
         "exposure_model": {
             "exposure_model_type": L.g(
-                "exposure_model_type", EXPOSURE_MODEL_TYPE[prod["name"]],
+                "exposure_model_type",
+                EXPOSURE_MODEL_TYPE[prod["name"]],
                 "Not represented in AmadeusDB. A per-product human judgement "
                 "(Tier 3) — supplied here from an explicit table so it is "
                 "reviewable rather than guessed. Candidate new slot on "
                 "`Product`.",
             ),
             "exposure_model_inputs": L.g(
-                "exposure_model_inputs", None,
+                "exposure_model_inputs",
+                None,
                 "Which inputs the upstream model consumed. Upstream of "
                 "amadeus's derivation floor — it is a property of GridMET, not "
                 "of amadeus.",
             ),
         },
-
         "uncertainty": {
-            "missing_data_handling_method": L.d(
-                "missing_data_handling_method", "none"),
+            "missing_data_handling_method": L.d("missing_data_handling_method", "none"),
             "missing_value_sentinel": L.d(
-                "missing_value_sentinel", pvar.get("missing_value_sentinel")),
+                "missing_value_sentinel", pvar.get("missing_value_sentinel")
+            ),
             "quality_flag_vocabulary": L.d(
-                "quality_flag_vocabulary", pvar.get("quality_flag_vocabulary")),
+                "quality_flag_vocabulary", pvar.get("quality_flag_vocabulary")
+            ),
             "per_value_uncertainty_type_missing_reason": L.g(
-                "per_value_uncertainty_type", "not_provided_by_source",
+                "per_value_uncertainty_type",
+                "not_provided_by_source",
                 "GridMET publishes no per-value uncertainty. Correctly recorded "
                 "as a typed missing-reason rather than left blank.",
             ),
         },
-
         "data_layout": {
             "table_orientation": L.d("table_orientation", req["output_orientation"]),
             "value_column": L.d("value_column", "value"),
@@ -352,11 +397,12 @@ def build(doc: dict, L: Ledger) -> dict:
             "quality_flag_column": L.d("quality_flag_column", "quality_flag"),
             "null_semantics_column": L.d("null_semantics_column", "null_semantics"),
         },
-
         "source_dataset": {
             "source_dataset_name": L.d("source_dataset_name", prod.get("label")),
             "source_dataset_short_code": L.d("source_dataset_short_code", prod["name"]),
-            "source_dataset_version": L.d("source_dataset_version", prod.get("product_version")),
+            "source_dataset_version": L.d(
+                "source_dataset_version", prod.get("product_version")
+            ),
             "source_dataset_temporal_coverage": L.x(
                 "source_dataset_temporal_coverage",
                 f"{prod.get('temporal_coverage_start')}/..",
@@ -370,20 +416,24 @@ def build(doc: dict, L: Ledger) -> dict:
                 "that EnVar has nowhere to put.",
             ),
             "source_producer_institution": L.d(
-                "source_producer_institution", src.get("producer_institution")),
+                "source_producer_institution", src.get("producer_institution")
+            ),
             "source_citation_apa": L.d("source_citation_apa", src.get("citation_apa")),
             "source_license_spdx": L.d(
-                "source_license_spdx", prod.get("license_spdx") or src.get("license_spdx")),
+                "source_license_spdx",
+                prod.get("license_spdx") or src.get("license_spdx"),
+            ),
             "source_access_url": L.d("source_access_url", asset.get("url")),
             "source_native_format": L.x(
-                "source_native_format", NATIVE_FORMAT[prod["native_format"]],
+                "source_native_format",
+                NATIVE_FORMAT[prod["native_format"]],
                 f"`{prod['native_format']}` -> EnVar's 8-member enum; vector "
                 "formats have no home there at all.",
             ),
             "source_homogenisation_status": L.d(
-                "source_homogenisation_status", prod.get("homogenisation_status")),
+                "source_homogenisation_status", prod.get("homogenisation_status")
+            ),
         },
-
         "linkage_method": {
             "linkage_strategy": L.x(
                 "linkage_strategy",
@@ -392,47 +442,54 @@ def build(doc: dict, L: Ledger) -> dict:
                 "target is a residence — which amadeus never claims.",
             ),
             "linkage_buffer_radius_m": L.d(
-                "linkage_buffer_radius_m", avl.get("buffer_radius_m")),
+                "linkage_buffer_radius_m", avl.get("buffer_radius_m")
+            ),
             "linkage_buffer_aggregation_method": L.x(
-                "linkage_buffer_aggregation_method", "area_weighted_mean",
+                "linkage_buffer_aggregation_method",
+                "area_weighted_mean",
                 "AmadeusDB's AggregationMethodEnum has 16 members; EnVar's "
                 "BufferAggregationEnum has 4.",
             ),
             "linkage_working_crs": L.d("linkage_working_crs", prod["crs"]),
             "address_period_alignment": L.g(
-                "address_period_alignment", "single_static_address",
+                "address_period_alignment",
+                "single_static_address",
                 "AmadeusDB models a per-location validity interval "
                 "(`valid_from`/`valid_to`) but the sample location declares "
                 "none, so this is assumed rather than derived.",
             ),
             "clinical_date_assignment_convention": L.g(
-                "clinical_date_assignment_convention", "date_only_no_time",
+                "clinical_date_assignment_convention",
+                "date_only_no_time",
                 "A property of the health-data layer, which amadeus does not "
                 "touch. Correctly out of scope; EnVar requires it because the "
                 "record spans the boundary that amadeus deliberately stops at.",
             ),
             "lag_alignment_applied": L.d(
                 "lag_alignment_applied",
-                "lag_n_days" if avl.get("lag_days_applied") else "none"),
+                "lag_n_days" if avl.get("lag_days_applied") else "none",
+            ),
             "privacy_transformation": L.d("privacy_transformation", "none"),
         },
-
         "tool_run": L.d("tool_run", envar_run(run)),
         "provenance_chain": {
             "provenance_chain_steps": L.d(
                 "provenance_chain_steps",
-                [envar_run(runs[s]) for s in chain["chain_steps"] if s in runs]),
+                [envar_run(runs[s]) for s in chain["chain_steps"] if s in runs],
+            ),
             "provenance_chain_terminus_type": L.d(
-                "provenance_chain_terminus_type", chain["terminus_type"]),
+                "provenance_chain_terminus_type", chain["terminus_type"]
+            ),
             "chain_compatibility_assertions": L.d(
-                "chain_compatibility_assertions",
-                chain.get("compatibility_assertions")),
+                "chain_compatibility_assertions", chain.get("compatibility_assertions")
+            ),
         },
     }
 
     if grid:
         record["spatial_reference"]["spatial_extent_bbox"] = L.d(
-            "spatial_extent_bbox", [-124.8, 25.0, -67.0, 49.4])
+            "spatial_extent_bbox", [-124.8, 25.0, -67.0, 49.4]
+        )
 
     return prune(record)
 
@@ -449,8 +506,11 @@ def prune(x):
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--validate", action="store_true",
-                    help="validate against the canonical EnVar schema")
+    ap.add_argument(
+        "--validate",
+        action="store_true",
+        help="validate against the canonical EnVar schema",
+    )
     args = ap.parse_args()
 
     doc = yaml.safe_load(INSTANCE.read_text())
@@ -497,9 +557,16 @@ def main() -> int:
             print(f"  skipped — no EnVar checkout at {ENVAR_SCHEMA}")
             return 0
         proc = subprocess.run(
-            [str(Path(sys.executable).parent / "linkml-validate"),
-             "-s", str(ENVAR_SCHEMA), "-C", "EnvironmentalExposureRecord", str(OUT)],
-            capture_output=True, text=True,
+            [
+                str(Path(sys.executable).parent / "linkml-validate"),
+                "-s",
+                str(ENVAR_SCHEMA),
+                "-C",
+                "EnvironmentalExposureRecord",
+                str(OUT),
+            ],
+            capture_output=True,
+            text=True,
         )
         out = (proc.stdout + proc.stderr).strip()
         print("  " + (out.replace("\n", "\n  ") if out else "(no output)"))
@@ -512,6 +579,7 @@ def main() -> int:
 
 def wrap(text: str, width: int) -> list[str]:
     import textwrap
+
     return textwrap.wrap(" ".join(text.split()), width)
 
 
