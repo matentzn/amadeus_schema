@@ -45,11 +45,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# The amadeus R package is a separate checkout (~/ws/software/amadeus by
-# default, NOT a sibling of this repo). Stage 4 reads its R/ sources; override
-# with AMADEUS_REPO, and see the skip in stage_code() when neither resolves.
-AMADEUS_REPO = Path(
-    os.environ.get("AMADEUS_REPO") or Path.home() / "ws" / "software" / "amadeus"
+# The amadeus R package is a separate checkout, located by the AMADEUS_REPO
+# environment variable (no default: where it lives is machine-specific). Stage 4
+# reads its R/ sources; see the skip in stage_code() when it is unset.
+AMADEUS_REPO = (
+    Path(os.environ["AMADEUS_REPO"]) if "AMADEUS_REPO" in os.environ else None
 )
 SCHEMA = ROOT / "src" / "amadeus_schema" / "schema" / "amadeus_schema.yaml"
 BASE = ROOT / "tests" / "data" / "valid" / "AmadeusDatabase-durham_heat_aq_slice.yaml"
@@ -248,16 +248,16 @@ def stage_code(incoming: dict) -> list[str]:
     Cheap, mechanical, and it turns "we support 24 sources" from a claim in a
     README into a test.
     """
-    r_dir = AMADEUS_REPO / "R"
-    if not r_dir.is_dir():
-        print(f"  SKIPPED — no amadeus checkout at {AMADEUS_REPO}")
+    if AMADEUS_REPO is None or not (AMADEUS_REPO / "R").is_dir():
+        where = f"at {AMADEUS_REPO}" if AMADEUS_REPO else "(AMADEUS_REPO is unset)"
+        print(f"  SKIPPED — no amadeus checkout {where}")
         print("  Set AMADEUS_REPO to the amadeus package root to enable this stage.")
         print("  (Without the R sources every function reads NOT IMPLEMENTED, which")
         print("  is indistinguishable from a real gap — hence the skip.)")
         return []
 
     r_src = ""
-    for f in sorted(r_dir.glob("*.R")):
+    for f in sorted((AMADEUS_REPO / "R").glob("*.R")):
         r_src += f.read_text(errors="replace")
 
     gaps = []
