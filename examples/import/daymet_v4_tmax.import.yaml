@@ -1,0 +1,177 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# IMPORT MANIFEST — ORNL Daymet V4 daily maximum temperature
+#
+# This is the whole contributor-facing artifact for adding an external dataset
+# to AmadeusDB. One file. It is an ordinary `AmadeusDatabase` document that
+# happens to contain only catalog rows, which the container class explicitly
+# permits — so it is validated by exactly the same command as everything else:
+#
+#     linkml-validate -s amadeus.yaml -C AmadeusDatabase daymet_v4_tmax.import.yaml
+#
+# Why Daymet is the right example
+# -------------------------------
+# It delivers a variable amadeus already has from two other sources
+# (`air_temperature_daily_maximum` from GridMET and PRISM), so it exercises the
+# only interesting question in an import: *is this the same variable?*
+#
+# The answer is "yes, and here is precisely how it differs":
+#
+#   * `calendar: daymet_365` — Daymet drops December 31 in leap years. No other
+#     amadeus product does this. A naive date join against GridMET silently
+#     misaligns by one day for the rest of every leap year.
+#   * `day_boundary_convention: local_midnight` — GridMET's day ends at noon GMT.
+#     Same variable, same place, same printed date, different 24 hours.
+#
+# Together these two fields are the documented source of the ~1.26 °C
+# Daymet-versus-GridMET discrepancy that motivated this whole metadata layer.
+# Before the import, that discrepancy is a mystery someone rediscovers. After
+# it, it is two enum values and a query — see scripts/import_external.py.
+#
+# What the contributor actually has to supply
+# -------------------------------------------
+#  REQUIRED, and only the contributor can know it:
+#     source identity, licence, citation; product version, format, CRS, grid,
+#     temporal resolution, DAY BOUNDARY, CALENDAR; the native variable name,
+#     its native units and any scale/offset.
+#  REQUIRED but reusable — do NOT invent one if it exists:
+#     `canonical_variable`. Daymet tmax points at the SAME canonical variable
+#     GridMET and PRISM already use. Minting a third one is the failure mode
+#     this whole design exists to prevent, and a duplicate is detectable
+#     (same `standard_name` + same `units_ucum` + same aggregation).
+#  NOT the contributor's problem:
+#     asset hashes, row counts, provenance — the download and process runs
+#     generate those. The manifest describes the *product*, not a run.
+# ─────────────────────────────────────────────────────────────────────────────
+schema_version: "0.1.0"
+
+data_sources:
+- id: amadeus:source/ornl_daac_daymet
+  name: ornl_daac_daymet
+  label: ORNL DAAC Daymet
+  description: >-
+    Gridded estimates of daily weather and climatology for North America,
+    produced at Oak Ridge National Laboratory's Distributed Active Archive
+    Center for Biogeochemical Dynamics.
+  producer_institution: Oak Ridge National Laboratory DAAC
+  homepage: https://daymet.ornl.gov/
+  # THREDDS means subsetting can be pushed to the server — which is what makes
+  # `server_side_subset` an achievable materialization mode for this product
+  # rather than an aspiration.
+  access_protocol: thredds
+  requires_authentication: false
+  rate_limit_requests_per_second: 2.0
+  license_spdx: CC0-1.0
+  citation_apa: >-
+    Thornton, M. M., Shrestha, R., Wei, Y., Thornton, P. E., & Kao, S.-C.
+    (2022). Daymet: Daily Surface Weather Data on a 1-km Grid for North
+    America, Version 4 R1. ORNL DAAC, Oak Ridge, Tennessee, USA.
+  doi: 10.3334/ORNLDAAC/2129
+  # No amadeus functions exist yet. Recording the intended suffix is how the
+  # catalog-versus-code consistency test knows this is a known gap rather than
+  # a broken entry.
+  amadeus_function_suffix: _daymet
+
+grid_definitions:
+- id: amadeus:grid/daymet_1km_lcc
+  name: daymet_1km_lcc
+  label: Daymet 1 km Lambert Conformal Conic North America grid
+  # Daymet is NOT on a lat/lon grid. Recorded as a full PROJ string because it
+  # has no EPSG authority code — which is exactly why `proj_string` exists.
+  crs: EPSG:9802
+  srid: 9802
+  grid_mapping_name: lambert_conformal_conic
+  proj_string: >-
+    +proj=lcc +lat_0=42.5 +lon_0=-100 +lat_1=25 +lat_2=60 +x_0=0 +y_0=0
+    +ellps=WGS84 +units=m +no_defs
+  resolution_x: 1000.0
+  resolution_y: 1000.0
+  resolution_unit: m
+  n_columns: 7814
+  n_rows: 8075
+  origin_x: -4560750.0
+  origin_y: 4984500.0
+
+products:
+- id: amadeus:product/daymet_v4_daily
+  name: daymet_v4_daily
+  label: Daymet V4 R1 daily surface weather
+  description: >-
+    1 km gridded daily surface weather for North America, 1980 to present.
+  data_source: amadeus:source/ornl_daac_daymet
+  product_version: 4 R1
+  data_genre: [meteorology, climate]
+  native_format: netcdf4_cf
+  spatial_support_type: model_grid_cell
+  grid_definition: amadeus:grid/daymet_1km_lcc
+  crs: EPSG:9802
+  srid: 9802
+  spatial_extent_descriptor: North America, Hawaii and Puerto Rico
+  native_spatial_resolution_m: 1000.0
+  native_spatial_resolution_descriptor: 1 km
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  # ── The two fields that make this import worth doing ────────────────────
+  day_boundary_convention: local_midnight
+  calendar: daymet_365
+  # ────────────────────────────────────────────────────────────────────────
+  temporal_coverage_start: "1980-01-01"
+  update_cadence_iso: P1Y
+  typical_latency_iso: P180D
+  default_data_status: final
+  homogenisation_status: not_homogenised
+  doi: 10.3334/ORNLDAAC/2129
+  license_spdx: CC0-1.0
+  access_url: https://thredds.daac.ornl.gov/thredds/ncss/ornldaac/2129/
+  amadeus_dataset_name: daymet
+  amadeus_process_covariate: daymet
+  amadeus_calculate_covariate: daymet
+  supports_server_side_subset: true
+
+product_variables:
+# NOTE: no new CanonicalVariable. This attaches to the one GridMET and PRISM
+# already use — that is the entire point of the split, and the reason a third
+# source can be added without touching the semantics of the first two.
+- id: amadeus:pvar/daymet.tmax
+  product: amadeus:product/daymet_v4_daily
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  native_name: tmax
+  label: Daymet daily maximum 2 m air temperature
+  native_units_ucum: Cel
+  cf_standard_name: air_temperature
+  cf_cell_methods: "time: maximum"
+  aggregation_method: maximum
+  aggregation_window_iso: P1D
+  temporal_alignment: interval
+  missing_value_sentinel: "-9999"
+  layer_name_template: "{native_name}_{YYYYMMDD}"
+  amadeus_variable_code: tmax
+  harmonization_note: >-
+    Comparable to gridmet.tmmx and prism.tmax, interchangeable with neither.
+    Two independent reasons: (1) the day boundary is local midnight, where
+    GridMET's ends at 12:00 GMT, so the two "daily maxima" summarise different
+    24-hour windows; (2) the calendar is daymet_365, which omits December 31 in
+    leap years, so a date-keyed join to any Gregorian product drifts by one day
+    from March onwards in a leap year. Units agree with PRISM and differ from
+    GridMET. Native resolution is 1 km against GridMET's 4 km, so the cell a
+    point falls in is not the same cell.
+  metadata_gaps:
+  - not_provided_by_source
+
+tool_runs:
+- id: amadeus:run/import-daymet-20260918
+  run_role: import
+  tool_name: amadeus-schema
+  tool_version: 0.1.0
+  function_name: import_external_dataset
+  run_arguments: '{"manifest":"examples/import/daymet_v4_tmax.import.yaml","validate":true}'
+  run_timestamp_utc: "2026-09-18T11:20:00Z"
+  run_environment: '{"python":"3.11","linkml":"1.9.x","engine":"duckdb 1.5.5"}'
+  status: succeeded
+  output_row_count: 5
+  materialization_mode: direct_remote_scan
+  bytes_transferred: 0
+  # An import is downstream of nothing inside amadeus: the dataset was curated
+  # elsewhere. `externally_imported_dataset` on the chain terminus is how that
+  # is stated honestly instead of implying amadeus derived it.
+  upstream_runs: []

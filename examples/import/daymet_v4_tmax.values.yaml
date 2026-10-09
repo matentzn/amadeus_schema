@@ -1,0 +1,116 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# INGEST BUNDLE — Daymet V4 tmax values for the Durham slice
+#
+# Separate from the import manifest on purpose. The manifest describes the
+# PRODUCT and is written once by a contributor; this bundle describes one RUN's
+# output and is generated every time data is ingested. Conflating them is how
+# catalogs end up with per-run rows in them.
+#
+# Two cells, one day, chosen so the Daymet-versus-GridMET comparison in
+# scripts/import_external.py has something to compare. Values are illustrative,
+# but the metadata around them is not: note `valid_time_start` at 05:00Z, which
+# is local midnight in Durham (EDT, UTC-4... and EST, UTC-5, in winter — the
+# reason `local_midnight` cannot be resolved to a fixed offset at the product
+# level and must be applied per date).
+# ─────────────────────────────────────────────────────────────────────────────
+schema_version: "0.1.0"
+
+tool_runs:
+- id: amadeus:run/dl-daymet-20260918
+  run_role: download
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  function_name: download_daymet
+  run_arguments: '{"variables":["tmax"],"years":[2026],"region":"na","bbox":[-79.1,35.8,-78.6,36.1],"subset":"server_side"}'
+  run_timestamp_utc: "2026-09-18T11:24:03Z"
+  run_duration_seconds: 6.2
+  run_environment: '{"R":"4.6.0","engine":"none"}'
+  status: succeeded
+  # THREDDS NCSS returned exactly the requested box: 190 kB instead of the
+  # ~1.4 GB continental annual file. This is the "subset early" principle
+  # producing a measurable number.
+  materialization_mode: server_side_subset
+  bytes_transferred: 194560
+  request_count: 1
+
+- id: amadeus:run/proc-daymet-20260918
+  run_role: process
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  function_name: process_daymet
+  run_arguments: '{"variables":"tmax","date":["2026-07-14","2026-07-14"]}'
+  run_timestamp_utc: "2026-09-18T11:24:19Z"
+  output_row_count: 2
+  upstream_runs:
+  - amadeus:run/dl-daymet-20260918
+  status: succeeded
+  run_environment: '{"R":"4.6.0","terra":"1.8-30","engine":"duckdb 1.5.5"}'
+
+assets:
+- id: amadeus:asset/daymet-tmax-2026-durham
+  product: amadeus:product/daymet_v4_daily
+  url: https://thredds.daac.ornl.gov/thredds/ncss/ornldaac/2129/daymet_v4_daily_na_tmax_2026.nc?var=tmax&north=36.1&west=-79.1&east=-78.6&south=35.8&time_start=2026-07-14&time_end=2026-07-14
+  local_path: /data/daymet/daymet_v4_tmax_2026_durham.nc
+  media_type: application/x-netcdf
+  native_format: netcdf4_cf
+  size_bytes: 194560
+  sha256: 4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce
+  download_timestamp_utc: "2026-09-18T11:24:03Z"
+  valid_time_start: "2026-07-14T05:00:00Z"
+  valid_time_end: "2026-07-15T05:00:00Z"
+  bbox_wkt: "POLYGON ((-79.1 35.8, -78.6 35.8, -78.6 36.1, -79.1 36.1, -79.1 35.8))"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/daymet.tmax
+  materialization_mode: server_side_subset
+  value_state: materialized
+  produced_by_run: amadeus:run/proc-daymet-20260918
+
+grid_cell_values:
+# valid_time_start 05:00Z = local midnight in Durham on 2026-07-14 (EDT).
+# GridMET's equivalent row starts 2026-07-13T12:00:00Z. The two rows carry the
+# same printed date and summarise windows that overlap by only 7 hours.
+- id: amadeus:gcv/daymet-tmax-3812-4517-20260714
+  product_variable: amadeus:pvar/daymet.tmax
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/daymet-tmax-2026-durham
+  processing_run: amadeus:run/proc-daymet-20260918
+  value: 33.59
+  value_unit_ucum: Cel
+  native_value: 33.59
+  native_value_unit_ucum: Cel
+  valid_time_start: "2026-07-14T05:00:00Z"
+  valid_time_end: "2026-07-15T05:00:00Z"
+  retrieval_time_utc: "2026-09-18T11:24:03Z"
+  data_status: final
+  source_system: daymet
+  null_semantics: present
+  grid_definition: amadeus:grid/daymet_1km_lcc
+  cell_x: 3812
+  cell_y: 4517
+  # Reprojected to EPSG:4326 for storage so it joins to everything else.
+  # `srid` says which CRS the stored WKT is in; the grid's own CRS stays on
+  # GridDefinition, so the native projection is not lost.
+  cell_centroid_wkt: "POINT (-78.8281 35.9503)"
+  srid: 4326
+
+- id: amadeus:gcv/daymet-tmax-3813-4517-20260714
+  product_variable: amadeus:pvar/daymet.tmax
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/daymet-tmax-2026-durham
+  processing_run: amadeus:run/proc-daymet-20260918
+  value: 33.71
+  value_unit_ucum: Cel
+  native_value: 33.71
+  native_value_unit_ucum: Cel
+  valid_time_start: "2026-07-14T05:00:00Z"
+  valid_time_end: "2026-07-15T05:00:00Z"
+  retrieval_time_utc: "2026-09-18T11:24:03Z"
+  data_status: final
+  source_system: daymet
+  null_semantics: present
+  grid_definition: amadeus:grid/daymet_1km_lcc
+  cell_x: 3813
+  cell_y: 4517
+  cell_centroid_wkt: "POINT (-78.8191 35.9506)"
+  srid: 4326
