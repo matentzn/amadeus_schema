@@ -117,14 +117,14 @@ Every script is runnable directly and is the real implementation —
 `uv run python scripts/load_and_query.py --engine duckdb` — the pytest file is a
 thin wrapper around them.
 
-**`just lint` currently exits 1** on 159 linkml-lint *warnings* (zero errors),
-mostly missing slot/enum descriptions. Not a gate; see
-`issues/issue_lint_warnings_gate.md`.
+**`just lint` gates on errors only** (`--ignore-warnings`). It still prints 159
+linkml-lint warnings, 157 of them missing slot/enum descriptions.
 
-**CI runs `just test`, not `just check`** (`.github/workflows/main.yaml`, Python
-3.10–3.14). `just test` is the template's own recipe (`_test-schema`,
-`_test-python`, `_test-examples` via `linkml-run-examples`); `just check` is the
-richer project gate. Run `just check` locally before declaring work done.
+**CI runs `just test` and a lint job, not `just check`** (`.github/workflows/main.yaml`).
+`just test` (Python 3.10–3.14) is the template's own recipe (`_test-schema`,
+`_test-python`, `_test-examples` via `linkml-run-examples`); the lint job runs
+`just lint` plus `pre-commit run --all-files`. `just check` is the richer
+project gate. Run `just check` locally before declaring work done.
 
 ## Architecture
 
