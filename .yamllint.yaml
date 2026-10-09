@@ -11,6 +11,21 @@ ignore:
 
 rules:
   document-start: disable  # Don't check if document has a start marker (---).
+  # LinkML house style, as emitted by gen-project and used across the LinkML
+  # ecosystem: top-level sequences sit unindented under their key (`imports:`
+  # then `- linkml:types` at column 0) and slot/enum bodies nest 4 deep where
+  # yamllint's default expects 6. Reindenting 3,400 lines to satisfy the
+  # default would fight the generator and break on every regeneration, so the
+  # rule is relaxed instead of the schema being reshaped. Genuine breakage
+  # (syntax errors, bad colons/braces) is still caught.
+  indentation:
+    spaces: consistent
+    indent-sequences: whatever
+    check-multi-line-strings: false
+  # The `#────` section dividers in the schema modules.
+  comments:
+    require-starting-space: false
+    min-spaces-from-content: 1
   line-length:
     max: 88
     level: warning
