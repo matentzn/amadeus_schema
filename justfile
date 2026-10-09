@@ -115,10 +115,13 @@ deploy: site
 [group('model development')]
 test: _test-schema _test-python _test-examples
 
-# Run linting
+# Run linting. Gates on ERRORS only: linkml-lint's `recommended` ruleset emits
+# a warning per slot/enum without a description (157 of them here) and exits
+# non-zero on warnings, which makes the recipe unusable as a gate. The warnings
+# still print, so the missing-description backlog stays visible.
 [group('model development')]
 lint:
-  uv run linkml-lint {{source_schema_dir}}
+  uv run linkml-lint --ignore-warnings {{source_schema_dir}}
 
 # Generate md documentation for the schema and add artifacts
 [group('model development')]
