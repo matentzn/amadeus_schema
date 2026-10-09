@@ -16,12 +16,43 @@ from linkml_runtime import SchemaView
 
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "src" / "amadeus_schema" / "schema" / "amadeus_schema.yaml"
+BUILD = ROOT / "build"
+BUILD.mkdir(exist_ok=True)
 PY = sys.executable
 
 
 @pytest.fixture(scope="session")
 def sv() -> SchemaView:
     return SchemaView(str(SCHEMA))
+
+
+@pytest.fixture(scope="session", autouse=True)
+def generated_ddl() -> None:
+    """Generate the SQL the engine tests load, before any of them run.
+
+    Four tests read `build/*.sql`. Those files are produced by `just gen-sql`
+    and `build/` is gitignored, so on a clean checkout they do not exist — which
+    is exactly what CI is. `just check` happens to generate them first and
+    `just test` does not, so the suite passed locally off leftover state and
+    failed the moment it ran anywhere clean.
+
+    Generating them here makes `pytest` self-sufficient: the suite is correct
+    run on its own, by `just test`, or by CI, with no ordering assumption.
+    """
+    subprocess.run(
+        [PY, "-m", "linkml.generators.sqltablegen",
+         "--autogenerate_index", "false", str(SCHEMA)],
+        stdout=(BUILD / "amadeus_generic.sql").open("w"),
+        check=True,
+        cwd=ROOT,
+    )
+    for dialect in ("duckdb", "sedonadb"):
+        subprocess.run(
+            [PY, str(ROOT / "scripts" / "gen_backend_ddl.py"), "--dialect", dialect],
+            stdout=(BUILD / f"amadeus_{dialect}.sql").open("w"),
+            check=True,
+            cwd=ROOT,
+        )
 
 
 def run(script: str, *args: str) -> subprocess.CompletedProcess:
