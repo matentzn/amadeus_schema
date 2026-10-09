@@ -1,0 +1,15 @@
+# RULE: a buffer without an aggregation method is ambiguous.
+# amadeus's current silent default (fun = "mean") is wrong for every
+# extensive variable.
+schema_version: "0.1.0"
+location_sets:
+- {id: "x:locset/s", name: s, locs_id_field: site_id, crs: "EPSG:4326", phi_status: no_phi}
+extraction_requests:
+- id: "x:req/1"
+  location_set: "x:locset/s"
+  time_window_start: "2026-07-14T00:00:00Z"
+  time_window_end: "2026-07-16T00:00:00Z"
+  extraction_method: exact_extract
+  buffer_radius_m: 10000.0       # buffered...
+  # aggregation_method: ABSENT  <-- violates the rule
+  request_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

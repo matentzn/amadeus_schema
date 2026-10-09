@@ -1,0 +1,1420 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# AmadeusDB sample instance — "Durham heat + air quality slice"
+#
+# A deliberately small but complete slice designed to exercise every part of the
+# model at once, using real amadeus sources and the location from the package
+# README's own worked example (Durham, NC; -78.8277, 35.95013).
+#
+# What it is built to demonstrate:
+#
+#  1. **Cross-source variable identity.** `gridmet.tmmx` and `prism.tmax` are two
+#     ProductVariables over ONE CanonicalVariable. They disagree on units (K vs
+#     °C), resolution (4 km vs 800 m) and day boundary (noon-GMT vs local
+#     midnight) — every one of those differences is a slot, and the last one is
+#     the Daymet/GridMET 1.26 °C discrepancy in miniature.
+#  2. **All four value shapes.** StationObservation (AQS), GridCellValue
+#     (GridMET), AreaValue (HMS smoke plume), HexCellValue (hexified GridMET),
+#     plus VectorFeature (gROADS).
+#  3. **The AQS/AirNow rule.** The same monitor, parameter and hour appears
+#     twice: an AirNow `preliminary` row and an AQS `quality_controlled` row.
+#     Neither overwrote the other. The AirNow row is marked `superseded` and
+#     points at its replacement.
+#  4. **Extensivity.** An intensive variable (temperature, mean), an extensive
+#     one (population count, sum) and a categorical one (land cover, mode).
+#  5. **Provenance to the bytes.** Every value resolves through
+#     `processing_run` to a ToolRun and through `asset` to a URL and a hash.
+#  6. **The query-first contract.** One ExtractionRequest with its generated
+#     SQL, and the AmbientValueAtLocation rows it produced.
+#  7. **Registered-but-not-ingested.** The MODIS asset is registered for
+#     discovery with `values_materialized: false` — the asset-centric path the
+#     modernization plan asks for.
+# ─────────────────────────────────────────────────────────────────────────────
+schema_version: "0.1.0"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — data sources
+# ═════════════════════════════════════════════════════════════════════════════
+data_sources:
+- id: amadeus:source/epa_aqs
+  name: epa_aqs
+  label: US EPA Air Quality System
+  description: >-
+    EPA's quality-controlled ambient air monitoring repository. Pre-generated
+    annual and daily files plus a query API.
+  producer_institution: US Environmental Protection Agency
+  homepage: https://aqs.epa.gov/aqsweb/airdata/download_files.html
+  access_protocol: rest_api
+  requires_authentication: true
+  auth_mechanism: EPA AQS registered email + API key
+  rate_limit_requests_per_second: 2.0
+  license_spdx: NOASSERTION
+  citation_apa: >-
+    US Environmental Protection Agency. (2026). Air Quality System (AQS) API.
+  amadeus_function_suffix: _aqs
+
+- id: amadeus:source/airnow
+  name: airnow
+  label: EPA AirNow
+  description: >-
+    Near-real-time air quality reporting. Preliminary by construction — values
+    are published before quality assurance and are revised.
+  producer_institution: US Environmental Protection Agency
+  homepage: https://docs.airnowapi.org/
+  access_protocol: rest_api
+  requires_authentication: true
+  auth_mechanism: AirNow API key
+  rate_limit_requests_per_second: 5.0
+  license_spdx: NOASSERTION
+  amadeus_function_suffix: _airnow
+
+- id: amadeus:source/climatology_lab
+  name: climatology_lab
+  label: Climatology Lab (University of California, Merced)
+  producer_institution: Climatology Lab, University of California Merced
+  homepage: https://www.climatologylab.org/
+  access_protocol: https_bulk_file
+  requires_authentication: false
+  license_spdx: CC0-1.0
+  citation_apa: >-
+    Abatzoglou, J. T. (2013). Development of gridded surface meteorological data
+    for ecological applications and modelling. International Journal of
+    Climatology, 33(1), 121-131.
+  amadeus_function_suffix: _gridmet
+
+- id: amadeus:source/prism
+  name: prism
+  label: PRISM Climate Group
+  producer_institution: PRISM Climate Group, Oregon State University
+  homepage: https://prism.oregonstate.edu/
+  access_protocol: https_bulk_file
+  requires_authentication: false
+  license_spdx: NOASSERTION
+  amadeus_function_suffix: _prism
+
+- id: amadeus:source/noaa_hms
+  name: noaa_hms
+  label: NOAA Hazard Mapping System Fire and Smoke Product
+  producer_institution: NOAA Office of Satellite and Product Operations
+  homepage: https://www.ospo.noaa.gov/products/land/hms.html
+  access_protocol: https_bulk_file
+  requires_authentication: false
+  license_spdx: NOASSERTION
+  amadeus_function_suffix: _hms
+
+- id: amadeus:source/nasa_sedac
+  name: nasa_sedac
+  label: NASA Socioeconomic Data and Applications Center
+  producer_institution: NASA SEDAC / CIESIN, Columbia University
+  homepage: https://earthdata.nasa.gov/
+  access_protocol: https_bulk_file
+  requires_authentication: true
+  auth_mechanism: NASA Earthdata bearer token
+  license_spdx: CC-BY-4.0
+  amadeus_function_suffix: _population
+
+- id: amadeus:source/nasa_modis
+  name: nasa_modis
+  label: NASA Moderate Resolution Imaging Spectroradiometer
+  producer_institution: NASA Goddard Space Flight Center
+  homepage: https://modis.gsfc.nasa.gov/data/
+  access_protocol: stac_api
+  requires_authentication: true
+  auth_mechanism: NASA Earthdata bearer token
+  license_spdx: NOASSERTION
+  amadeus_function_suffix: _modis
+
+- id: amadeus:source/mrlc_nlcd
+  name: mrlc_nlcd
+  label: MRLC National Land Cover Database
+  producer_institution: Multi-Resolution Land Characteristics Consortium
+  homepage: https://www.mrlc.gov/data
+  access_protocol: https_bulk_file
+  requires_authentication: false
+  license_spdx: NOASSERTION
+  amadeus_function_suffix: _nlcd
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — grids
+# ═════════════════════════════════════════════════════════════════════════════
+grid_definitions:
+- id: amadeus:grid/gridmet_4km
+  name: gridmet_4km
+  label: GridMET 1/24-degree CONUS grid
+  crs: EPSG:4326
+  srid: 4326
+  grid_mapping_name: latitude_longitude
+  resolution_x: 0.0416667
+  resolution_y: 0.0416667
+  resolution_unit: deg
+  n_columns: 1386
+  n_rows: 585
+  origin_x: -124.7666
+  origin_y: 49.4
+
+- id: amadeus:grid/prism_800m
+  name: prism_800m
+  label: PRISM 800 m CONUS grid
+  crs: EPSG:4269
+  srid: 4269
+  grid_mapping_name: latitude_longitude
+  resolution_x: 0.00833333
+  resolution_y: 0.00833333
+  resolution_unit: deg
+  n_columns: 7025
+  n_rows: 3105
+  origin_x: -125.0208
+  origin_y: 49.9375
+
+- id: amadeus:grid/sedac_pop_1km
+  name: sedac_pop_1km
+  label: SEDAC GPWv4 30 arc-second population grid
+  crs: EPSG:4326
+  srid: 4326
+  resolution_x: 0.00833333
+  resolution_y: 0.00833333
+  resolution_unit: deg
+
+- id: amadeus:grid/nlcd_30m
+  name: nlcd_30m
+  label: NLCD 30 m Albers Equal Area grid
+  crs: EPSG:5070
+  srid: 5070
+  grid_mapping_name: albers_conical_equal_area
+  resolution_x: 30.0
+  resolution_y: 30.0
+  resolution_unit: m
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — canonical variables
+#
+# The cross-source anchor. Note what lives HERE rather than on the product:
+# the standard name, the canonical unit, the measurement kind, the extensivity
+# and the plausible range. These must agree across sources or the variable is
+# not the same variable.
+# ═════════════════════════════════════════════════════════════════════════════
+canonical_variables:
+- id: amadeus:var/air_temperature_daily_maximum
+  name: air_temperature_daily_maximum
+  label: Daily maximum near-surface air temperature
+  description: >-
+    Maximum of near-surface (nominally 2 m) air temperature over a day. The day
+    is defined by the delivering product, not by this variable — see
+    `day_boundary_convention` on each Product, which is why two sources of this
+    variable can legitimately differ.
+  standard_name: CF:air_temperature
+  standard_name_authority: CF Standard Name Table v85
+  units_ucum: Cel
+  units_display: "°C"
+  value_data_type: continuous_numeric
+  extensivity: intensive
+  default_aggregation_method: mean
+  plausible_min: -70.0
+  plausible_max: 60.0
+  concept_mappings:
+  - ENVO:09200001
+  - ECTO:9000001
+  omop_concept_binding:
+    omop_concept_id: 3020891
+    omop_concept_name: Body temperature
+    omop_vocabulary_id: LOINC
+    omop_domain_id: Measurement
+    omop_standard_concept: S
+    # Honest: this is the closest existing concept and it is wrong — it is a
+    # clinical body temperature, not an ambient one. Recorded as a candidate
+    # so the gap is visible rather than silently accepted.
+    concept_status: candidate_mapping
+  envar_variable_family: heat
+
+- id: amadeus:var/pm25_mass_concentration
+  name: pm25_mass_concentration
+  label: PM2.5 mass concentration in ambient air
+  standard_name: CF:mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air
+  standard_name_authority: CF Standard Name Table v85
+  units_ucum: ug/m3
+  units_display: "µg/m³"
+  value_data_type: continuous_numeric
+  extensivity: intensive
+  default_aggregation_method: mean
+  plausible_min: 0.0
+  plausible_max: 1000.0
+  concept_mappings:
+  - ENVO:01000415
+  omop_concept_binding:
+    omop_concept_id: 4353936
+    omop_concept_name: Particulate matter
+    omop_vocabulary_id: SNOMED
+    omop_domain_id: Observation
+    omop_standard_concept: S
+    concept_status: mapped_nonstandard
+  envar_variable_family: air_quality
+
+- id: amadeus:var/smoke_plume_density_class
+  name: smoke_plume_density_class
+  label: Wildfire smoke plume density class
+  description: >-
+    NOAA HMS ordinal smoke density (light / medium / heavy). Categorical, so no
+    plausible numeric range and no mean — `mode` is the only sensible spatial
+    aggregation.
+  standard_name: AMADEUS:smoke_plume_density_class
+  units_ucum: "1"
+  value_data_type: categorical
+  extensivity: categorical
+  default_aggregation_method: mode
+  concept_mappings:
+  - ENVO:02500078
+  envar_variable_family: air_quality
+
+- id: amadeus:var/population_count
+  name: population_count
+  label: Resident population count
+  description: >-
+    Number of people. The canonical extensive variable: it scales with the size
+    of its support, so a buffer aggregation must SUM, and a mean is meaningless.
+  standard_name: AMADEUS:population_count
+  units_ucum: "1"
+  value_data_type: count
+  extensivity: extensive
+  default_aggregation_method: sum
+  plausible_min: 0.0
+  plausible_max: 100000000.0
+  envar_variable_family: population
+
+- id: amadeus:var/land_cover_class
+  name: land_cover_class
+  label: NLCD land cover class
+  standard_name: AMADEUS:nlcd_land_cover_class
+  units_ucum: "1"
+  value_data_type: categorical
+  extensivity: categorical
+  default_aggregation_method: class_proportion
+  concept_mappings:
+  - ENVO:00000428
+  envar_variable_family: land_use
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — products
+# ═════════════════════════════════════════════════════════════════════════════
+products:
+- id: amadeus:product/gridmet
+  name: gridmet
+  label: Climatology Lab GridMET daily surface meteorology
+  data_source: amadeus:source/climatology_lab
+  product_version: "v1.5"
+  data_genre: [meteorology, climate]
+  native_format: netcdf4_cf
+  spatial_support_type: raster_grid_cell
+  grid_definition: amadeus:grid/gridmet_4km
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_bbox_wkt: "POLYGON ((-124.8 25.0, -67.0 25.0, -67.0 49.4, -124.8 49.4, -124.8 25.0))"
+  spatial_extent_descriptor: Contiguous United States
+  native_spatial_resolution_m: 4000.0
+  native_spatial_resolution_descriptor: 4 km
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  # The whole point: GridMET's "day" ends at noon GMT, not local midnight.
+  day_boundary_convention: ending_1200_gmt
+  calendar: gregorian
+  temporal_coverage_start: "1979-01-01"
+  update_cadence_iso: P1D
+  typical_latency_iso: P5D
+  default_data_status: final
+  homogenisation_status: not_homogenised
+  license_spdx: CC0-1.0
+  access_url: https://www.northwestknowledge.net/metdata/data/
+  amadeus_dataset_name: gridmet
+  amadeus_process_covariate: gridmet
+  amadeus_calculate_covariate: gridmet
+  supports_server_side_subset: false
+
+- id: amadeus:product/prism_daily
+  name: prism_daily
+  label: PRISM AN81d daily climate
+  data_source: amadeus:source/prism
+  product_version: AN81d
+  data_genre: [meteorology, climate]
+  native_format: bil
+  spatial_support_type: raster_grid_cell
+  grid_definition: amadeus:grid/prism_800m
+  crs: EPSG:4269
+  srid: 4269
+  spatial_extent_descriptor: Contiguous United States
+  native_spatial_resolution_m: 800.0
+  native_spatial_resolution_descriptor: 800 m
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  # ...and PRISM's day ends at local midnight. Same variable, different day.
+  day_boundary_convention: local_midnight
+  calendar: gregorian
+  temporal_coverage_start: "1981-01-01"
+  update_cadence_iso: P1D
+  default_data_status: provisional
+  homogenisation_status: partial
+  amadeus_dataset_name: prism
+  amadeus_process_covariate: prism
+  amadeus_calculate_covariate: prism
+  supports_server_side_subset: false
+
+- id: amadeus:product/aqs_daily
+  name: aqs_daily
+  label: EPA AQS daily summary data
+  data_source: amadeus:source/epa_aqs
+  product_version: "2026-09"
+  data_genre: [air_pollution]
+  native_format: csv_station_observations
+  spatial_support_type: monitoring_station
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_descriptor: United States and territories
+  native_spatial_resolution_descriptor: point monitor
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  day_boundary_convention: local_midnight
+  calendar: gregorian
+  temporal_coverage_start: "1980-01-01"
+  update_cadence_iso: P1D
+  typical_latency_iso: P180D
+  default_data_status: quality_controlled
+  amadeus_dataset_name: aqs
+  amadeus_process_covariate: aqs
+  supports_server_side_subset: true
+
+- id: amadeus:product/airnow_hourly
+  name: airnow_hourly
+  label: EPA AirNow hourly observations
+  data_source: amadeus:source/airnow
+  data_genre: [air_pollution]
+  native_format: csv_station_observations
+  spatial_support_type: monitoring_station
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_descriptor: North America
+  temporal_resolution: hourly
+  temporal_resolution_iso: PT1H
+  temporal_alignment: end
+  day_boundary_convention: not_applicable
+  calendar: gregorian
+  temporal_coverage_start: "2000-01-01"
+  update_cadence_iso: PT1H
+  typical_latency_iso: PT1H
+  default_data_status: preliminary
+  amadeus_dataset_name: airnow
+  supports_server_side_subset: true
+
+- id: amadeus:product/hms_smoke
+  name: hms_smoke
+  label: NOAA HMS smoke plume polygons
+  data_source: amadeus:source/noaa_hms
+  data_genre: [wildfire_smoke, satellite]
+  native_format: shapefile
+  spatial_support_type: polygon
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_descriptor: North America
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  day_boundary_convention: utc_midnight
+  calendar: gregorian
+  temporal_coverage_start: "2005-08-05"
+  update_cadence_iso: P1D
+  default_data_status: preliminary
+  amadeus_dataset_name: hms
+  amadeus_process_covariate: hms
+  amadeus_calculate_covariate: hms
+  supports_server_side_subset: false
+
+- id: amadeus:product/sedac_population
+  name: sedac_population
+  label: SEDAC UN WPP-Adjusted Population Density / Count
+  data_source: amadeus:source/nasa_sedac
+  product_version: "4.11"
+  data_genre: [population]
+  native_format: geotiff
+  spatial_support_type: raster_grid_cell
+  grid_definition: amadeus:grid/sedac_pop_1km
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_descriptor: Global
+  native_spatial_resolution_m: 1000.0
+  native_spatial_resolution_descriptor: 30 arc-second
+  # Irregular 5-year epochs (2000, 2005, 2010, 2015, 2020) — not an annual
+  # series, which is why `multi_year_epoch` had to be added to the enum.
+  temporal_resolution: multi_year_epoch
+  temporal_alignment: start
+  calendar: gregorian
+  temporal_coverage_start: "2000-01-01"
+  temporal_coverage_end: "2020-01-01"
+  default_data_status: final
+  license_spdx: CC-BY-4.0
+  amadeus_dataset_name: population
+  amadeus_process_covariate: population
+  amadeus_calculate_covariate: population
+
+- id: amadeus:product/nlcd
+  name: nlcd
+  label: NLCD Land Cover
+  data_source: amadeus:source/mrlc_nlcd
+  product_version: "2021"
+  data_genre: [land_use, built_environment]
+  native_format: geotiff
+  spatial_support_type: raster_grid_cell
+  grid_definition: amadeus:grid/nlcd_30m
+  crs: EPSG:5070
+  srid: 5070
+  spatial_extent_descriptor: Conterminous United States
+  native_spatial_resolution_m: 30.0
+  native_spatial_resolution_descriptor: 30 m
+  temporal_resolution: multi_year_epoch
+  temporal_alignment: start
+  calendar: gregorian
+  temporal_coverage_start: "2001-01-01"
+  temporal_coverage_end: "2021-01-01"
+  default_data_status: final
+  amadeus_dataset_name: nlcd
+  amadeus_process_covariate: nlcd
+  amadeus_calculate_covariate: nlcd
+
+- id: amadeus:product/modis_mod11a1
+  name: modis_mod11a1
+  label: MODIS/Terra Land Surface Temperature Daily (MOD11A1)
+  data_source: amadeus:source/nasa_modis
+  product_version: "061"
+  data_genre: [satellite, meteorology]
+  native_format: hdf4
+  spatial_support_type: raster_grid_cell
+  grid_definition: amadeus:grid/gridmet_4km   # placeholder: the sinusoidal grid is not modelled in this slice
+  crs: EPSG:4326
+  srid: 4326
+  spatial_extent_descriptor: Global
+  native_spatial_resolution_m: 1000.0
+  native_spatial_resolution_descriptor: 1 km
+  temporal_resolution: daily
+  temporal_resolution_iso: P1D
+  temporal_alignment: interval
+  day_boundary_convention: observation_dependent
+  calendar: gregorian
+  temporal_coverage_start: "2000-02-24"
+  default_data_status: final
+  amadeus_dataset_name: modis
+  amadeus_process_covariate: modis_merge
+  amadeus_calculate_covariate: modis
+  supports_server_side_subset: true
+  stac_collection_id: modis-11A1-061
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — product variables
+#
+# Read the first two together. Same canonical variable; different native name,
+# different native unit, different conversion, different day boundary (on the
+# product). That is what "comparable but not interchangeable" means, spelled out.
+# ═════════════════════════════════════════════════════════════════════════════
+product_variables:
+- id: amadeus:pvar/gridmet.tmmx
+  product: amadeus:product/gridmet
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  native_name: tmmx
+  label: GridMET daily maximum temperature
+  native_units_ucum: K
+  native_value_offset: -273.15
+  unit_conversion_formula: "value_Cel = value_K - 273.15"
+  cf_standard_name: air_temperature
+  cf_cell_methods: "time: maximum"
+  aggregation_method: maximum
+  aggregation_window_iso: P1D
+  temporal_alignment: interval
+  missing_value_sentinel: "32767"
+  layer_name_template: "{native_name}_{YYYYMMDD}"
+  amadeus_variable_code: tmmx
+  harmonization_note: >-
+    Kelvin at source. amadeus currently converts at render time without
+    recording the conversion — the exact failure mode found in the Axle
+    DE-SynPUF atlas, where a Kelvin-to-Celsius step survived only as a column
+    name.
+  metadata_gaps:
+  - available_but_not_extracted
+
+- id: amadeus:pvar/prism.tmax
+  product: amadeus:product/prism_daily
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  native_name: tmax
+  label: PRISM daily maximum temperature
+  native_units_ucum: Cel
+  cf_standard_name: air_temperature
+  cf_cell_methods: "time: maximum"
+  aggregation_method: maximum
+  aggregation_window_iso: P1D
+  temporal_alignment: interval
+  missing_value_sentinel: "-9999"
+  layer_name_template: "{native_name}_{YYYYMMDD}"
+  amadeus_variable_code: tmax
+  harmonization_note: >-
+    Already Celsius, and a local-midnight day. Numerically comparable to
+    gridmet.tmmx only after accounting for the day-boundary difference; for
+    heat metrics that difference has been measured at over 1 °C.
+
+- id: amadeus:pvar/aqs.88101
+  product: amadeus:product/aqs_daily
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  native_name: "88101"
+  label: PM2.5 - Local Conditions (FRM/FEM)
+  native_units_ucum: ug/m3
+  cf_standard_name: mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air
+  cf_cell_methods: "time: mean"
+  aggregation_method: mean
+  aggregation_window_iso: P1D
+  temporal_alignment: interval
+  quality_flag_vocabulary: EPA AQS qualifier codes
+  amadeus_variable_code: "88101"
+
+- id: amadeus:pvar/airnow.pm25
+  product: amadeus:product/airnow_hourly
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  native_name: PM2.5
+  label: AirNow PM2.5 hourly
+  native_units_ucum: ug/m3
+  aggregation_method: mean
+  aggregation_window_iso: PT1H
+  temporal_alignment: end
+  quality_flag_vocabulary: AirNow data validity flags
+  harmonization_note: >-
+    Preliminary by construction. Must never overwrite an AQS value for the same
+    monitor and interval; reconciliation requires an explicit user policy.
+
+- id: amadeus:pvar/hms.density
+  product: amadeus:product/hms_smoke
+  canonical_variable: amadeus:var/smoke_plume_density_class
+  native_name: Density
+  label: HMS smoke plume density
+  native_units_ucum: "1"
+  aggregation_method: mode
+  temporal_alignment: interval
+  quality_flag_vocabulary: HMS analyst confidence
+
+- id: amadeus:pvar/sedac.population_count
+  product: amadeus:product/sedac_population
+  canonical_variable: amadeus:var/population_count
+  native_name: population_count
+  label: UN WPP-adjusted population count
+  native_units_ucum: "1"
+  aggregation_method: sum
+  temporal_alignment: start
+  missing_value_sentinel: "-3.4028235e+38"
+
+- id: amadeus:pvar/nlcd.land_cover
+  product: amadeus:product/nlcd
+  canonical_variable: amadeus:var/land_cover_class
+  native_name: land_cover
+  label: NLCD land cover class
+  native_units_ucum: "1"
+  aggregation_method: class_proportion
+  temporal_alignment: start
+  quality_flag_vocabulary: NLCD legend codes
+
+- id: amadeus:pvar/modis.lst_day
+  product: amadeus:product/modis_mod11a1
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  native_name: LST_Day_1km
+  label: MODIS daytime land surface temperature
+  native_units_ucum: K
+  native_value_scale_factor: 0.02
+  native_value_offset: -273.15
+  unit_conversion_formula: "value_Cel = (raw * 0.02) - 273.15"
+  cf_standard_name: surface_temperature
+  cf_cell_methods: "time: point"
+  aggregation_method: instantaneous
+  temporal_alignment: center
+  missing_value_sentinel: "0"
+  layer_name_template: "{native_name}_{YYYYMMDD}"
+  harmonization_note: >-
+    Land SURFACE temperature, not air temperature. Pointed at the air
+    temperature canonical variable here only to make the point that doing so is
+    a modelling error the schema should catch: `cf_standard_name` is
+    `surface_temperature` while the canonical variable's `standard_name` is
+    `CF:air_temperature`. A cheap consistency check over these two fields would
+    flag it, and that check is worth writing.
+  metadata_gaps:
+  - under_investigation
+
+# ═════════════════════════════════════════════════════════════════════════════
+# PROVENANCE — the runs
+# ═════════════════════════════════════════════════════════════════════════════
+tool_runs:
+- id: amadeus:run/dl-gridmet-20260714
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: download_gridmet
+  run_arguments: '{"variables":["tmmx"],"year":2026,"directory_to_save":"/data/gridmet","hash":true}'
+  container_image_repository: ghcr.io/niehs/amadeus
+  container_image_digest: sha256:3b8c1a5e7f2d94b6031e8a7c4d5f6091b2c3d4e5f60718293a4b5c6d7e8f9012
+  run_timestamp_utc: "2026-07-14T03:12:07Z"
+  run_duration_seconds: 184.3
+  run_environment: '{"R":"4.6.0","terra":"1.8-30","platform":"x86_64-pc-linux-gnu","engine":"none"}'
+  status: succeeded
+  materialization_mode: full_materialization
+  bytes_transferred: 1482103296
+  request_count: 1
+
+- id: amadeus:run/proc-gridmet-20260714
+  run_role: process
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: process_gridmet
+  run_arguments: '{"variables":"tmmx","date":["2026-07-14","2026-07-16"],"extent":[-79.1,-78.6,35.8,36.1]}'
+  run_timestamp_utc: "2026-07-14T03:20:44Z"
+  run_duration_seconds: 12.8
+  run_environment: '{"R":"4.6.0","terra":"1.8-30","engine":"sedonadb 0.4.1"}'
+  input_file_sha256: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+  input_row_count: 1
+  output_row_count: 12
+  upstream_runs:
+  - amadeus:run/dl-gridmet-20260714
+  status: succeeded
+  materialization_mode: full_materialization
+
+- id: amadeus:run/dl-aqs-20260901
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: download_aqs
+  run_arguments: '{"parameter_code":88101,"year":2026,"resolution_temporal":"daily"}'
+  run_timestamp_utc: "2026-09-01T11:02:19Z"
+  run_duration_seconds: 47.1
+  status: succeeded
+  materialization_mode: server_side_subset
+  bytes_transferred: 4211984
+  request_count: 3
+
+- id: amadeus:run/proc-aqs-20260901
+  run_role: process
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: process_aqs
+  run_arguments: '{"date":["2026-07-14","2026-07-16"],"mode":"sparse","return_format":"data.table"}'
+  run_timestamp_utc: "2026-09-01T11:05:02Z"
+  output_row_count: 3
+  upstream_runs:
+  - amadeus:run/dl-aqs-20260901
+  status: succeeded
+
+- id: amadeus:run/dl-airnow-20260714
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: download_airnow
+  run_arguments: '{"parameter":"PM2.5","start":"2026-07-14T00","end":"2026-07-15T00","bbox":[-79.1,35.8,-78.6,36.1]}'
+  run_timestamp_utc: "2026-07-14T14:03:00Z"
+  status: succeeded
+  materialization_mode: server_side_subset
+  bytes_transferred: 18432
+  request_count: 1
+
+- id: amadeus:run/proc-airnow-20260714
+  run_role: process
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: process_airnow
+  run_arguments: '{"date":"2026-07-14"}'
+  run_timestamp_utc: "2026-07-14T14:03:41Z"
+  output_row_count: 1
+  upstream_runs:
+  - amadeus:run/dl-airnow-20260714
+  status: succeeded
+
+- id: amadeus:run/dl-hms-20260714
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: download_hms
+  run_arguments: '{"data_format":"Shapefile","date":["2026-07-14","2026-07-14"]}'
+  run_timestamp_utc: "2026-07-15T02:00:11Z"
+  status: succeeded
+  materialization_mode: full_materialization
+  bytes_transferred: 892416
+
+- id: amadeus:run/proc-hms-20260714
+  run_role: process
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: process_hms
+  run_arguments: '{"date":["2026-07-14","2026-07-14"],"variable":"Light"}'
+  run_timestamp_utc: "2026-07-15T02:01:03Z"
+  output_row_count: 1
+  upstream_runs:
+  - amadeus:run/dl-hms-20260714
+  status: succeeded
+
+- id: amadeus:run/reg-modis-20260917
+  run_role: register
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  function_name: register_stac_assets
+  run_arguments: '{"collection":"modis-11A1-061","bbox":[-79.1,35.8,-78.6,36.1],"datetime":"2026-07-14/2026-07-16","materialize":false}'
+  run_timestamp_utc: "2026-09-17T09:14:55Z"
+  run_environment: '{"R":"4.6.0","rstac":"1.0.1","engine":"sedonadb 0.4.1"}'
+  status: succeeded
+  # The point of the asset-centric path: discovery cost 3 API calls and 41 kB.
+  materialization_mode: direct_remote_scan
+  bytes_transferred: 41216
+  request_count: 3
+
+- id: amadeus:run/hex-gridmet-20260917
+  run_role: harmonize
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  function_name: hexify_grid
+  run_arguments: '{"h3_resolution":8,"aggregation":"area_weighted_mean","product_variable":"amadeus:pvar/gridmet.tmmx"}'
+  run_timestamp_utc: "2026-09-17T10:02:31Z"
+  run_duration_seconds: 3.4
+  output_row_count: 3
+  upstream_runs:
+  - amadeus:run/proc-gridmet-20260714
+  status: succeeded
+
+- id: amadeus:run/calc-durham-20260918
+  run_role: calculate
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  function_name: calculate_covariates
+  run_arguments: '{"request":"amadeus:request/durham-heat-aq-2026-07","engine":"sedonadb"}'
+  run_timestamp_utc: "2026-09-18T08:41:12Z"
+  run_duration_seconds: 0.9
+  run_environment: '{"R":"4.6.0","engine":"sedonadb 0.4.1","sf":"1.0-21"}'
+  output_row_count: 4
+  upstream_runs:
+  - amadeus:run/proc-gridmet-20260714
+  - amadeus:run/proc-aqs-20260901
+  - amadeus:run/proc-hms-20260714
+  status: succeeded
+
+- id: amadeus:run/dl-prism-20260716-failed
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  function_name: download_prism
+  run_arguments: '{"time":"20260716","element":"tmax","data_type":"ts"}'
+  run_timestamp_utc: "2026-07-16T04:00:02Z"
+  status: failed
+  # A failed run is a first-class record: it is what makes a resumable
+  # workflow resumable, and what a source-contract alert fires on.
+  log_excerpt: >-
+    HTTP 503 from https://ftp.prism.oregonstate.edu after 3 retries;
+    no bytes written; cache left clean.
+  request_count: 3
+  bytes_transferred: 0
+
+provenance_chains:
+- id: amadeus:chain/durham-tmmx
+  chain_steps:
+  - amadeus:run/calc-durham-20260918
+  - amadeus:run/proc-gridmet-20260714
+  - amadeus:run/dl-gridmet-20260714
+  terminus_type: raw_source_download
+  compatibility_assertions:
+  - "CRS: EPSG:4326 preserved through process and calculate"
+  - "units: K converted to Cel at process; conversion recorded on product variable"
+  - "day boundary: ending_1200_gmt carried unchanged; NOT reconciled with PRISM local_midnight"
+
+- id: amadeus:chain/durham-modis-registered
+  chain_steps:
+  - amadeus:run/reg-modis-20260917
+  terminus_type: remote_asset_scan
+  compatibility_assertions:
+  - "no values materialised; asset registered for discovery only"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# CATALOG — assets
+# ═════════════════════════════════════════════════════════════════════════════
+assets:
+- id: amadeus:asset/gridmet-tmmx-2026
+  product: amadeus:product/gridmet
+  url: https://www.northwestknowledge.net/metdata/data/tmmx_2026.nc
+  local_path: /data/gridmet/tmmx/tmmx_2026.nc
+  media_type: application/x-netcdf
+  native_format: netcdf4_cf
+  size_bytes: 1482103296
+  sha256: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+  source_last_modified: "2026-09-16T06:00:00Z"
+  download_timestamp_utc: "2026-07-14T03:12:07Z"
+  valid_time_start: "2026-01-01T12:00:00Z"
+  valid_time_end: "2027-01-01T12:00:00Z"
+  bbox_wkt: "POLYGON ((-124.8 25.0, -67.0 25.0, -67.0 49.4, -124.8 49.4, -124.8 25.0))"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/gridmet.tmmx
+  materialization_mode: full_materialization
+  value_state: materialized
+  produced_by_run: amadeus:run/proc-gridmet-20260714
+
+- id: amadeus:asset/aqs-daily-88101-2026
+  product: amadeus:product/aqs_daily
+  url: https://aqs.epa.gov/data/api/dailyData/byState?param=88101&bdate=20260101&edate=20261231&state=37
+  local_path: /data/aqs/daily_88101_2026_nc.csv
+  media_type: text/csv
+  native_format: csv_station_observations
+  size_bytes: 4211984
+  sha256: 5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03
+  download_timestamp_utc: "2026-09-01T11:02:19Z"
+  valid_time_start: "2026-01-01T00:00:00Z"
+  valid_time_end: "2027-01-01T00:00:00Z"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/aqs.88101
+  materialization_mode: server_side_subset
+  value_state: materialized
+  produced_by_run: amadeus:run/proc-aqs-20260901
+
+- id: amadeus:asset/airnow-20260714
+  product: amadeus:product/airnow_hourly
+  url: https://www.airnowapi.org/aq/data/?startDate=2026-07-14T00&endDate=2026-07-15T00&parameters=PM25
+  media_type: text/csv
+  native_format: csv_station_observations
+  size_bytes: 18432
+  download_timestamp_utc: "2026-07-14T14:03:00Z"
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/airnow.pm25
+  # Server-side subset, so nothing was cached and there is no local path or hash.
+  materialization_mode: server_side_subset
+  value_state: materialized
+  produced_by_run: amadeus:run/proc-airnow-20260714
+
+- id: amadeus:asset/hms-smoke-20260714
+  product: amadeus:product/hms_smoke
+  url: https://satepsanone.nesdis.noaa.gov/pub/FIRE/web/HMS/Smoke_Polygons/Shapefile/2026/07/hms_smoke20260714.zip
+  local_path: /data/hms/hms_smoke20260714.zip
+  media_type: application/zip
+  native_format: shapefile
+  size_bytes: 892416
+  sha256: 2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3
+  download_timestamp_utc: "2026-07-15T02:00:11Z"
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/hms.density
+  materialization_mode: full_materialization
+  value_state: materialized
+  produced_by_run: amadeus:run/proc-hms-20260714
+
+# Registered for discovery, never downloaded. This is the asset-centric path:
+# it is findable and query-plannable, and it cost 41 kB to know about.
+- id: amadeus:asset/modis-mod11a1-20260714
+  product: amadeus:product/modis_mod11a1
+  asset_key: hdf
+  url: https://planetarycomputer.microsoft.com/api/stac/v1/collections/modis-11A1-061/items/MOD11A1.A2026195.h11v05.061
+  media_type: application/x-hdf
+  native_format: hdf4
+  size_bytes: 6291456
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  bbox_wkt: "POLYGON ((-92.0 30.0, -68.9 30.0, -68.9 40.0, -92.0 40.0, -92.0 30.0))"
+  srid: 4326
+  variables_present:
+  - amadeus:pvar/modis.lst_day
+  stac_collection_id: modis-11A1-061
+  stac_item_id: MOD11A1.A2026195.h11v05.061
+  materialization_mode: direct_remote_scan
+  value_state: registered_only
+  produced_by_run: amadeus:run/reg-modis-20260917
+
+# ═════════════════════════════════════════════════════════════════════════════
+# VALUES — station observations
+#
+# The AQS/AirNow rule, made concrete. Two rows for the same monitor, parameter
+# and day. Neither overwrote the other: the AirNow row is `superseded` and
+# points at the AQS row that replaced it. A query that wants one answer must
+# state a policy; a query that states none sees both and can say so.
+# ═════════════════════════════════════════════════════════════════════════════
+station_observations:
+- id: amadeus:obs/aqs-370630015-88101-20260714
+  product_variable: amadeus:pvar/aqs.88101
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  asset: amadeus:asset/aqs-daily-88101-2026
+  processing_run: amadeus:run/proc-aqs-20260901
+  value: 18.4
+  value_unit_ucum: ug/m3
+  native_value: 18.4
+  native_value_unit_ucum: ug/m3
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  retrieval_time_utc: "2026-09-01T11:02:19Z"
+  quality_flag: ""
+  data_status: quality_controlled
+  source_system: aqs
+  source_version: "2026-09-01"
+  null_semantics: present
+  station_id: 37-063-0015
+  station_name: Durham Armory
+  monitor_id: 37-063-0015-88101-1
+  parameter_code: "88101"
+  poc: 1
+  sampling_duration_iso: P1D
+  station_geom_wkt: "POINT (-78.9122 35.9915)"
+  srid: 4326
+  elevation_m: 123.0
+  station_valid_from: "1999-01-01"
+
+- id: amadeus:obs/airnow-370630015-pm25-20260714
+  product_variable: amadeus:pvar/airnow.pm25
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  asset: amadeus:asset/airnow-20260714
+  processing_run: amadeus:run/proc-airnow-20260714
+  value: 21.0
+  value_unit_ucum: ug/m3
+  native_value: 21.0
+  native_value_unit_ucum: ug/m3
+  valid_time_start: "2026-07-14T18:00:00Z"
+  valid_time_end: "2026-07-14T19:00:00Z"
+  retrieval_time_utc: "2026-07-14T14:03:00Z"
+  data_status: superseded
+  source_system: airnow
+  null_semantics: present
+  # The replacement is named. This is how a revision appends instead of mutating.
+  superseded_by: amadeus:obs/aqs-370630015-88101-20260714
+  station_id: 37-063-0015
+  station_name: Durham Armory
+  parameter_code: PM2.5
+  sampling_duration_iso: PT1H
+  station_geom_wkt: "POINT (-78.9122 35.9915)"
+  srid: 4326
+
+# A structural null: the monitor did not operate. Absent value + a stated
+# reason, rather than a -999 that survives into an analysis.
+- id: amadeus:obs/aqs-370630015-88101-20260715
+  product_variable: amadeus:pvar/aqs.88101
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  asset: amadeus:asset/aqs-daily-88101-2026
+  processing_run: amadeus:run/proc-aqs-20260901
+  value_unit_ucum: ug/m3
+  valid_time_start: "2026-07-15T00:00:00Z"
+  valid_time_end: "2026-07-16T00:00:00Z"
+  retrieval_time_utc: "2026-09-01T11:02:19Z"
+  quality_flag: AN
+  data_status: quality_controlled
+  source_system: aqs
+  null_semantics: derived_null
+  station_id: 37-063-0015
+  station_name: Durham Armory
+  parameter_code: "88101"
+  poc: 1
+  station_geom_wkt: "POINT (-78.9122 35.9915)"
+  srid: 4326
+
+# ═════════════════════════════════════════════════════════════════════════════
+# VALUES — grid cells (flattened raster)
+#
+# The shape SedonaDB would hold: raster flattened to cell centroids, identified
+# by integer index AND geometry. Three GridMET cells around Durham, one day.
+# ═════════════════════════════════════════════════════════════════════════════
+grid_cell_values:
+- id: amadeus:gcv/gridmet-tmmx-1121-0321-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/gridmet-tmmx-2026
+  processing_run: amadeus:run/proc-gridmet-20260714
+  value: 34.85
+  value_unit_ucum: Cel
+  native_value: 308.0
+  native_value_unit_ucum: K
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  retrieval_time_utc: "2026-07-14T03:12:07Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  grid_definition: amadeus:grid/gridmet_4km
+  cell_x: 1121
+  cell_y: 321
+  cell_centroid_wkt: "POINT (-78.8333 35.9583)"
+  cell_polygon_wkt: "POLYGON ((-78.8542 35.9375, -78.8125 35.9375, -78.8125 35.9792, -78.8542 35.9792, -78.8542 35.9375))"
+  srid: 4326
+
+- id: amadeus:gcv/gridmet-tmmx-1122-0321-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/gridmet-tmmx-2026
+  processing_run: amadeus:run/proc-gridmet-20260714
+  value: 35.21
+  value_unit_ucum: Cel
+  native_value: 308.36
+  native_value_unit_ucum: K
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  retrieval_time_utc: "2026-07-14T03:12:07Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  grid_definition: amadeus:grid/gridmet_4km
+  cell_x: 1122
+  cell_y: 321
+  cell_centroid_wkt: "POINT (-78.7917 35.9583)"
+  cell_polygon_wkt: "POLYGON ((-78.8125 35.9375, -78.7708 35.9375, -78.7708 35.9792, -78.8125 35.9792, -78.8125 35.9375))"
+  srid: 4326
+
+- id: amadeus:gcv/gridmet-tmmx-1121-0322-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/gridmet-tmmx-2026
+  processing_run: amadeus:run/proc-gridmet-20260714
+  value: 34.42
+  value_unit_ucum: Cel
+  native_value: 307.57
+  native_value_unit_ucum: K
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  retrieval_time_utc: "2026-07-14T03:12:07Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  grid_definition: amadeus:grid/gridmet_4km
+  cell_x: 1121
+  cell_y: 322
+  cell_centroid_wkt: "POINT (-78.8333 35.9167)"
+  cell_polygon_wkt: "POLYGON ((-78.8542 35.8958, -78.8125 35.8958, -78.8125 35.9375, -78.8542 35.9375, -78.8542 35.8958))"
+  srid: 4326
+
+# The extensive case: a population count. Aggregating this by mean would be
+# wrong, and `extensivity: extensive` on the canonical variable is what says so.
+- id: amadeus:gcv/sedac-pop-2020-durham
+  product_variable: amadeus:pvar/sedac.population_count
+  canonical_variable: amadeus:var/population_count
+  processing_run: amadeus:run/proc-gridmet-20260714
+  value: 2417.0
+  value_unit_ucum: "1"
+  valid_time_start: "2020-01-01T00:00:00Z"
+  valid_time_end: "2025-01-01T00:00:00Z"
+  data_status: final
+  source_system: sedac
+  null_semantics: present
+  grid_definition: amadeus:grid/sedac_pop_1km
+  cell_x: 5542
+  cell_y: 6487
+  cell_centroid_wkt: "POINT (-78.8292 35.9542)"
+  srid: 4326
+
+# The categorical case, and a true zero rather than a missing value.
+- id: amadeus:gcv/nlcd-2021-durham-cell
+  product_variable: amadeus:pvar/nlcd.land_cover
+  canonical_variable: amadeus:var/land_cover_class
+  processing_run: amadeus:run/proc-gridmet-20260714
+  value: 23.0
+  value_unit_ucum: "1"
+  valid_time_start: "2021-01-01T00:00:00Z"
+  valid_time_end: "2022-01-01T00:00:00Z"
+  data_status: final
+  source_system: nlcd
+  null_semantics: present
+  quality_flag: "23=Developed, Medium Intensity"
+  grid_definition: amadeus:grid/nlcd_30m
+  cell_x: 48211
+  cell_y: 29044
+  cell_centroid_wkt: "POINT (-78.8277 35.9501)"
+  srid: 4326
+
+# ═════════════════════════════════════════════════════════════════════════════
+# VALUES — areas
+#
+# An episodic polygon: the smoke plume exists only because smoke was analysed
+# there on that day. `area_role: episodic` says aggregating it across time is
+# meaningless — the correct operation is intersection with a location.
+# ═════════════════════════════════════════════════════════════════════════════
+area_values:
+- id: amadeus:av/hms-plume-20260714-001
+  product_variable: amadeus:pvar/hms.density
+  canonical_variable: amadeus:var/smoke_plume_density_class
+  asset: amadeus:asset/hms-smoke-20260714
+  processing_run: amadeus:run/proc-hms-20260714
+  value: 1.0
+  value_unit_ucum: "1"
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  retrieval_time_utc: "2026-07-15T02:00:11Z"
+  quality_flag: Light
+  data_status: preliminary
+  source_system: hms
+  null_semantics: present
+  area_id: hms-20260714-001
+  area_type: smoke_plume
+  area_role: episodic
+  area_name: HMS Light smoke polygon 2026-07-14
+  area_geom_wkt: "POLYGON ((-79.4 35.6, -78.3 35.6, -78.3 36.3, -79.4 36.3, -79.4 35.6))"
+  srid: 4326
+  area_km2: 7420.5
+
+# ═════════════════════════════════════════════════════════════════════════════
+# VALUES — hex cells (the C-HER harmonization target, O-09)
+#
+# Hexification is lossy and the loss is recorded. The third cell is only 38%
+# covered by GridMET, which trips the coverage rule requiring a quality flag —
+# exactly the case where an unflagged hex value would look fine and be mostly
+# nothing.
+# ═════════════════════════════════════════════════════════════════════════════
+hex_cell_values:
+- id: amadeus:hcv/h3r8-8844c0a9241ffff-tmmx-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  processing_run: amadeus:run/hex-gridmet-20260917
+  value: 34.97
+  value_unit_ucum: Cel
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  h3_cell: 8844c0a9241ffff
+  h3_resolution: 8
+  hex_centroid_wkt: "POINT (-78.8281 35.9497)"
+  srid: 4326
+  source_support_type: raster_grid_cell
+  hexification_method: area_weighted_mean
+  coverage_fraction: 1.0
+  contributing_cell_count: 2
+
+- id: amadeus:hcv/h3r8-8844c0a9243ffff-tmmx-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  processing_run: amadeus:run/hex-gridmet-20260917
+  value: 34.61
+  value_unit_ucum: Cel
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  h3_cell: 8844c0a9243ffff
+  h3_resolution: 8
+  hex_centroid_wkt: "POINT (-78.8395 35.9312)"
+  srid: 4326
+  source_support_type: raster_grid_cell
+  hexification_method: area_weighted_mean
+  coverage_fraction: 0.93
+  contributing_cell_count: 2
+
+- id: amadeus:hcv/h3r8-8844c0a9245ffff-tmmx-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  processing_run: amadeus:run/hex-gridmet-20260917
+  value: 34.10
+  value_unit_ucum: Cel
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  # Required by the coverage rule: under 50% covered must be flagged.
+  quality_flag: "partial_coverage: hex 38% covered by source grid"
+  h3_cell: 8844c0a9245ffff
+  h3_resolution: 8
+  hex_centroid_wkt: "POINT (-78.8510 35.9128)"
+  srid: 4326
+  source_support_type: raster_grid_cell
+  hexification_method: area_weighted_mean
+  coverage_fraction: 0.38
+  contributing_cell_count: 1
+
+# ═════════════════════════════════════════════════════════════════════════════
+# REFERENCE GEOMETRY — not values
+#
+# A road segment has no measured value over time. It is an input to a density
+# or distance covariate. Keeping it out of the value tables is what stops
+# someone computing its mean.
+# ═════════════════════════════════════════════════════════════════════════════
+vector_features:
+- id: amadeus:vf/groads-us-0042311
+  product: amadeus:product/gridmet    # placeholder in this slice; gROADS product omitted for brevity
+  feature_id: "0042311"
+  feature_type: road_segment
+  geometry_type: linestring
+  feature_geom_wkt: "LINESTRING (-78.8501 35.9401, -78.8302 35.9498, -78.8103 35.9601)"
+  srid: 4326
+  feature_attributes: '{"FCLASS":"Secondary","EXS":"Operational","SOURCE":"gROADSv1"}'
+  length_m: 3184.2
+
+# ═════════════════════════════════════════════════════════════════════════════
+# REQUEST — the query-first contract
+# ═════════════════════════════════════════════════════════════════════════════
+location_sets:
+- id: amadeus:locset/durham-readme-example
+  name: durham_readme_example
+  description: >-
+    The single point used in the amadeus README's own worked example. No PHI,
+    so results may be persisted and exported freely.
+  locs_id_field: site_id
+  crs: EPSG:4326
+  srid: 4326
+  geometry_type: point
+  location_count: 1
+  phi_status: no_phi
+  provided_by: amadeus README worked example
+  created_at: "2026-09-18T08:40:00Z"
+
+locations:
+- id: amadeus:loc/durham-001
+  location_set: amadeus:locset/durham-readme-example
+  location_key: "001"
+  location_geom_wkt: "POINT (-78.8277 35.95013)"
+  srid: 4326
+  buffer_radius_m: 10000.0
+  target_geography_type: buffered_point
+
+extraction_requests:
+- id: amadeus:request/durham-heat-aq-2026-07
+  name: durham_heat_aq_2026_07
+  location_set: amadeus:locset/durham-readme-example
+  requested_canonical_variables:
+  - amadeus:var/air_temperature_daily_maximum
+  - amadeus:var/pm25_mass_concentration
+  - amadeus:var/smoke_plume_density_class
+  # Pinned to a specific delivery for temperature, so re-running cannot silently
+  # switch from GridMET to PRISM and change the answer.
+  requested_product_variables:
+  - amadeus:pvar/gridmet.tmmx
+  time_window_start: "2026-07-14T00:00:00Z"
+  time_window_end: "2026-07-16T00:00:00Z"
+  temporal_grouping: day
+  buffer_radius_m: 10000.0
+  extraction_method: exact_extract
+  aggregation_method: area_weighted_mean
+  lag_days: [0, 1]
+  target_geography_type: buffered_point
+  output_orientation: long
+  materialization_mode: direct_remote_scan
+  # No status mixing: the AirNow preliminary row is excluded by default, and
+  # including it would require a stated policy.
+  status_mixing_policy: refuse
+  strict_extensivity_check: strict
+  requested_by: nmatentzoglu
+  request_timestamp_utc: "2026-09-18T08:41:10Z"
+  request_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  generated_sql: |
+    -- The query the meeting plan's figure sketches, against this schema.
+    SELECT
+      l.location_key,
+      cv.name                         AS variable,
+      date_trunc('day', g.valid_time_start) AS day,
+      SUM(g.value * ST_Area(ST_Intersection(g.cell_polygon, b.buf))
+                  / ST_Area(g.cell_polygon))
+        / SUM(ST_Area(ST_Intersection(g.cell_polygon, b.buf))
+                  / ST_Area(g.cell_polygon))  AS value,
+      cv.units_ucum,
+      COUNT(*)                        AS contributing_value_count
+    FROM (SELECT location_key,
+                 ST_Buffer(location_geom, 10000) AS buf
+          FROM "Location_geo") b
+    JOIN "Location_geo" l USING (location_key)
+    JOIN "GridCellValue_geo" g
+      ON ST_Intersects(g.cell_polygon, b.buf)
+    JOIN "ProductVariable"    pv ON g.product_variable   = pv.id
+    JOIN "CanonicalVariable"  cv ON g.canonical_variable = cv.id
+    WHERE g.product_variable = 'amadeus:pvar/gridmet.tmmx'
+      AND g.valid_time_start >= TIMESTAMP '2026-07-14 00:00:00'
+      AND g.valid_time_start <  TIMESTAMP '2026-07-16 00:00:00'
+      AND g.data_status <> 'superseded'
+      AND g.null_semantics = 'present'
+    GROUP BY 1, 2, 3, 5;
+
+ambient_values_at_location:
+# Temperature: an area-weighted mean over the GridMET cells intersecting a
+# 10 km buffer. Note what the row carries that today's `weasd_0` column cannot:
+# which product variable, how many cells contributed, the extraction method,
+# and the run.
+- id: amadeus:avl/durham-001-tmmx-20260714
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/gridmet-tmmx-2026
+  processing_run: amadeus:run/calc-durham-20260918
+  value: 34.83
+  value_unit_ucum: Cel
+  valid_time_start: "2026-07-13T12:00:00Z"
+  valid_time_end: "2026-07-14T12:00:00Z"
+  retrieval_time_utc: "2026-09-18T08:41:12Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  location: amadeus:loc/durham-001
+  extraction_request: amadeus:request/durham-heat-aq-2026-07
+  buffer_radius_m: 10000.0
+  extraction_method: exact_extract
+  aggregation_method: area_weighted_mean
+  contributing_value_count: 3
+  coverage_fraction: 1.0
+  lag_days_applied: 0
+  temporal_grouping: day
+  output_column_name: gridmet_tmmx_10000
+
+- id: amadeus:avl/durham-001-tmmx-20260714-lag1
+  product_variable: amadeus:pvar/gridmet.tmmx
+  canonical_variable: amadeus:var/air_temperature_daily_maximum
+  asset: amadeus:asset/gridmet-tmmx-2026
+  processing_run: amadeus:run/calc-durham-20260918
+  value: 33.11
+  value_unit_ucum: Cel
+  valid_time_start: "2026-07-12T12:00:00Z"
+  valid_time_end: "2026-07-13T12:00:00Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  location: amadeus:loc/durham-001
+  extraction_request: amadeus:request/durham-heat-aq-2026-07
+  buffer_radius_m: 10000.0
+  extraction_method: exact_extract
+  aggregation_method: area_weighted_mean
+  contributing_value_count: 3
+  lag_days_applied: 1
+  temporal_grouping: day
+  output_column_name: gridmet_tmmx_10000_lag1
+
+# PM2.5 from the nearest station. `distance_to_source_m` is what makes a
+# nearest-station assignment defensible rather than merely available.
+- id: amadeus:avl/durham-001-pm25-20260714
+  product_variable: amadeus:pvar/aqs.88101
+  canonical_variable: amadeus:var/pm25_mass_concentration
+  asset: amadeus:asset/aqs-daily-88101-2026
+  processing_run: amadeus:run/calc-durham-20260918
+  value: 18.4
+  value_unit_ucum: ug/m3
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  data_status: quality_controlled
+  source_system: aqs
+  null_semantics: present
+  location: amadeus:loc/durham-001
+  extraction_request: amadeus:request/durham-heat-aq-2026-07
+  buffer_radius_m: 0.0
+  extraction_method: nearest_station
+  contributing_value_count: 1
+  distance_to_source_m: 8214.0
+  lag_days_applied: 0
+  temporal_grouping: day
+  output_column_name: aqs_88101_0
+
+# Smoke: polygon membership. Categorical, so `mode`, not a mean.
+- id: amadeus:avl/durham-001-smoke-20260714
+  product_variable: amadeus:pvar/hms.density
+  canonical_variable: amadeus:var/smoke_plume_density_class
+  asset: amadeus:asset/hms-smoke-20260714
+  processing_run: amadeus:run/calc-durham-20260918
+  value: 1.0
+  value_unit_ucum: "1"
+  valid_time_start: "2026-07-14T00:00:00Z"
+  valid_time_end: "2026-07-15T00:00:00Z"
+  quality_flag: Light
+  data_status: preliminary
+  source_system: hms
+  null_semantics: present
+  location: amadeus:loc/durham-001
+  extraction_request: amadeus:request/durham-heat-aq-2026-07
+  buffer_radius_m: 0.0
+  extraction_method: intersection_area_proportion
+  aggregation_method: mode
+  contributing_value_count: 1
+  coverage_fraction: 1.0
+  temporal_grouping: day
+  output_column_name: hms_density_0

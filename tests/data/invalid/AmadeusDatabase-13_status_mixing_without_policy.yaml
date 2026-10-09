@@ -1,0 +1,14 @@
+# RULE: mixing preliminary and quality-controlled values into one result
+# requires an explicitly stated reconciliation policy. Plan section 4.6.1.
+schema_version: "0.1.0"
+location_sets:
+- {id: "x:locset/s", name: s, locs_id_field: site_id, crs: "EPSG:4326", phi_status: no_phi}
+extraction_requests:
+- id: "x:req/1"
+  location_set: "x:locset/s"
+  time_window_start: "2026-07-14T00:00:00Z"
+  time_window_end: "2026-07-16T00:00:00Z"
+  extraction_method: nearest_station
+  status_mixing_policy: allow_with_policy      # mixing AQS with AirNow...
+  # source_priority_policy: ABSENT  <-- violates the rule
+  request_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

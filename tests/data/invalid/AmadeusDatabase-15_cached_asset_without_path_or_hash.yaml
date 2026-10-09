@@ -1,0 +1,14 @@
+# RULE: anything cached or fully downloaded must record where it went and what
+# it hashes to, or "idempotent, resumable processing" is not checkable.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/p", name: p, data_source: "x:src/a", spatial_support_type: point, temporal_resolution: annual}
+assets:
+- id: "x:asset/1"
+  product: "x:prod/p"
+  url: https://example.org/file.nc
+  materialization_mode: full_materialization   # downloaded...
+  value_state: registered_only
+  # local_path: ABSENT, sha256: ABSENT  <-- violates the rule

@@ -1,0 +1,11 @@
+# RULE: a failed run must carry diagnostic output. "A failed run is diagnosable
+# and can resume without corrupting accepted outputs" is unmeetable otherwise.
+schema_version: "0.1.0"
+tool_runs:
+- id: "x:run/1"
+  run_role: download
+  tool_name: amadeus
+  tool_version: 1.3.2.1
+  run_timestamp_utc: "2026-07-16T04:00:02Z"
+  status: failed                 # failed...
+  # log_excerpt: ABSENT  <-- violates the rule

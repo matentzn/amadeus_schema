@@ -1,0 +1,12 @@
+# RULE: a gridded product must declare its grid.
+# Without it, "4 km" lives in prose and no query can reason about resolution.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- id: "x:prod/grid_no_griddef"
+  name: grid_no_griddef
+  data_source: "x:src/a"
+  spatial_support_type: raster_grid_cell   # gridded...
+  temporal_resolution: monthly
+  # grid_definition: ABSENT  <-- violates the rule

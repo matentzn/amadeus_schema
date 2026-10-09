@@ -1,0 +1,12 @@
+# RULE: anything downstream of download must name what it consumed, or the
+# provenance chain has a hole and terminates in the wrong place.
+schema_version: "0.1.0"
+tool_runs:
+- id: "x:run/1"
+  run_role: calculate
+  tool_name: amadeus
+  tool_version: 2.0.0-dev
+  run_timestamp_utc: "2026-09-18T08:41:12Z"
+  status: succeeded
+  output_row_count: 4
+  # upstream_runs: ABSENT  <-- violates the rule

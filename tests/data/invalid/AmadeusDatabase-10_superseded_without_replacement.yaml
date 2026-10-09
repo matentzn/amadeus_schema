@@ -1,0 +1,23 @@
+# RULE: a superseded row must point at its replacement.
+# The AQS/AirNow rule: revisions append, they never mutate or orphan.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/p", name: p, data_source: "x:src/a", spatial_support_type: monitoring_station, temporal_resolution: hourly}
+canonical_variables:
+- {id: "x:var/v", name: v, standard_name: "CF:air_temperature", units_ucum: Cel, value_data_type: continuous_numeric, extensivity: intensive}
+product_variables:
+- {id: "x:pvar/p.v", product: "x:prod/p", canonical_variable: "x:var/v", native_name: t}
+station_observations:
+- id: "x:obs/1"
+  product_variable: "x:pvar/p.v"
+  canonical_variable: "x:var/v"
+  value: 21.0
+  valid_time_start: "2026-07-14T18:00:00Z"
+  data_status: superseded          # superseded...
+  # superseded_by: ABSENT  <-- violates the rule
+  source_system: airnow
+  null_semantics: present
+  station_id: s1
+  station_geom_wkt: "POINT (-78.9 35.9)"

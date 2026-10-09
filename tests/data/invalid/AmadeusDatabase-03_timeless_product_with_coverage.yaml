@@ -1,0 +1,12 @@
+# RULE: a timeless product asserts no temporal coverage.
+# GMTED elevation does not "cover 2001-2021"; it has no time.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- id: "x:prod/timeless_with_dates"
+  name: timeless_with_dates
+  data_source: "x:src/a"
+  spatial_support_type: polygon
+  temporal_resolution: timeless
+  temporal_coverage_start: "2001-01-01"   # <-- violates the rule

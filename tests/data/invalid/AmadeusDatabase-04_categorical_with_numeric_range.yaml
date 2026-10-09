@@ -1,0 +1,15 @@
+# RULE: a plausible numeric range is meaningless for a nominal class label.
+#
+# Declares ONLY plausible_min, not both. That distinction matters: when the two
+# ABSENT postconditions lived in a single rule they compiled to a single negated
+# `required: [plausible_min, plausible_max]` — "not BOTH present" — and this
+# file validated. Split into one rule per slot, it is correctly rejected.
+schema_version: "0.1.0"
+canonical_variables:
+- id: "x:var/landcover"
+  name: landcover
+  standard_name: "AMADEUS:landcover"
+  units_ucum: "1"
+  value_data_type: categorical
+  extensivity: categorical
+  plausible_min: 0.0     # <-- violates the rule; plausible_max deliberately absent

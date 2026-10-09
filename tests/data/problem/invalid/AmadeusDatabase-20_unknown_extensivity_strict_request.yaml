@@ -1,0 +1,28 @@
+# NOT a rule violation — a MODELLING gap this schema makes visible.
+# `extensivity: unknown` is permitted so migration need not assess every legacy
+# variable at once, but `strict_extensivity_check: strict` on a request is meant
+# to refuse it. That check is a query-planner responsibility, not a LinkML
+# rule: LinkML cannot see across the request-to-variable join. This file
+# VALIDATES, and the fact that it does is the finding — see REPORT.md section
+# on what LinkML rules cannot express.
+schema_version: "0.1.0"
+canonical_variables:
+- id: "x:var/mystery"
+  name: mystery
+  standard_name: "AMADEUS:mystery"
+  units_ucum: "1"
+  value_data_type: continuous_numeric
+  extensivity: unknown
+location_sets:
+- {id: "x:locset/s", name: s, locs_id_field: site_id, crs: "EPSG:4326", phi_status: no_phi}
+extraction_requests:
+- id: "x:req/1"
+  location_set: "x:locset/s"
+  requested_canonical_variables: ["x:var/mystery"]
+  time_window_start: "2026-07-14T00:00:00Z"
+  time_window_end: "2026-07-16T00:00:00Z"
+  extraction_method: exact_extract
+  buffer_radius_m: 10000.0
+  aggregation_method: mean
+  strict_extensivity_check: strict
+  request_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

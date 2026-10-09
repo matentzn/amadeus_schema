@@ -1,0 +1,27 @@
+# RULE: a forecast is meaningless without its initialisation time.
+# HRRR's "cycle and forecast-hour identity" requirement, enforced.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/hrrr", name: hrrr, data_source: "x:src/a", spatial_support_type: model_grid_cell, temporal_resolution: hourly, grid_definition: "x:grid/g"}
+grid_definitions:
+- {id: "x:grid/g", name: g, crs: "EPSG:4326", resolution_x: 0.03, resolution_y: 0.03}
+canonical_variables:
+- {id: "x:var/v", name: v, standard_name: "CF:air_temperature", units_ucum: Cel, value_data_type: continuous_numeric, extensivity: intensive}
+product_variables:
+- {id: "x:pvar/hrrr.t", product: "x:prod/hrrr", canonical_variable: "x:var/v", native_name: TMP}
+grid_cell_values:
+- id: "x:gcv/1"
+  product_variable: "x:pvar/hrrr.t"
+  canonical_variable: "x:var/v"
+  value: 31.2
+  valid_time_start: "2026-07-14T18:00:00Z"
+  data_status: forecast            # forecast...
+  # reference_time: ABSENT  <-- violates the rule
+  source_system: hrrr
+  null_semantics: present
+  grid_definition: "x:grid/g"
+  cell_x: 10
+  cell_y: 20
+  cell_centroid_wkt: "POINT (-78.8 35.9)"

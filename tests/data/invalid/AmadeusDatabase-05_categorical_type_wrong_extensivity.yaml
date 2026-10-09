@@ -1,0 +1,10 @@
+# RULE: a categorical value must declare categorical extensivity.
+# Declaring land cover "intensive" would license computing its mean.
+schema_version: "0.1.0"
+canonical_variables:
+- id: "x:var/landcover"
+  name: landcover
+  standard_name: "AMADEUS:landcover"
+  units_ucum: "1"
+  value_data_type: categorical
+  extensivity: intensive   # <-- violates the rule

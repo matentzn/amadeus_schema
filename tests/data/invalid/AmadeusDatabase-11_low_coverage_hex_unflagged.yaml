@@ -1,0 +1,29 @@
+# RULE: a hex covered less than half by its source must be flagged.
+# Partial coverage at a product's edge is how a plausible hex value turns out
+# to be mostly nothing.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/p", name: p, data_source: "x:src/a", spatial_support_type: raster_grid_cell, temporal_resolution: daily, day_boundary_convention: utc_midnight, grid_definition: "x:grid/g"}
+grid_definitions:
+- {id: "x:grid/g", name: g, crs: "EPSG:4326", resolution_x: 0.04, resolution_y: 0.04}
+canonical_variables:
+- {id: "x:var/v", name: v, standard_name: "CF:air_temperature", units_ucum: Cel, value_data_type: continuous_numeric, extensivity: intensive}
+product_variables:
+- {id: "x:pvar/p.v", product: "x:prod/p", canonical_variable: "x:var/v", native_name: t}
+hex_cell_values:
+- id: "x:hcv/1"
+  product_variable: "x:pvar/p.v"
+  canonical_variable: "x:var/v"
+  value: 34.1
+  valid_time_start: "2026-07-14T00:00:00Z"
+  data_status: final
+  source_system: gridmet
+  null_semantics: present
+  h3_cell: 8844c0a9245ffff
+  h3_resolution: 8
+  source_support_type: raster_grid_cell
+  hexification_method: area_weighted_mean
+  coverage_fraction: 0.38        # under half...
+  # quality_flag: ABSENT  <-- violates the rule

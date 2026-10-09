@@ -1,0 +1,12 @@
+# RULE: a daily product must declare where its day starts.
+# This is the Daymet/GridMET 1.26 degC discrepancy, caught at registration.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- id: "x:prod/daily_no_boundary"
+  name: daily_no_boundary
+  data_source: "x:src/a"
+  spatial_support_type: monitoring_station
+  temporal_resolution: daily      # daily...
+  # day_boundary_convention: ABSENT  <-- violates the rule

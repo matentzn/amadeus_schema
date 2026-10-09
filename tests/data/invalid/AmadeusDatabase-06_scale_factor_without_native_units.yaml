@@ -1,0 +1,15 @@
+# RULE: a scale factor without the unit it scales from is uninterpretable.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/p", name: p, data_source: "x:src/a", spatial_support_type: point, temporal_resolution: annual}
+canonical_variables:
+- {id: "x:var/v", name: v, standard_name: "CF:air_temperature", units_ucum: Cel, value_data_type: continuous_numeric, extensivity: intensive}
+product_variables:
+- id: "x:pvar/p.v"
+  product: "x:prod/p"
+  canonical_variable: "x:var/v"
+  native_name: lst
+  native_value_scale_factor: 0.02   # scaling from what?
+  # native_units_ucum: ABSENT  <-- violates the rule

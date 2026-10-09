@@ -1,0 +1,19 @@
+# RULE: a multi-level variable's layer names must carry the level, or the level
+# cannot be recovered when the raster is flattened. amadeus parses NARR and
+# MERRA-2 layer names positionally today; this makes the convention checkable.
+schema_version: "0.1.0"
+data_sources:
+- {id: "x:src/a", name: a}
+products:
+- {id: "x:prod/narr", name: narr, data_source: "x:src/a", spatial_support_type: model_grid_cell, temporal_resolution: daily, day_boundary_convention: utc_midnight, grid_definition: "x:grid/g"}
+grid_definitions:
+- {id: "x:grid/g", name: g, crs: "EPSG:4326", resolution_x: 0.3, resolution_y: 0.3}
+canonical_variables:
+- {id: "x:var/v", name: v, standard_name: "CF:air_temperature", units_ucum: Cel, value_data_type: continuous_numeric, extensivity: intensive}
+product_variables:
+- id: "x:pvar/narr.omega"
+  product: "x:prod/narr"
+  canonical_variable: "x:var/v"
+  native_name: omega
+  vertical_level_type: isobaric_pressure_hPa
+  layer_name_template: "{native_name}_{YYYYMMDD}"   # <-- no {level}; violates the rule
