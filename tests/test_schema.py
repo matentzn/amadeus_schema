@@ -40,8 +40,14 @@ def generated_ddl() -> None:
     run on its own, by `just test`, or by CI, with no ordering assumption.
     """
     subprocess.run(
-        [PY, "-m", "linkml.generators.sqltablegen",
-         "--autogenerate_index", "false", str(SCHEMA)],
+        [
+            PY,
+            "-m",
+            "linkml.generators.sqltablegen",
+            "--autogenerate_index",
+            "false",
+            str(SCHEMA),
+        ],
         stdout=(BUILD / "amadeus_generic.sql").open("w"),
         check=True,
         cwd=ROOT,
