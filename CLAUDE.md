@@ -18,42 +18,25 @@ template; `just update` re-runs `copier update`, so template-owned files
 
 ## The amadeus R package — the other half of the cycle
 
-This schema models a package that lives in a **different checkout**:
-`~/ws/software/amadeus` (under `software/`, not `projects/` — the schema repo is
-the odd one out). It is NIEHS's public repo, CRAN `amadeus` 2.0.2, currently at
-a merge of PR #270.
+This schema models [NIEHS/amadeus](https://github.com/NIEHS/amadeus) (CRAN
+`amadeus` 2.0.2), which lives in a **separate checkout** located by the
+`AMADEUS_REPO` environment variable. Its
+[`AGENTS.md`](https://github.com/NIEHS/amadeus/blob/main/AGENTS.md) covers the R
+package conventions: the dispatch pattern, file layout, testthat rules, and the
+five-step "adding a new dataset" recipe. Read it before doing anything that
+spans both repos. Nothing from this repo gets pushed there, and vice versa.
 
-**Read its two agent files before doing anything that spans both repos** — they
-are long, current, and not duplicated here:
+Objective, assumption and constraint IDs cited in `REPORT.md` (O-02 is this
+schema; A-01…A-03, C-01…C-05) come from the amadeus NextGen plan v1.1.
 
-- `~/ws/software/amadeus/CLAUDE.md` — the strategic context: the NextGen plan
-  v1.1 (`background/Amadeus_NextGen_Planning_v1_1.pdf`), objectives O-01…O-09
-  (this schema is **O-02**), assumptions A-01…A-03 and constraints C-01…C-05
-  cited by ID throughout `REPORT.md`, who the people are, the HEW/EnVar/amadeus
-  three-layer framing, and the "amadeus ends at the geojoin" scope boundary that
-  the no-`exposure`-in-any-name test enforces here.
-- `~/ws/software/amadeus/AGENTS.md` — R package conventions: the dispatch
-  pattern, file layout, testthat rules, and the five-step "adding a new dataset"
-  recipe.
-
-Nothing from this repo gets pushed there, and vice versa. That repo is a
-stakeholder proposal surface, not Nico's.
-
-### Two things live in the amadeus repo that this repo's work depends on
-
-- `~/ws/software/amadeus/specs/2026-09-18-amadeus-data-model-design.md` — the
-  durable design spec for this model. It is *there*, not in a `specs/` folder
-  here. Design decisions land in that file.
-- `~/ws/software/amadeus/schema/` — **the older, diverged draft of this very
-  repo.** Same filenames (`REPORT.md`, `justfile`, `scripts/`, `examples/`), so
-  it is easy to edit by mistake; a path starting `~/ws/software/amadeus/schema/`
-  is almost always wrong. It is untracked and local-only. Retiring it is
-  `issues/issue_retire_inrepo_schema_draft.md`.
+If a `CLAUDE.local.md` exists, it holds machine-specific context (where the
+checkout and the design spec live) — read it. Never commit machine paths
+(`~/…`, `/Users/…`) or links to gitignored files such as `issues/`.
 
 ### The coupling that the code actually checks
 
 `Product` carries three slots naming amadeus functions, and they must resolve to
-real definitions in `~/ws/software/amadeus/R/*.R`:
+real definitions in `$AMADEUS_REPO/R/*.R`:
 
 | Slot | Resolves to |
 |---|---|
@@ -69,10 +52,9 @@ ahead of the code is correct for a new dataset (`daymet` genuinely has no
 `download_daymet`; `airnow` is P0-planned but unimplemented). The same check over
 the *existing* catalog failing is a real defect.
 
-That stage finds the sources at `$AMADEUS_REPO`, defaulting to
-`~/ws/software/amadeus`. With neither present — CI, or any machine without the
-checkout — it prints a **loud SKIP rather than reporting every function as
-`NOT IMPLEMENTED`**, because those two states are otherwise indistinguishable
+That stage finds the sources at `$AMADEUS_REPO`. Unset or pointing nowhere —
+CI, or any machine without the checkout — it prints a **loud SKIP rather than
+reporting every function as `NOT IMPLEMENTED`**, because those two states are otherwise indistinguishable
 and the vacuous one reads as a plausible result.
 
 Note `calculate_`, not `calc_`: amadeus has both prefixes in `R/`, and every
