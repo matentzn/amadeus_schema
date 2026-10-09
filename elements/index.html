@@ -1,0 +1,2074 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://NIEHS.github.io/amadeus-schema/elements/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../about/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Schema - amadeus-schema</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+
+      
+    
+<script src="../assets/pymdownx-extras/material-extra-theme-2ek1P7jT.js" type="text/javascript"></script>
+<script src="../assets/pymdownx-extras/material-extra-3rdparty-BUCF4rjN.js" type="text/javascript"></script>
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+      <link rel="stylesheet" href="../assets/pymdownx-extras/extra-c6ab11540a.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#amadeusdb-data-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+
+<header class="md-header" data-md-component="header">
+  <nav
+    class="md-header__inner md-grid"
+    aria-label="header.title"
+  >
+    <a
+      href="https://NIEHS.github.io/amadeus-schema/"
+      title="amadeus-schema"
+      class="md-header__button md-logo"
+      aria-label="amadeus-schema"
+    >
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            amadeus-schema
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Schema
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      <div class="md-header-nav__scheme md-header-nav__button md-source__icon md-icon">
+          <a
+            href="javascript:toggleScheme();"
+            title="Light mode"
+            class="light-mode"
+          >
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+          </a>
+          <a
+            href="javascript:toggleScheme();"
+            title="Dark mode"
+            class="dark-mode"
+          >
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+          </a>
+          <a
+            href="javascript:toggleScheme();"
+            title="System preference"
+            class="system-mode"
+          >
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07zm-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13zm-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87zM19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35zm4.33-2.7 1.15-2.77 2.2 2.54zm1.15-4.96-1.14-2.78 3.34.24zM9.63 18.93l2.77 1.15-2.53 2.19z"/></svg>
+          </a>
+           <a
+            href="javascript:toggleScheme();"
+            title="Unknown scheme"
+            class="unknown-mode"
+          >
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15.07 11.25-.9.92C13.45 12.89 13 13.5 13 15h-2v-.5c0-1.11.45-2.11 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41a2 2 0 0 0-2-2 2 2 0 0 0-2 2H8a4 4 0 0 1 4-4 4 4 0 0 1 4 4 3.2 3.2 0 0 1-.93 2.25M13 19h-2v-2h2M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10c0-5.53-4.5-10-10-10"/></svg>
+          </a>
+      </div>
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/NIEHS/amadeus-schema" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="amadeus-schema" class="md-nav__button md-logo" aria-label="amadeus-schema" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    amadeus-schema
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/NIEHS/amadeus-schema" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#four-layers-five-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Four layers, five modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-three-load-bearing-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three load-bearing claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-neighbouring-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the neighbouring schemas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slots
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsets
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#four-layers-five-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Four layers, five modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-three-load-bearing-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The three load-bearing claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-neighbouring-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the neighbouring schemas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slots
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsets
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+  
+                  
+
+
+  
+  
+
+
+<h1 id="amadeusdb-data-model">AmadeusDB — Data Model</h1>
+<p>A candidate data model for the next-generation, database-backed amadeus
+("AmadeusDB"). Prototype for the Database-and-Schema agenda item of the
+Amadeus Next-Generation Maintenance and Modernization plan (v1.0, 2026-09-18).</p>
+<h2 id="four-layers-five-modules">Four layers, five modules</h2>
+<ul>
+<li><code>amadeus_common</code>      types, enums, shared slots — and the reconciliation
+                        record against EnVar and HEW</li>
+<li><code>amadeus_catalog</code>     what data exists and what it means
+                        (DataSource → Product → ProductVariable →
+                        CanonicalVariable; GridDefinition; Asset)</li>
+<li><code>amadeus_value</code>       the data rows, in four spatial shapes
+                        (StationObservation, GridCellValue, AreaValue,
+                        HexCellValue) plus VectorFeature</li>
+<li><code>amadeus_request</code>     the query-first contract
+                        (LocationSet, Location, ExtractionRequest,
+                        AmbientValueAtLocation)</li>
+<li><code>amadeus_provenance</code>  ToolRun and the derivation DAG</li>
+</ul>
+<h2 id="the-three-load-bearing-claims">The three load-bearing claims</h2>
+<ol>
+<li><strong>One schema, not one per source type.</strong> The 24 amadeus sources vary on
+   five orthogonal axes recorded on <code>Product</code> and <code>CanonicalVariable</code>
+   (spatial support, temporal resolution, value kind, native format,
+   extensivity), and on exactly one axis that needs a different table: what
+   geometry identifies a value. Four value tables cover all of them.</li>
+<li><strong><code>CanonicalVariable</code> ← <code>ProductVariable</code> answers the actual question.</strong>
+   "Is the schema for this variable the same as for the same variable from
+   another source?" Yes at the canonical level, no at the product level, and
+   every reason for the difference is a slot.</li>
+<li><strong>Extensivity makes aggregation checkable.</strong> Intensive vs extensive is not
+   documentation; it is the precondition on which aggregation methods are
+   legal, enforced by a rule on <code>ExtractionRequest</code>.</li>
+</ol>
+<h2 id="relationship-to-the-neighbouring-schemas">Relationship to the neighbouring schemas</h2>
+<p>This model sits <em>between</em> HEW and EnVar and is designed to be projectable to
+both, not to replace either:</p>
+<pre><code>HEW Catalog    dataset grain    what exists           ← Product, DataSource roll up
+AmadeusDB      row grain        the values themselves  ← this schema
+EnVar          run grain        what one number means  ← Asset + ToolRun + Product project out
+</code></pre>
+<p>Every slot that has an upstream equivalent carries <code>exact_mappings</code> to it.
+Every enum that extends an upstream one carries <code>annotations: extends</code> plus a
+note on why, so enum reconciliation is a finite list of decisions rather than
+a diff. Three things this model has that neither upstream does — per-row
+<code>data_status</code>, <code>VariableExtensivityEnum</code>, and <code>GridDefinition</code> — are candidate
+contributions upward.</p>
+<p>URI: <a href="https://w3id.org/niehs/amadeus">https://w3id.org/niehs/amadeus</a></p>
+<p>Name: amadeus-schema</p>
+<h2 id="classes">Classes</h2>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="AmadeusDatabase/">AmadeusDatabase</a></td>
+<td>Container for a complete or partial AmadeusDB instance</td>
+</tr>
+<tr>
+<td><a href="AmbientValue/">AmbientValue</a></td>
+<td>One value of one variable, at one place, over one time interval, from one ass...</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="AmbientValueAtLocation/">AmbientValueAtLocation</a></td>
+<td>The output row: an ambient value assigned to a user location for a time inter...</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="AreaValue/">AreaValue</a></td>
+<td>A value attached to a named or delineated polygon: HUC watersheds, EPA ecoreg...</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="GridCellValue/">GridCellValue</a></td>
+<td>A value at one cell of one grid — the flattened form of a raster layer</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="HexCellValue/">HexCellValue</a></td>
+<td>A value aggregated to an H3 cell — the harmonization target for the C-HER col...</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="StationObservation/">StationObservation</a></td>
+<td>A value from a fixed instrument with a persistent identity: EPA AQS, AirNow, ...</td>
+</tr>
+<tr>
+<td><a href="Asset/">Asset</a></td>
+<td>A concrete byte stream: a file on disk, an object in a bucket, a STAC asset, ...</td>
+</tr>
+<tr>
+<td><a href="CanonicalVariable/">CanonicalVariable</a></td>
+<td>A harmonised environmental quantity, independent of who publishes it</td>
+</tr>
+<tr>
+<td><a href="DataSource/">DataSource</a></td>
+<td>A provider programme that publishes one or more products: EPA AQS, NASA MODIS...</td>
+</tr>
+<tr>
+<td><a href="ExtractionRequest/">ExtractionRequest</a></td>
+<td>A declarative, reproducible specification of an extraction: which variables, ...</td>
+</tr>
+<tr>
+<td><a href="GridDefinition/">GridDefinition</a></td>
+<td>A reusable description of a raster or model grid</td>
+</tr>
+<tr>
+<td><a href="Location/">Location</a></td>
+<td>One location in a set, with an optional validity interval</td>
+</tr>
+<tr>
+<td><a href="LocationSet/">LocationSet</a></td>
+<td>A user-supplied collection of locations — the <code>locs</code> argument, promoted to an...</td>
+</tr>
+<tr>
+<td><a href="OmopConceptBinding/">OmopConceptBinding</a></td>
+<td>Binding of a canonical variable to an OMOP concept</td>
+</tr>
+<tr>
+<td><a href="Product/">Product</a></td>
+<td>A specific, versioned data product from a source — the unit a user actually r...</td>
+</tr>
+<tr>
+<td><a href="ProductVariable/">ProductVariable</a></td>
+<td>One source's delivery of one canonical variable: the native name, the native ...</td>
+</tr>
+<tr>
+<td><a href="ProvenanceChain/">ProvenanceChain</a></td>
+<td>A materialised walk of <code>upstream_runs</code> from a derived value back to its termi...</td>
+</tr>
+<tr>
+<td><a href="ToolRun/">ToolRun</a></td>
+<td>One execution of one amadeus operation, with everything needed to decide whet...</td>
+</tr>
+<tr>
+<td><a href="VectorFeature/">VectorFeature</a></td>
+<td>A reference geometry with attributes but no measured value over time: SEDAC g...</td>
+</tr>
+</tbody>
+</table>
+<h2 id="slots">Slots</h2>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="access_protocol/">access_protocol</a></td>
+<td>Primary access mechanism</td>
+</tr>
+<tr>
+<td><a href="access_url/">access_url</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="aggregation_method/">aggregation_method</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="aggregation_window_iso/">aggregation_window_iso</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="amadeus_calculate_covariate/">amadeus_calculate_covariate</a></td>
+<td>The string accepted by <code>calculate_covariates(covariate=)</code></td>
+</tr>
+<tr>
+<td><a href="amadeus_dataset_name/">amadeus_dataset_name</a></td>
+<td>The exact string accepted by <code>download_data(dataset_name=)</code></td>
+</tr>
+<tr>
+<td><a href="amadeus_function_suffix/">amadeus_function_suffix</a></td>
+<td>The suffix amadeus uses for this source's functions (<code>_narr</code> → `download_narr...</td>
+</tr>
+<tr>
+<td><a href="amadeus_process_covariate/">amadeus_process_covariate</a></td>
+<td>The string accepted by <code>process_covariates(covariate=)</code></td>
+</tr>
+<tr>
+<td><a href="amadeus_variable_code/">amadeus_variable_code</a></td>
+<td>The string a user passes as <code>variable=</code> to the amadeus download/process funct...</td>
+</tr>
+<tr>
+<td><a href="ambient_values_at_location/">ambient_values_at_location</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_code/">area_code</a></td>
+<td>The external code identifying the area</td>
+</tr>
+<tr>
+<td><a href="area_geom_wkt/">area_geom_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_id/">area_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_km2/">area_km2</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_name/">area_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_role/">area_role</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_type/">area_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="area_values/">area_values</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="asset/">asset</a></td>
+<td>The byte stream this value came from</td>
+</tr>
+<tr>
+<td><a href="asset_key/">asset_key</a></td>
+<td>STAC asset key or other within-item key</td>
+</tr>
+<tr>
+<td><a href="assets/">assets</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="auth_mechanism/">auth_mechanism</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="bbox_wkt/">bbox_wkt</a></td>
+<td>Bounding geometry as WKT</td>
+</tr>
+<tr>
+<td><a href="buffer_radius_m/">buffer_radius_m</a></td>
+<td>Buffer radius in metres</td>
+</tr>
+<tr>
+<td><a href="bytes_transferred/">bytes_transferred</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="cache_expires_at/">cache_expires_at</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="calendar/">calendar</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="canonical_variable/">canonical_variable</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="canonical_variables/">canonical_variables</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="cell_centroid_wkt/">cell_centroid_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="cell_polygon_wkt/">cell_polygon_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="cell_x/">cell_x</a></td>
+<td>Zero-based column index in the grid</td>
+</tr>
+<tr>
+<td><a href="cell_y/">cell_y</a></td>
+<td>Zero-based row index in the grid</td>
+</tr>
+<tr>
+<td><a href="cf_cell_methods/">cf_cell_methods</a></td>
+<td>The CF <code>cell_methods</code> attribute verbatim</td>
+</tr>
+<tr>
+<td><a href="cf_standard_name/">cf_standard_name</a></td>
+<td>The CF <code>standard_name</code> attribute as it appears in the source file</td>
+</tr>
+<tr>
+<td><a href="chain_steps/">chain_steps</a></td>
+<td>Run identifiers, ordered from the derived value back to the terminus</td>
+</tr>
+<tr>
+<td><a href="citation_apa/">citation_apa</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="compatibility_assertions/">compatibility_assertions</a></td>
+<td>Assertions that consecutive steps were compatible — matching CRS, units, cale...</td>
+</tr>
+<tr>
+<td><a href="concept_mappings/">concept_mappings</a></td>
+<td>Mappings to any target vocabulary</td>
+</tr>
+<tr>
+<td><a href="concept_status/">concept_status</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="container_image_digest/">container_image_digest</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="container_image_repository/">container_image_repository</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="contributing_cell_count/">contributing_cell_count</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="contributing_value_count/">contributing_value_count</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="coverage_fraction/">coverage_fraction</a></td>
+<td>Fraction of the hex actually covered by contributing source support</td>
+</tr>
+<tr>
+<td><a href="created_at/">created_at</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="crs/">crs</a></td>
+<td>Coordinate reference system as an authority code</td>
+</tr>
+<tr>
+<td><a href="data_genre/">data_genre</a></td>
+<td>Thematic classification, from the README source table</td>
+</tr>
+<tr>
+<td><a href="data_source/">data_source</a></td>
+<td>The publishing programme</td>
+</tr>
+<tr>
+<td><a href="data_sources/">data_sources</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="data_status/">data_status</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="day_boundary_convention/">day_boundary_convention</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="default_aggregation_method/">default_aggregation_method</a></td>
+<td>The aggregation applied when a request does not name one</td>
+</tr>
+<tr>
+<td><a href="default_data_status/">default_data_status</a></td>
+<td>The status values from this product carry unless a row says otherwise</td>
+</tr>
+<tr>
+<td><a href="description/">description</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="distance_to_source_m/">distance_to_source_m</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="doi/">doi</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="download_timestamp_utc/">download_timestamp_utc</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="elevation_m/">elevation_m</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="envar_variable_family/">envar_variable_family</a></td>
+<td>Which EnVar variable family this belongs to, and therefore which variable-spe...</td>
+</tr>
+<tr>
+<td><a href="extensivity/">extensivity</a></td>
+<td>Intensive, extensive or categorical</td>
+</tr>
+<tr>
+<td><a href="extraction_method/">extraction_method</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="extraction_request/">extraction_request</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="extraction_requests/">extraction_requests</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="feature_attributes/">feature_attributes</a></td>
+<td>Source attributes as a JSON object string</td>
+</tr>
+<tr>
+<td><a href="feature_geom_wkt/">feature_geom_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="feature_id/">feature_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="feature_type/">feature_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="function_name/">function_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="generated_sql/">generated_sql</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="geometry_type/">geometry_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grid_cell_values/">grid_cell_values</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grid_definition/">grid_definition</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grid_definition_ref/">grid_definition_ref</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grid_definitions/">grid_definitions</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grid_mapping_name/">grid_mapping_name</a></td>
+<td>CF grid mapping name</td>
+</tr>
+<tr>
+<td><a href="h3_cell/">h3_cell</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="h3_resolution/">h3_resolution</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="harmonization_note/">harmonization_note</a></td>
+<td>Free text on why this delivery is not interchangeable with a sibling delivery...</td>
+</tr>
+<tr>
+<td><a href="hex_cell_values/">hex_cell_values</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="hex_centroid_wkt/">hex_centroid_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="hexification_method/">hexification_method</a></td>
+<td>How source supports were combined into the hex value</td>
+</tr>
+<tr>
+<td><a href="homepage/">homepage</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="homogenisation_status/">homogenisation_status</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="id/">id</a></td>
+<td>Stable identifier for this entity within an AmadeusDB instance</td>
+</tr>
+<tr>
+<td><a href="input_asset_ids/">input_asset_ids</a></td>
+<td>Assets consumed by this run</td>
+</tr>
+<tr>
+<td><a href="input_file_sha256/">input_file_sha256</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="input_row_count/">input_row_count</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="label/">label</a></td>
+<td>A human-readable display label</td>
+</tr>
+<tr>
+<td><a href="lag_days/">lag_days</a></td>
+<td>Lags to compute, in days</td>
+</tr>
+<tr>
+<td><a href="lag_days_applied/">lag_days_applied</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="layer_name_template/">layer_name_template</a></td>
+<td>How amadeus composes <code>terra</code> layer names for this variable</td>
+</tr>
+<tr>
+<td><a href="length_m/">length_m</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="license_spdx/">license_spdx</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="local_path/">local_path</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location/">location</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location_count/">location_count</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location_geom_wkt/">location_geom_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location_key/">location_key</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location_set/">location_set</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="location_sets/">location_sets</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="locations/">locations</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="locs_id_field/">locs_id_field</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="log_excerpt/">log_excerpt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="materialization_mode/">materialization_mode</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="media_type/">media_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="metadata_gaps/">metadata_gaps</a></td>
+<td>Which metadata this delivery is missing, and why</td>
+</tr>
+<tr>
+<td><a href="missing_reason/">missing_reason</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="missing_value_sentinel/">missing_value_sentinel</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="monitor_id/">monitor_id</a></td>
+<td>Instrument identity, where distinct from the site</td>
+</tr>
+<tr>
+<td><a href="n_columns/">n_columns</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="n_rows/">n_rows</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="name/">name</a></td>
+<td>A short machine-friendly name</td>
+</tr>
+<tr>
+<td><a href="native_format/">native_format</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="native_name/">native_name</a></td>
+<td>The variable's name in the source: a netCDF variable name, a MODIS subdataset...</td>
+</tr>
+<tr>
+<td><a href="native_spatial_resolution_descriptor/">native_spatial_resolution_descriptor</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="native_spatial_resolution_m/">native_spatial_resolution_m</a></td>
+<td>Nominal resolution in metres</td>
+</tr>
+<tr>
+<td><a href="native_units_ucum/">native_units_ucum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="native_value/">native_value</a></td>
+<td>The value exactly as the source shipped it, before scale, offset and unit con...</td>
+</tr>
+<tr>
+<td><a href="native_value_offset/">native_value_offset</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="native_value_scale_factor/">native_value_scale_factor</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="native_value_unit_ucum/">native_value_unit_ucum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="null_semantics/">null_semantics</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_concept_binding/">omop_concept_binding</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_concept_id/">omop_concept_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_concept_name/">omop_concept_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_domain_id/">omop_domain_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_standard_concept/">omop_standard_concept</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="omop_vocabulary_id/">omop_vocabulary_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="origin_x/">origin_x</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="origin_y/">origin_y</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="output_column_name/">output_column_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="output_file_sha256/">output_file_sha256</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="output_orientation/">output_orientation</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="output_row_count/">output_row_count</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="parameter_code/">parameter_code</a></td>
+<td>The source's parameter code, retained verbatim alongside the canonical variab...</td>
+</tr>
+<tr>
+<td><a href="phi_status/">phi_status</a></td>
+<td>Whether these locations are or derive from protected health information</td>
+</tr>
+<tr>
+<td><a href="plausible_max/">plausible_max</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="plausible_min/">plausible_min</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="poc/">poc</a></td>
+<td>AQS Parameter Occurrence Code</td>
+</tr>
+<tr>
+<td><a href="processing_run/">processing_run</a></td>
+<td>Identifier of the <code>ToolRun</code> that produced this value</td>
+</tr>
+<tr>
+<td><a href="produced_by_run/">produced_by_run</a></td>
+<td>Identifier of the tool run that registered or materialised this asset</td>
+</tr>
+<tr>
+<td><a href="producer_institution/">producer_institution</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="product/">product</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="product_variable/">product_variable</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="product_variables/">product_variables</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="product_version/">product_version</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="products/">products</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="proj_string/">proj_string</a></td>
+<td>Full PROJ or WKT2 CRS definition, for grids with no authority code</td>
+</tr>
+<tr>
+<td><a href="provenance_chains/">provenance_chains</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="provided_by/">provided_by</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="quality_flag/">quality_flag</a></td>
+<td>The source's quality flag, verbatim, interpreted against the `quality_flag_vo...</td>
+</tr>
+<tr>
+<td><a href="quality_flag_vocabulary/">quality_flag_vocabulary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="rate_limit_requests_per_second/">rate_limit_requests_per_second</a></td>
+<td>Provider rate limit, as <code>download_data(rate_limit=)</code> already takes</td>
+</tr>
+<tr>
+<td><a href="reference_time/">reference_time</a></td>
+<td>Model initialisation / cycle time, distinct from valid time</td>
+</tr>
+<tr>
+<td><a href="request_count/">request_count</a></td>
+<td>Number of HTTP or API requests issued, for rate-limit accounting</td>
+</tr>
+<tr>
+<td><a href="request_hash/">request_hash</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="request_timestamp_utc/">request_timestamp_utc</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="requested_by/">requested_by</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="requested_canonical_variables/">requested_canonical_variables</a></td>
+<td>Request by canonical variable to let the planner choose a source</td>
+</tr>
+<tr>
+<td><a href="requested_product_variables/">requested_product_variables</a></td>
+<td>Request a specific source delivery, pinning the answer</td>
+</tr>
+<tr>
+<td><a href="requires_authentication/">requires_authentication</a></td>
+<td>Whether a credential is needed</td>
+</tr>
+<tr>
+<td><a href="resolution_unit/">resolution_unit</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="resolution_x/">resolution_x</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="resolution_y/">resolution_y</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="retrieval_time_utc/">retrieval_time_utc</a></td>
+<td>When amadeus obtained the value</td>
+</tr>
+<tr>
+<td><a href="run_arguments/">run_arguments</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="run_duration_seconds/">run_duration_seconds</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="run_environment/">run_environment</a></td>
+<td>Runtime environment as a JSON object string — R version, platform, key packag...</td>
+</tr>
+<tr>
+<td><a href="run_role/">run_role</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="run_timestamp_utc/">run_timestamp_utc</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="sampling_duration_iso/">sampling_duration_iso</a></td>
+<td>The instrument's integration time — distinct from the reporting resolution</td>
+</tr>
+<tr>
+<td><a href="schema_version/">schema_version</a></td>
+<td>Version of the AmadeusDB schema a record conforms to, so consumers can branch...</td>
+</tr>
+<tr>
+<td><a href="sha256/">sha256</a></td>
+<td>SHA-256 of the byte stream, for integrity and idempotency</td>
+</tr>
+<tr>
+<td><a href="size_bytes/">size_bytes</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="source_last_modified/">source_last_modified</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="source_priority_policy/">source_priority_policy</a></td>
+<td>Ordered source preference for reconciliation, e</td>
+</tr>
+<tr>
+<td><a href="source_support_type/">source_support_type</a></td>
+<td>The support type that was aggregated into this hex</td>
+</tr>
+<tr>
+<td><a href="source_system/">source_system</a></td>
+<td>Which system supplied this row (<code>aqs</code>, <code>airnow</code>)</td>
+</tr>
+<tr>
+<td><a href="source_version/">source_version</a></td>
+<td>The source's own version or revision identifier for this value, where it publ...</td>
+</tr>
+<tr>
+<td><a href="spatial_extent_bbox_wkt/">spatial_extent_bbox_wkt</a></td>
+<td>Coverage footprint as WKT, so extent is a spatial predicate</td>
+</tr>
+<tr>
+<td><a href="spatial_extent_descriptor/">spatial_extent_descriptor</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="spatial_support_type/">spatial_support_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="srid/">srid</a></td>
+<td>Numeric spatial reference identifier, derived from <code>crs</code></td>
+</tr>
+<tr>
+<td><a href="stac_collection_id/">stac_collection_id</a></td>
+<td>STAC collection identifier, where the product is STAC-published</td>
+</tr>
+<tr>
+<td><a href="stac_item_id/">stac_item_id</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="standard_name/">standard_name</a></td>
+<td>The standard-name identifier for the physical quantity, as a CURIE so no sing...</td>
+</tr>
+<tr>
+<td><a href="standard_name_authority/">standard_name_authority</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="station_geom_wkt/">station_geom_wkt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="station_id/">station_id</a></td>
+<td>The source's site identifier — an AQS state+county+site key, an IMPROVE site ...</td>
+</tr>
+<tr>
+<td><a href="station_name/">station_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="station_observations/">station_observations</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="station_valid_from/">station_valid_from</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="station_valid_to/">station_valid_to</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="status/">status</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="status_mixing_policy/">status_mixing_policy</a></td>
+<td>Whether preliminary and quality-controlled values may appear in one result</td>
+</tr>
+<tr>
+<td><a href="strict_extensivity_check/">strict_extensivity_check</a></td>
+<td>Whether to reject a request whose aggregation is illegal for the variable's e...</td>
+</tr>
+<tr>
+<td><a href="superseded_by/">superseded_by</a></td>
+<td>Identifier of the row that replaces this one</td>
+</tr>
+<tr>
+<td><a href="supports_server_side_subset/">supports_server_side_subset</a></td>
+<td>Whether the provider will return a geometry/time/variable subset</td>
+</tr>
+<tr>
+<td><a href="target_geography_type/">target_geography_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="temporal_alignment/">temporal_alignment</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="temporal_coverage_end/">temporal_coverage_end</a></td>
+<td>Absent means "ongoing"</td>
+</tr>
+<tr>
+<td><a href="temporal_coverage_start/">temporal_coverage_start</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="temporal_grouping/">temporal_grouping</a></td>
+<td>The `</td>
+</tr>
+<tr>
+<td><a href="temporal_resolution/">temporal_resolution</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="temporal_resolution_iso/">temporal_resolution_iso</a></td>
+<td>The same fact as <code>temporal_resolution</code>, as an ISO 8601 duration</td>
+</tr>
+<tr>
+<td><a href="terminus_type/">terminus_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="time_window_end/">time_window_end</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="time_window_start/">time_window_start</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="tool_name/">tool_name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="tool_runs/">tool_runs</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="tool_version/">tool_version</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="typical_latency_iso/">typical_latency_iso</a></td>
+<td>Typical delay between observation and availability</td>
+</tr>
+<tr>
+<td><a href="unit_conversion_formula/">unit_conversion_formula</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="units_display/">units_display</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="units_ucum/">units_ucum</a></td>
+<td>Canonical units in UCUM notation, bare (not CURIE-prefixed)</td>
+</tr>
+<tr>
+<td><a href="update_cadence_iso/">update_cadence_iso</a></td>
+<td>How often the source publishes new data</td>
+</tr>
+<tr>
+<td><a href="upstream_runs/">upstream_runs</a></td>
+<td>Identifiers of the runs this one consumed</td>
+</tr>
+<tr>
+<td><a href="url/">url</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="valid_from/">valid_from</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="valid_time_end/">valid_time_end</a></td>
+<td>Exclusive end of the validity interval</td>
+</tr>
+<tr>
+<td><a href="valid_time_start/">valid_time_start</a></td>
+<td>Inclusive start of the interval the value is valid for</td>
+</tr>
+<tr>
+<td><a href="valid_to/">valid_to</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="value/">value</a></td>
+<td>The value in canonical units</td>
+</tr>
+<tr>
+<td><a href="value_data_type/">value_data_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="value_state/">value_state</a></td>
+<td>Whether rows for this asset exist in a value table</td>
+</tr>
+<tr>
+<td><a href="value_unit_ucum/">value_unit_ucum</a></td>
+<td>Units of <code>value</code>, denormalised from the canonical variable</td>
+</tr>
+<tr>
+<td><a href="variables_present/">variables_present</a></td>
+<td>Which variables this asset actually contains</td>
+</tr>
+<tr>
+<td><a href="vector_features/">vector_features</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="vertical_level/">vertical_level</a></td>
+<td>Pressure or height level for multi-level products (NARR, MERRA-2, GEOS-CF)</td>
+</tr>
+<tr>
+<td><a href="vertical_level_type/">vertical_level_type</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="vertical_level_unit/">vertical_level_unit</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="vertical_levels/">vertical_levels</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="vertical_levels_present/">vertical_levels_present</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="weighting_product_variable/">weighting_product_variable</a></td>
+<td>The product variable used as weights (a population density grid)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enumerations">Enumerations</h2>
+<table>
+<thead>
+<tr>
+<th>Enumeration</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="AccessProtocolEnum/">AccessProtocolEnum</a></td>
+<td>How amadeus reaches a source</td>
+</tr>
+<tr>
+<td><a href="AggregationMethodEnum/">AggregationMethodEnum</a></td>
+<td>How many values became one</td>
+</tr>
+<tr>
+<td><a href="AreaRoleEnum/">AreaRoleEnum</a></td>
+<td>Whether an area's identity is externally stable or episodic</td>
+</tr>
+<tr>
+<td><a href="AreaTypeEnum/">AreaTypeEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="CalendarEnum/">CalendarEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ConceptStatusEnum/">ConceptStatusEnum</a></td>
+<td>State of the mapping from a variable to a target vocabulary</td>
+</tr>
+<tr>
+<td><a href="DataGenreEnum/">DataGenreEnum</a></td>
+<td>The thematic classification already used in the amadeus README's source table</td>
+</tr>
+<tr>
+<td><a href="DataStatusEnum/">DataStatusEnum</a></td>
+<td>The quality state of a value <em>as the source declares it</em></td>
+</tr>
+<tr>
+<td><a href="DayBoundaryConventionEnum/">DayBoundaryConventionEnum</a></td>
+<td>Where a "day" starts for a daily product</td>
+</tr>
+<tr>
+<td><a href="ExtractionMethodEnum/">ExtractionMethodEnum</a></td>
+<td>How a value was pulled out of its source support at a location</td>
+</tr>
+<tr>
+<td><a href="GeometryTypeEnum/">GeometryTypeEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="HomogenisationStatusEnum/">HomogenisationStatusEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="MaterializationModeEnum/">MaterializationModeEnum</a></td>
+<td>How much of a source asset had to be brought local to answer a request</td>
+</tr>
+<tr>
+<td><a href="MissingReasonEnum/">MissingReasonEnum</a></td>
+<td>Why a <em>metadata</em> field is empty</td>
+</tr>
+<tr>
+<td><a href="NativeFormatEnum/">NativeFormatEnum</a></td>
+<td>The format the source actually ships</td>
+</tr>
+<tr>
+<td><a href="NullSemanticsEnum/">NullSemanticsEnum</a></td>
+<td>Why a value is absent, or why a zero is a zero</td>
+</tr>
+<tr>
+<td><a href="PhiStatusEnum/">PhiStatusEnum</a></td>
+<td>Whether a location set, and anything derived from it, is protected health inf...</td>
+</tr>
+<tr>
+<td><a href="ProvenanceChainTerminusEnum/">ProvenanceChainTerminusEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="RunRoleEnum/">RunRoleEnum</a></td>
+<td>Which amadeus verb a tool run represents</td>
+</tr>
+<tr>
+<td><a href="RunStatusEnum/">RunStatusEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="SpatialSupportTypeEnum/">SpatialSupportTypeEnum</a></td>
+<td>What a single value spatially <em>is</em> — the source-side question</td>
+</tr>
+<tr>
+<td><a href="StatusMixingPolicyEnum/">StatusMixingPolicyEnum</a></td>
+<td>Whether a request may combine values of different <code>data_status</code> — in practice...</td>
+</tr>
+<tr>
+<td><a href="StrictnessEnum/">StrictnessEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="TableOrientationEnum/">TableOrientationEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="TargetGeographyTypeEnum/">TargetGeographyTypeEnum</a></td>
+<td>The geography a value is delivered against, after extraction</td>
+</tr>
+<tr>
+<td><a href="TemporalAlignmentEnum/">TemporalAlignmentEnum</a></td>
+<td>Where in the aggregation window the timestamp sits</td>
+</tr>
+<tr>
+<td><a href="TemporalGroupingEnum/">TemporalGroupingEnum</a></td>
+<td>The `</td>
+</tr>
+<tr>
+<td><a href="TemporalResolutionEnum/">TemporalResolutionEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ValueDataTypeEnum/">ValueDataTypeEnum</a></td>
+<td>The measurement kind, not the storage type</td>
+</tr>
+<tr>
+<td><a href="ValueMaterializationEnum/">ValueMaterializationEnum</a></td>
+<td>Whether an asset's values exist as rows in a value table, or the asset is cat...</td>
+</tr>
+<tr>
+<td><a href="VariableExtensivityEnum/">VariableExtensivityEnum</a></td>
+<td>Whether a quantity is intensive (independent of the size of its support — a t...</td>
+</tr>
+</tbody>
+</table>
+<h2 id="types">Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Boolean/">Boolean</a></td>
+<td>A binary (true or false) value</td>
+</tr>
+<tr>
+<td><a href="Curie/">Curie</a></td>
+<td>a compact URI</td>
+</tr>
+<tr>
+<td><a href="Date/">Date</a></td>
+<td>a date (year, month and day) in an idealized calendar</td>
+</tr>
+<tr>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
+<td>Either a date or a datetime</td>
+</tr>
+<tr>
+<td><a href="Datetime/">Datetime</a></td>
+<td>The combination of a date and time</td>
+</tr>
+<tr>
+<td><a href="Decimal/">Decimal</a></td>
+<td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
+</tr>
+<tr>
+<td><a href="Double/">Double</a></td>
+<td>A real number that conforms to the xsd:double specification</td>
+</tr>
+<tr>
+<td><a href="Float/">Float</a></td>
+<td>A real number that conforms to the xsd:float specification</td>
+</tr>
+<tr>
+<td><a href="H3CellIndex/">H3CellIndex</a></td>
+<td>An H3 cell index in its canonical 15-character lowercase hex form</td>
+</tr>
+<tr>
+<td><a href="Integer/">Integer</a></td>
+<td>An integer</td>
+</tr>
+<tr>
+<td><a href="Iso8601Duration/">Iso8601Duration</a></td>
+<td>An ISO 8601 duration</td>
+</tr>
+<tr>
+<td><a href="Jsonpath/">Jsonpath</a></td>
+<td>A string encoding a JSON Path</td>
+</tr>
+<tr>
+<td><a href="Jsonpointer/">Jsonpointer</a></td>
+<td>A string encoding a JSON Pointer</td>
+</tr>
+<tr>
+<td><a href="Ncname/">Ncname</a></td>
+<td>Prefix part of CURIE</td>
+</tr>
+<tr>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
+<td>A URI, CURIE or BNODE that represents a node in a model</td>
+</tr>
+<tr>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
+<td>A URI or CURIE that represents an object in the model</td>
+</tr>
+<tr>
+<td><a href="Sha256/">Sha256</a></td>
+<td>A lowercase hex SHA-256 digest</td>
+</tr>
+<tr>
+<td><a href="Sparqlpath/">Sparqlpath</a></td>
+<td>A string encoding a SPARQL Property Path</td>
+</tr>
+<tr>
+<td><a href="String/">String</a></td>
+<td>A character string</td>
+</tr>
+<tr>
+<td><a href="Time/">Time</a></td>
+<td>A time object represents a (local) time of day, independent of any particular...</td>
+</tr>
+<tr>
+<td><a href="Uri/">Uri</a></td>
+<td>a complete URI</td>
+</tr>
+<tr>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
+<td>a URI or a CURIE</td>
+</tr>
+<tr>
+<td><a href="WktLiteral/">WktLiteral</a></td>
+<td>A geometry serialised as OGC Well-Known Text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="subsets">Subsets</h2>
+<table>
+<thead>
+<tr>
+<th>Subset</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+  
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        
+
+<footer class="md-footer">
+  
+    <nav
+      class="md-footer__inner md-grid"
+      aria-label="footer.title"
+    >
+      
+        <a
+          href=".."
+          class="md-footer__link md-footer__link--prev"
+          rel="prev"
+        >
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
+      
+        <a
+          href="../about/"
+          class="md-footer__link md-footer__link--next"
+          rel="next"
+        >
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              About
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        with emoji by
+        <a href="https://github.com/twitter/twemoji" target="_blank" rel="noopener">
+          Twemoji
+        </a>
+      </div>
+      
+<div class="md-social">
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.tabs.link", "header.autohide", "navigation.expand", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../assets/pymdownx-extras/extra-loader-B5CKpNQx.js"></script>
+      
+    
+  </body>
+</html>
