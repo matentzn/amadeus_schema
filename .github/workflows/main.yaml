@@ -14,6 +14,40 @@ env:
 permissions: {}
 
 jobs:
+
+  # Linting is Python-version independent, so it runs once rather than across
+  # the matrix. `just lint` gates on linkml-lint ERRORS (warnings still print);
+  # pre-commit covers yamllint, codespell, typos and ruff.
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Check out repository
+        uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install just
+        run: uv tool install rust-just
+
+      - name: Install project
+        run: uv sync --group dev
+
+      - name: Lint the schema
+        run: just lint
+
+      - name: Run pre-commit
+        run: uvx pre-commit run --all-files --show-diff-on-failure
+
   test:
 
     runs-on: ubuntu-latest
