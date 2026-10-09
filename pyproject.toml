@@ -21,6 +21,14 @@ dependencies = [
 [dependency-groups]
 dev = [
     "linkml>=1.9.3",
+    "pytest>=8",
+    # backend round-trip: generated DDL loaded into both engines (scripts/load_and_query.py)
+    "duckdb>=1.1",
+    "sedonadb>=0.4",
+    "pyarrow>=17",
+    "pyyaml>=6",
+    "geoarrow-pyarrow>=0.2.0",
+    "geoarrow-types>=0.3.0",
     "mkdocs-material>=8.2.8",
     "mkdocs-mermaid2-plugin>=1.1.1",
     "mkdocs-pymdownx-material-extras>=2.5.6",
