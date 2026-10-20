@@ -1,5 +1,5 @@
 # Auto generated from amadeus_schema.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-09-25T06:44:27
+# Generation date: 2026-10-20T19:24:10
 # Schema: amadeus-schema
 #
 # id: https://w3id.org/niehs/amadeus
