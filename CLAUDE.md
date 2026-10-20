@@ -4,6 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
+**An AI-assisted exploratory draft — a strawman, not the foundation.** It shows
+one direction and records measured tool findings; none of its code, class names
+or module layout is committed to. The real schema repository will be designed
+from the requirements and decisions in `HACKATHON.md`, not grown from this one.
+Do not invest in polishing this model; invest in findings that transfer.
+
 A **proposal**, not a shipping library: a LinkML data model ("AmadeusDB") for the
 database-backed next generation of the NIEHS [`amadeus`](https://github.com/NIEHS/amadeus)
 R package. It is standalone and adds no dependency to `amadeus` itself.

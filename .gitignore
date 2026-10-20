@@ -145,3 +145,5 @@ dmypy.json
 /issues
 # Machine-specific agent context (local paths, unposted drafts)
 CLAUDE.local.md
+# Internal NIEHS planning documents — local reference only, never published
+/background

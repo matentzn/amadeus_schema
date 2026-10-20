@@ -1,6 +1,6 @@
 # Development status
 
-_Last updated: 2026-10-09_
+_Last updated: 2026-10-20_
 
 **At a glance.** The schema is a finished prototype that has been presented and
 is now **waiting on other people**, not on more modelling. It was built for
@@ -85,6 +85,10 @@ which run in whichever engine holds the data.
 
 ## Next
 
+**0. Run the design hackathon (`HACKATHON.md`).** This repo is now an
+exploratory strawman; the real schema repo is to be designed from that
+session's decision log. Everything below is subordinate to its outcome.
+
 Delivery ends **2027-03-01** (C-01). The first four need no schema adoption.
 
 1. **Catalog-vs-code check in CI.** Already stage 4 of `scripts/import_external.py`;
@@ -109,6 +113,7 @@ Newest first. One line per change that moved the state above.
 
 | Date | Change |
 |---|---|
+| 2026-10-20 | Added `HACKATHON.md`: 3-hour plan for designing the real data infrastructure (components and per-stage metadata, artefact requirements, schema-repo → amadeus workflow, decision log). Repo reframed as a strawman, not the foundation |
 | 2026-10-09 | Removed machine-local paths and links to uncommitted files from committed files; `AMADEUS_REPO` no longer has a default (stage 4 skips when unset); machine-specific agent context moved to gitignored `CLAUDE.local.md` |
 | 2026-10-09 | CI `lint` job red since `0191dc4`: `tests/test_schema.py` (from `df9a292`) was not ruff-formatted. Reformatted; pre-commit and pytest (13) pass |
 | 2026-10-09 | Created this file from the status-report doc; closed the lint-warnings-gate and yamllint-exemption threads (landed as `637eadc`, `1098b49`) |
